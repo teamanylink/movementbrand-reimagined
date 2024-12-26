@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { MembershipBenefits } from "@/components/MembershipBenefits";
+import PricingSection from "@/components/PricingSection";
 
 const Index = () => {
   return (
@@ -69,6 +70,9 @@ const Index = () => {
 
       {/* Membership Benefits Section */}
       <MembershipBenefits />
+
+      {/* Pricing Section */}
+      <PricingSection />
 
       {/* Awards Section */}
       <section className="py-24 px-4 bg-[#F8F8F8]">
