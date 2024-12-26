@@ -1,7 +1,7 @@
 import Navigation from "@/components/Navigation";
 import Feature from "@/components/Feature";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
+import { RefreshCw, FileText, ThumbsUp, Star } from "lucide-react";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { MembershipBenefits } from "@/components/MembershipBenefits";
 import PricingSection from "@/components/PricingSection";
@@ -86,10 +86,19 @@ const Index = () => {
                 <span className="font-semibold">250+</span> creators joined this month
               </p>
             </div>
+
+            {/* Five Star Rating */}
+            <div className="flex items-center justify-center mt-4 space-x-1">
+              {[...Array(5)].map((_, index) => (
+                <Star key={index} className="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+
           </div>
           
           <MacbookScrollDemo />
 
+          {/* Remaining sections */}
           <div className="flex flex-col items-center gap-6 mt-12 pb-12">
             <h1 className="text-6xl md:text-7xl font-bold tracking-tight">
               we do the most
