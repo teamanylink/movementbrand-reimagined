@@ -11,34 +11,19 @@ import { useRef } from "react";
 
 const projects = [
   {
-    category: "Digital Marketing",
-    title: "Multi-channel campaigns that drive results",
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png",
-    description: "Transform your brand's digital presence with data-driven strategies"
+    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
   },
   {
-    category: "Brand Strategy",
-    title: "Building memorable brand experiences",
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png",
-    description: "Create lasting connections with your audience through strategic branding"
+    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
   },
   {
-    category: "Content Creation",
-    title: "Engaging content that tells your story",
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png",
-    description: "Captivate your audience with compelling narratives and visuals"
+    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
   },
   {
-    category: "Social Media",
-    title: "Amplify your social presence",
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png",
-    description: "Build meaningful connections across all social platforms"
+    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
   },
   {
-    category: "Web Development",
-    title: "Cutting-edge digital solutions",
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png",
-    description: "Create seamless digital experiences that convert"
+    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
   }
 ];
 
@@ -71,19 +56,11 @@ export function ProjectCarousel() {
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
                 <Card className="bg-white rounded-3xl overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-0">
-                    <div className="relative">
-                      <img
-                        src={project.src}
-                        alt={project.title}
-                        className="w-full h-[400px] object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute bottom-0 left-0 p-8 text-white">
-                        <p className="text-sm font-medium mb-3 text-primary/90 uppercase tracking-wider">{project.category}</p>
-                        <h3 className="text-2xl font-bold mb-3 leading-tight">{project.title}</h3>
-                        <p className="text-base opacity-90 leading-relaxed">{project.description}</p>
-                      </div>
-                    </div>
+                    <img
+                      src={project.src}
+                      alt={`Project ${index + 1}`}
+                      className="w-full h-[400px] object-cover"
+                    />
                   </CardContent>
                 </Card>
               </CarouselItem>
