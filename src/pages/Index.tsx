@@ -10,11 +10,11 @@ import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#F8F8F8] space-y-12">
+    <div className="min-h-screen bg-[#F8F8F8]">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+      <section className="pt-32 pb-0 px-4 relative overflow-hidden">
         <div className="container mx-auto text-center">
           <div className="absolute -left-20 top-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -right-20 top-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
