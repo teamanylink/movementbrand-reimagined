@@ -19,7 +19,14 @@ const Index = () => {
           <div className="absolute -left-20 top-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -right-20 top-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
           
-          <div className="flex flex-col items-center gap-6 mb-12">
+          <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+            See plans
+          </Button>
+          <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+          
+          <MacbookScrollDemo />
+
+          <div className="flex flex-col items-center gap-6 mt-12">
             <h1 className="text-6xl md:text-7xl font-bold tracking-tight">
               we do the most
               <br />
@@ -29,13 +36,6 @@ const Index = () => {
               do the thing
             </div>
           </div>
-
-          <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-            See plans
-          </Button>
-          <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
-          
-          <MacbookScrollDemo />
         </div>
       </section>
 
