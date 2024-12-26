@@ -1,22 +1,5 @@
 import type { Config } from "tailwindcss";
 
-function addVariablesForColors({ addBase, theme }: any) {
-  const allColors = Object.entries(theme('colors')).reduce((acc: Record<string, string>, [key, val]: [string, any]) => {
-    if (typeof val === 'object') {
-      Object.entries(val).forEach(([k, v]) => {
-        acc[`--${key}-${k}`] = v as string;
-      });
-    } else {
-      acc[`--${key}`] = val;
-    }
-    return acc;
-  }, {});
-
-  addBase({
-    ':root': allColors,
-  });
-}
-
 export default {
   darkMode: ["class"],
   content: [
@@ -69,20 +52,11 @@ export default {
             transform: "translateY(0)",
           },
         },
-        aurora: {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%",
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%",
-          },
-        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out",
-        aurora: "aurora 60s linear infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

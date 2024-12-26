@@ -2,7 +2,6 @@ import Navigation from "@/components/Navigation";
 import Feature from "@/components/Feature";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
-import { AuroraBackground } from "@/components/AuroraBackground";
 
 const Index = () => {
   return (
@@ -10,7 +9,7 @@ const Index = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <AuroraBackground className="pt-32 pb-20 px-4">
+      <section className="pt-32 pb-20 px-4">
         <div className="container mx-auto text-center relative">
           <div className="absolute -left-20 top-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute -right-20 top-20 w-40 h-40 bg-secondary/20 rounded-full blur-3xl" />
@@ -37,7 +36,7 @@ const Index = () => {
           </Button>
           <div className="mt-4 text-sm text-gray-500">Available now</div>
         </div>
-      </AuroraBackground>
+      </section>
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
