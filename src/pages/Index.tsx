@@ -9,6 +9,7 @@ import ScrollingServices from "@/components/ScrollingServices";
 import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Index = () => {
   const heroRef = useRef(null);
@@ -56,6 +57,27 @@ const Index = () => {
               See plans
             </Button>
             <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+
+            {/* Social Proof Section */}
+            <div className="flex items-center justify-center mt-8 space-x-4">
+              <div className="flex -space-x-4">
+                <Avatar className="w-10 h-10 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop" />
+                  <AvatarFallback>JS</AvatarFallback>
+                </Avatar>
+                <Avatar className="w-10 h-10 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop" />
+                  <AvatarFallback>MK</AvatarFallback>
+                </Avatar>
+                <Avatar className="w-10 h-10 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=100&h=100&fit=crop" />
+                  <AvatarFallback>RW</AvatarFallback>
+                </Avatar>
+              </div>
+              <p className="text-sm text-gray-600">
+                <span className="font-semibold">250+</span> creators joined this month
+              </p>
+            </div>
           </div>
           
           <MacbookScrollDemo />
