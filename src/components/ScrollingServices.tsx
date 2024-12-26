@@ -11,7 +11,7 @@ const services = [
 const ScrollingServices = () => {
   return (
     <div className="w-full overflow-hidden bg-[#F8F8F8] py-12">
-      <div className="max-w-[1280px] mx-auto">
+      <div className="max-w-[992px] mx-auto">
         <div className="relative flex">
           <div className="animate-scroll flex whitespace-nowrap gap-6">
             {services.map((service, index) => (
