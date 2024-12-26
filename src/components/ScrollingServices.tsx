@@ -20,7 +20,7 @@ const ScrollingServices = () => {
             {[...services, ...services].map((service, index) => (
               <div
                 key={index}
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 border-black bg-transparent hover:bg-black hover:text-white transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
+                className="inline-flex items-center justify-center px-8 py-3 rounded-full text-black font-['Caveat'] text-xl border-2 border-black bg-transparent hover:bg-black hover:text-white transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
               >
                 {service.name}
               </div>
