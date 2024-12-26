@@ -9,7 +9,7 @@ import ScrollingServices from "@/components/ScrollingServices";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-[#F8F8F8]">
+    <div className="min-h-screen bg-[#F8F8F8] space-y-12">
       <Navigation />
       
       {/* Hero Section */}
