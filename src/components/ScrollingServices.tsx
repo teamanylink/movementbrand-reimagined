@@ -6,6 +6,9 @@ const services = [
   { name: 'Blogs', color: 'border-black' },
   { name: 'Carousels', color: 'border-black' },
   { name: 'Branding', color: 'border-black' },
+  { name: 'Logos', color: 'border-black' },
+  { name: 'Slide Decks', color: 'border-black' },
+  { name: 'More', color: 'border-black' },
 ];
 
 const ScrollingServices = () => {
