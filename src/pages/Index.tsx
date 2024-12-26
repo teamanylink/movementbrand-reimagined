@@ -5,6 +5,7 @@ import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { MembershipBenefits } from "@/components/MembershipBenefits";
 import PricingSection from "@/components/PricingSection";
+import ScrollingServices from "@/components/ScrollingServices";
 
 const Index = () => {
   return (
@@ -40,6 +41,9 @@ const Index = () => {
           <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
         </div>
       </section>
+
+      {/* Scrolling Services */}
+      <ScrollingServices />
 
       {/* Project Carousel */}
       <ProjectCarousel />
