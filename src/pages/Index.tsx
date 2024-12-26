@@ -6,6 +6,7 @@ import { ProjectCarousel } from "@/components/ProjectCarousel";
 import { MembershipBenefits } from "@/components/MembershipBenefits";
 import PricingSection from "@/components/PricingSection";
 import ScrollingServices from "@/components/ScrollingServices";
+import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
 
 const Index = () => {
   return (
@@ -39,6 +40,10 @@ const Index = () => {
             See plans
           </Button>
           <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+          
+          <div className="mt-16">
+            <MacbookScrollDemo />
+          </div>
         </div>
       </section>
 
