@@ -26,7 +26,7 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
-      className="min-h-[150vh] py-10 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#F8F8F8]"
+      className="min-h-[100vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#F8F8F8]"
     >
       <motion.div
         style={{
