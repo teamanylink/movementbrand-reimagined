@@ -73,6 +73,14 @@ const Index = () => {
                   <AvatarImage src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=100&h=100&fit=crop" />
                   <AvatarFallback>RW</AvatarFallback>
                 </Avatar>
+                <Avatar className="w-10 h-10 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop" />
+                  <AvatarFallback>AL</AvatarFallback>
+                </Avatar>
+                <Avatar className="w-10 h-10 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop" />
+                  <AvatarFallback>TG</AvatarFallback>
+                </Avatar>
               </div>
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">250+</span> creators joined this month
