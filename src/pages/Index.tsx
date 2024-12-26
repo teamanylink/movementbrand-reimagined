@@ -23,7 +23,7 @@ const Index = () => {
             <h1 className="text-6xl md:text-7xl font-bold mb-6">
               A <span className="relative">
                 <span className="absolute -top-6 text-4xl md:text-5xl text-accent font-['Caveat']">movement</span>
-                <span className="relative line-through decoration-2 decoration-red-500 bg-red-200/50">marketing</span>
+                <span className="relative line-through decoration-4 decoration-red-500">marketing</span>
               </span> agency
               <br />
               on a mission
@@ -55,7 +55,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Scrolling Services */}
       <ScrollingServices />
 
       {/* Project Carousel */}
