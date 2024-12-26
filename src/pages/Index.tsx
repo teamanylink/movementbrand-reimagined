@@ -18,10 +18,10 @@ const Index = () => {
             <div>
               A <span className="inline-block relative">
                 <span className="relative">
-                  <span className="absolute -top-1 left-0 line-through decoration-secondary decoration-4">marketing</span>
+                  <span className="absolute -top-2 left-0 line-through decoration-secondary decoration-4">marketing</span>
                   <span className="invisible">marketing</span>
                 </span>
-                <span className="font-['Caveat'] text-primary absolute -top-8 left-0">movement</span>
+                <span className="font-['Caveat'] text-primary absolute -top-10 left-0">movement</span>
               </span> agency
             </div>
             <div>on a mission</div>
