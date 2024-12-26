@@ -1,14 +1,14 @@
 import React from 'react';
 
 const services = [
-  { name: 'Branding', color: 'bg-[#FFD700]' },
-  { name: 'Logos', color: 'bg-[#40E0D0]' },
-  { name: 'Design', color: 'bg-[#FF6B6B]' },
-  { name: 'Digital Products', color: 'bg-[#4169E1]' },
-  { name: 'Landing Pages', color: 'bg-[#FF69B4]' },
-  { name: 'AI Images', color: 'bg-[#32CD32]' },
-  { name: 'Blogs', color: 'bg-[#FF4500]' },
-  { name: 'Carousels', color: 'bg-[#9370DB]' },
+  { name: 'Branding', color: 'border-[#FFD700]' },
+  { name: 'Logos', color: 'border-[#40E0D0]' },
+  { name: 'Design', color: 'border-[#FF6B6B]' },
+  { name: 'Digital Products', color: 'border-[#4169E1]' },
+  { name: 'Landing Pages', color: 'border-[#FF69B4]' },
+  { name: 'AI Images', color: 'border-[#32CD32]' },
+  { name: 'Blogs', color: 'border-[#FF4500]' },
+  { name: 'Carousels', color: 'border-[#9370DB]' },
 ];
 
 const ScrollingServices = () => {
@@ -19,7 +19,7 @@ const ScrollingServices = () => {
           {[...services, ...services, ...services].map((service, index) => (
             <div
               key={index}
-              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer min-w-max`}
+              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
             >
               {service.name}
             </div>
@@ -29,7 +29,7 @@ const ScrollingServices = () => {
           {[...services, ...services, ...services].map((service, index) => (
             <div
               key={`duplicate-${index}`}
-              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer min-w-max`}
+              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
             >
               {service.name}
             </div>
