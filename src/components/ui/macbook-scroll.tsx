@@ -41,7 +41,12 @@ export const MacbookScroll = ({
           {badge && <div className="absolute top-8 -right-12">{badge}</div>}
           <div className="pt-10 pr-16 pl-16">
             <div className="w-[76rem] aspect-[16/10.3] relative">
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm rounded-[2rem] p-4 border border-white/60 shadow-lg">
+              {/* First glow layer */}
+              <div className="absolute inset-0 bg-white/30 blur-3xl rounded-[2.5rem] transform scale-105" />
+              {/* Second glow layer */}
+              <div className="absolute inset-0 bg-white/50 blur-2xl rounded-[2.2rem] transform scale-102" />
+              {/* Main content layer with glass effect */}
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm rounded-[2rem] p-8 border border-white/60 shadow-lg">
                 <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-white/30 backdrop-blur-sm border border-white/40">
                   <img src={src} className="w-full h-full object-cover" />
                 </div>
