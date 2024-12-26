@@ -26,9 +26,6 @@ const Index = () => {
             </div>
             <div>on a mission</div>
           </h1>
-          <p className="text-xl text-gray-600 mb-4">
-            The team that does your designs, videos, and landing pages.
-          </p>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             A single content subscription to move your movement forward.
             <br />
