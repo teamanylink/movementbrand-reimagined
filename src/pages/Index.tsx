@@ -15,9 +15,11 @@ const Index = () => {
           <div className="absolute -right-20 top-20 w-40 h-40 bg-secondary/20 rounded-full blur-3xl" />
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 relative z-10">
-            a <span className="relative">
-              <span className="absolute line-through decoration-secondary decoration-4">marketing</span>
-              <span className="font-['Caveat'] text-primary ml-1">movement</span>
+            a <span className="inline-block relative">
+              <span className="absolute -inset-1">
+                <span className="absolute inset-0 line-through decoration-secondary decoration-4">marketing</span>
+              </span>
+              <span className="font-['Caveat'] text-primary ml-8">movement</span>
             </span> agency with an edge
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
