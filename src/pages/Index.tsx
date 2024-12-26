@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Feature from "@/components/Feature";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
+import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
 
 const Index = () => {
   return (
@@ -37,6 +38,8 @@ const Index = () => {
           <div className="mt-4 text-sm text-gray-500">Available now</div>
         </div>
       </section>
+
+      <MacbookScrollDemo />
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
