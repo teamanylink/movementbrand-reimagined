@@ -19,17 +19,17 @@ const ScrollingServices = () => {
           {[...services, ...services, ...services].map((service, index) => (
             <div
               key={index}
-              className={`inline-block ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer`}
+              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer min-w-max`}
             >
               {service.name}
             </div>
           ))}
         </div>
-        <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[100%]">
+        <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[100%] top-0">
           {[...services, ...services, ...services].map((service, index) => (
             <div
               key={`duplicate-${index}`}
-              className={`inline-block ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer`}
+              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-white font-medium shadow-md hover:scale-105 transition-transform cursor-pointer min-w-max`}
             >
               {service.name}
             </div>
