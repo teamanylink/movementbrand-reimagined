@@ -23,8 +23,8 @@ export function MacbookScrollDemo() {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[80vw] max-h-[80vh] p-0">
-          <div className="aspect-video w-full">
+        <DialogContent className="sm:max-w-[60vw] sm:max-h-[60vh] p-0">
+          <div className="aspect-video w-full h-full">
             <iframe
               width="100%"
               height="100%"
