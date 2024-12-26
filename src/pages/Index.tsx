@@ -22,7 +22,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <h1 className="text-6xl md:text-7xl font-bold mb-6">
               A <span className="relative inline-block">
-                <span className="absolute -top-6 left-0 text-4xl md:text-5xl text-accent font-['Caveat']">movement</span>
+                <span className="absolute -top-[26px] left-0 text-4xl md:text-5xl text-accent font-['Caveat']">movement</span>
                 <span className="relative line-through decoration-4 decoration-red-500">marketing</span>
               </span> agency
               <br />
