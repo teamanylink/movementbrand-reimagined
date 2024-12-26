@@ -21,12 +21,12 @@ export const MacbookScroll = ({
 
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.7]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "-45%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
   return (
     <div
       ref={ref}
-      className="min-h-[50vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#F8F8F8]"
+      className="min-h-[70vh] overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#F8F8F8]"
     >
       <motion.div
         style={{
