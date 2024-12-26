@@ -17,19 +17,9 @@ const ScrollingServices = () => {
       <div className="max-w-[992px] mx-auto">
         <div className="relative flex">
           <div className="animate-scroll flex whitespace-nowrap gap-6">
-            {services.map((service, index) => (
+            {[...services, ...services].map((service, index) => (
               <div
                 key={index}
-                className="inline-flex items-center justify-center px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 border-black bg-transparent hover:bg-black hover:text-white transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
-              >
-                {service.name}
-              </div>
-            ))}
-          </div>
-          <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[calc(100%_+_0rem)] top-0">
-            {services.map((service, index) => (
-              <div
-                key={`duplicate-${index}`}
                 className="inline-flex items-center justify-center px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 border-black bg-transparent hover:bg-black hover:text-white transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
               >
                 {service.name}
