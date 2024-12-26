@@ -47,7 +47,7 @@ export function ProjectCarousel() {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <section ref={ref} className="w-full py-20 bg-[#F5F5F7]">
+    <section ref={ref} className="w-full py-24 bg-[#F5F5F7]">
       <div 
         className="container mx-auto"
         style={{
@@ -56,7 +56,7 @@ export function ProjectCarousel() {
           transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
         }}
       >
-        <h2 className="max-w-7xl pl-4 mx-auto text-3xl md:text-5xl font-bold text-neutral-800 mb-12">
+        <h2 className="max-w-7xl pl-4 mx-auto text-4xl md:text-6xl font-bold text-neutral-800 mb-16">
           Latest Projects
         </h2>
         <Carousel
@@ -69,19 +69,19 @@ export function ProjectCarousel() {
           <CarouselContent>
             {projects.map((project, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
-                <Card className="bg-white rounded-3xl overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <Card className="bg-white rounded-3xl overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-0">
                     <div className="relative">
                       <img
                         src={project.src}
                         alt={project.title}
-                        className="w-full h-64 object-cover"
+                        className="w-full h-[400px] object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <div className="absolute bottom-0 left-0 p-6 text-white">
-                        <p className="text-sm font-medium mb-2">{project.category}</p>
-                        <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                        <p className="text-sm opacity-90">{project.description}</p>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute bottom-0 left-0 p-8 text-white">
+                        <p className="text-sm font-medium mb-3 text-primary/90 uppercase tracking-wider">{project.category}</p>
+                        <h3 className="text-2xl font-bold mb-3 leading-tight">{project.title}</h3>
+                        <p className="text-base opacity-90 leading-relaxed">{project.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -89,9 +89,9 @@ export function ProjectCarousel() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="mt-8 flex justify-end gap-2 pr-4">
-            <CarouselPrevious className="position-static" />
-            <CarouselNext className="position-static" />
+          <div className="mt-12 flex justify-end gap-4 pr-4">
+            <CarouselPrevious className="position-static h-12 w-12 rounded-full border-2" />
+            <CarouselNext className="position-static h-12 w-12 rounded-full border-2" />
           </div>
         </Carousel>
       </div>
