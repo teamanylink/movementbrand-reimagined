@@ -1,14 +1,11 @@
 import React from 'react';
 
 const services = [
-  { name: 'Branding', color: 'border-[#FFD700]' },
-  { name: 'Logos', color: 'border-[#40E0D0]' },
-  { name: 'Design', color: 'border-[#FF6B6B]' },
-  { name: 'Digital Products', color: 'border-[#4169E1]' },
   { name: 'Landing Pages', color: 'border-[#FF69B4]' },
   { name: 'AI Images', color: 'border-[#32CD32]' },
   { name: 'Blogs', color: 'border-[#FF4500]' },
   { name: 'Carousels', color: 'border-[#9370DB]' },
+  { name: 'Branding', color: 'border-[#FFD700]' },
 ];
 
 const ScrollingServices = () => {
