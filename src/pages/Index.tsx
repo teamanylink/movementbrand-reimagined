@@ -14,14 +14,17 @@ const Index = () => {
           <div className="absolute -left-20 top-0 w-40 h-40 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute -right-20 top-20 w-40 h-40 bg-secondary/20 rounded-full blur-3xl" />
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 relative z-10">
-            a <span className="inline-block relative">
-              <span className="relative">
-                <span className="absolute -top-1 left-0 line-through decoration-secondary decoration-4">marketing</span>
-                <span className="invisible">marketing</span>
-              </span>
-              <span className="font-['Caveat'] text-primary absolute -top-2 left-[105%]">movement</span>
-            </span> agency with an edge
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 relative z-10 flex flex-col gap-2">
+            <div>
+              A <span className="inline-block relative">
+                <span className="relative">
+                  <span className="absolute -top-1 left-0 line-through decoration-secondary decoration-4">marketing</span>
+                  <span className="invisible">marketing</span>
+                </span>
+                <span className="font-['Caveat'] text-primary absolute -top-2 left-[105%]">movement</span>
+              </span> agency
+            </div>
+            <div>on a mission</div>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Design as you know it is out the door. Design as you want it just arrived.
