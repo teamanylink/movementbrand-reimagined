@@ -27,7 +27,7 @@ const Index = () => {
             <div>on a mission</div>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Design as you know it is out the door. Design as you want it just arrived.
+            The team that does your designs, videos, and landing pages.
           </p>
           <Button size="lg" className="text-lg px-8">
             See plans
