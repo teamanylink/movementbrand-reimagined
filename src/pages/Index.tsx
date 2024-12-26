@@ -41,9 +41,7 @@ const Index = () => {
           </Button>
           <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
           
-          <div className="mt-16">
-            <MacbookScrollDemo />
-          </div>
+          <MacbookScrollDemo />
         </div>
       </section>
 
