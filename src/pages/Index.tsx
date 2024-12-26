@@ -7,14 +7,32 @@ import { MembershipBenefits } from "@/components/MembershipBenefits";
 import PricingSection from "@/components/PricingSection";
 import ScrollingServices from "@/components/ScrollingServices";
 import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 
 const Index = () => {
+  const heroRef = useRef(null);
+  const featuresRef = useRef(null);
+  const awardsRef = useRef(null);
+
+  const isHeroInView = useInView(heroRef, { once: true });
+  const isFeaturesInView = useInView(featuresRef, { once: true });
+  const isAwardsInView = useInView(awardsRef, { once: true });
+
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-0 px-4 relative overflow-hidden">
+      <section 
+        ref={heroRef}
+        className="pt-32 pb-0 px-4 relative overflow-hidden"
+        style={{
+          transform: isHeroInView ? "none" : "translateY(20px)",
+          opacity: isHeroInView ? 1 : 0,
+          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
+        }}
+      >
         <div className="container mx-auto text-center pt-8">
           <div className="absolute -left-20 top-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -right-20 top-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
@@ -61,7 +79,15 @@ const Index = () => {
       <ProjectCarousel />
 
       {/* Features Section */}
-      <section className="py-24 px-4 bg-white relative overflow-hidden">
+      <section 
+        ref={featuresRef}
+        className="py-24 px-4 bg-white relative overflow-hidden"
+        style={{
+          transform: isFeaturesInView ? "none" : "translateY(20px)",
+          opacity: isFeaturesInView ? 1 : 0,
+          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
+        }}
+      >
         <div className="absolute -left-40 bottom-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
         <div className="container mx-auto relative z-10">
           <div className="grid md:grid-cols-3 gap-12">
@@ -91,7 +117,15 @@ const Index = () => {
       <PricingSection />
 
       {/* Awards Section */}
-      <section className="py-24 px-4 bg-[#F8F8F8]">
+      <section 
+        ref={awardsRef}
+        className="py-24 px-4 bg-[#F8F8F8]"
+        style={{
+          transform: isAwardsInView ? "none" : "translateY(20px)",
+          opacity: isAwardsInView ? 1 : 0,
+          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
+        }}
+      >
         <div className="container mx-auto text-center">
           <p className="text-xl text-gray-600 mb-12 font-medium">We're talking 'Product of the Year' good.</p>
           <div className="flex flex-wrap justify-center gap-8">
