@@ -12,7 +12,7 @@ const ScrollingServices = () => {
   return (
     <div className="w-full overflow-hidden bg-[#F8F8F8] py-12">
       <div className="relative flex">
-        <div className="animate-scroll flex whitespace-nowrap gap-6">
+        <div className="animate-scroll flex whitespace-nowrap gap-0">
           {services.map((service, index) => (
             <div
               key={index}
@@ -22,7 +22,7 @@ const ScrollingServices = () => {
             </div>
           ))}
         </div>
-        <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[100%] top-0">
+        <div className="animate-scroll2 flex whitespace-nowrap gap-0 absolute left-[100%] top-0">
           {services.map((service, index) => (
             <div
               key={`duplicate-${index}`}
