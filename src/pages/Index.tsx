@@ -2,7 +2,7 @@ import Navigation from "@/components/Navigation";
 import Feature from "@/components/Feature";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
-import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
+import { ProjectCarousel } from "@/components/ProjectCarousel";
 
 const Index = () => {
   return (
@@ -39,7 +39,8 @@ const Index = () => {
         </div>
       </section>
 
-      <MacbookScrollDemo />
+      {/* Project Carousel */}
+      <ProjectCarousel />
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
