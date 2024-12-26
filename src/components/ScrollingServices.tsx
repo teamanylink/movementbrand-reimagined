@@ -13,7 +13,7 @@ const ScrollingServices = () => {
     <div className="w-full overflow-hidden bg-white py-12">
       <div className="relative flex">
         <div className="animate-scroll flex whitespace-nowrap gap-6">
-          {[...services, ...services, ...services].map((service, index) => (
+          {services.map((service, index) => (
             <div
               key={index}
               className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
@@ -23,7 +23,7 @@ const ScrollingServices = () => {
           ))}
         </div>
         <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[100%] top-0">
-          {[...services, ...services, ...services].map((service, index) => (
+          {services.map((service, index) => (
             <div
               key={`duplicate-${index}`}
               className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
