@@ -1,11 +1,11 @@
 import React from 'react';
 
 const services = [
-  { name: 'Landing Pages', color: 'border-[#FF69B4]' },
-  { name: 'AI Images', color: 'border-[#32CD32]' },
-  { name: 'Blogs', color: 'border-[#FF4500]' },
-  { name: 'Carousels', color: 'border-[#9370DB]' },
-  { name: 'Branding', color: 'border-[#FFD700]' },
+  { name: 'Landing Pages', color: 'border-black' },
+  { name: 'AI Images', color: 'border-black' },
+  { name: 'Blogs', color: 'border-black' },
+  { name: 'Carousels', color: 'border-black' },
+  { name: 'Branding', color: 'border-black' },
 ];
 
 const ScrollingServices = () => {
@@ -16,7 +16,7 @@ const ScrollingServices = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-white font-['Caveat'] text-xl border-2 border-black bg-black hover:bg-white hover:text-black transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
             >
               {service.name}
             </div>
@@ -26,7 +26,7 @@ const ScrollingServices = () => {
           {services.map((service, index) => (
             <div
               key={`duplicate-${index}`}
-              className={`inline-flex items-center justify-center ${service.color} px-8 py-4 rounded-full text-black font-['Caveat'] text-xl border-2 hover:scale-105 transition-transform cursor-pointer min-w-max`}
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-white font-['Caveat'] text-xl border-2 border-black bg-black hover:bg-white hover:text-black transition-all duration-300 cursor-pointer min-w-max shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px]"
             >
               {service.name}
             </div>
