@@ -23,7 +23,7 @@ const ScrollingServices = () => {
               </div>
             ))}
           </div>
-          <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[calc(100%_-_1.5rem)] top-0">
+          <div className="animate-scroll2 flex whitespace-nowrap gap-6 absolute left-[calc(100%_+_0rem)] top-0">
             {services.map((service, index) => (
               <div
                 key={`duplicate-${index}`}

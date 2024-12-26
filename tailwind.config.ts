@@ -57,7 +57,7 @@ export default {
             transform: "translateX(0)",
           },
           "100%": {
-            transform: "translateX(calc(-100% - 1.5rem))",
+            transform: "translateX(-100%)",
           },
         },
         "scroll2": {
@@ -65,7 +65,7 @@ export default {
             transform: "translateX(0)",
           },
           "100%": {
-            transform: "translateX(calc(-100% - 1.5rem))",
+            transform: "translateX(-100%)",
           },
         },
       },
