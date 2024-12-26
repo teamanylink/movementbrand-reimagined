@@ -3,6 +3,7 @@ import Feature from "@/components/Feature";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, FileText, ThumbsUp } from "lucide-react";
 import { ProjectCarousel } from "@/components/ProjectCarousel";
+import { MembershipBenefits } from "@/components/MembershipBenefits";
 
 const Index = () => {
   return (
@@ -65,6 +66,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Membership Benefits Section */}
+      <MembershipBenefits />
 
       {/* Awards Section */}
       <section className="py-24 px-4 bg-[#F8F8F8]">
