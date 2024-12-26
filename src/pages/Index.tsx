@@ -19,23 +19,17 @@ const Index = () => {
           <div className="absolute -left-20 top-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -right-20 top-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 relative z-10 flex flex-col gap-4">
-            <div>
-              A <span className="inline-block relative">
-                <span className="relative">
-                  <span className="absolute top-2 left-0 line-through decoration-secondary decoration-4">marketing</span>
-                  <span className="invisible">marketing</span>
-                </span>
-                <span className="font-['Caveat'] text-primary absolute -top-12 left-0 animate-fade-up">movement</span>
-              </span> agency
+          <div className="flex flex-col items-center gap-6 mb-12">
+            <h1 className="text-6xl md:text-7xl font-bold tracking-tight">
+              we do the most
+              <br />
+              so you can
+            </h1>
+            <div className="transform -rotate-6 bg-black text-white px-6 py-3 text-3xl md:text-4xl font-bold rounded-lg shadow-lg hover:rotate-0 transition-transform duration-300">
+              do the thing
             </div>
-            <div>on a mission</div>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-            A single content subscription to move your movement forward.
-            <br className="hidden md:block" />
-            Pause or cancel anytime.
-          </p>
+          </div>
+
           <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
             See plans
           </Button>
