@@ -7,7 +7,7 @@ export function MacbookScrollDemo() {
       <MacbookScroll
         title={
           <div className="text-4xl md:text-6xl font-bold text-center mb-8">
-            <span className="text-primary">Design</span> <br /> 
+            <span className="text-primary">Design</span> that moves you <br /> 
             <span className="text-secondary">forward</span>.
           </div>
         }
