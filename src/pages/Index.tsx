@@ -23,7 +23,10 @@ const Index = () => {
             <h1 className="text-6xl md:text-7xl font-bold mb-6">
               <span className="text-[#40E0D0] font-['Caveat']">movement</span>
               <br />
-              A marketing agency
+              A <span className="relative">
+                <span className="absolute -top-6 text-4xl md:text-5xl text-accent">movement</span>
+                <span className="line-through decoration-2">marketing</span>
+              </span> agency
               <br />
               on a mission
             </h1>
