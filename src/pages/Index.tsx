@@ -19,15 +19,25 @@ const Index = () => {
           <div className="absolute -left-20 top-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
           <div className="absolute -right-20 top-20 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-pulse" />
           
-          <h1 className="text-6xl font-bold mb-6">Elevate Your Brand</h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Transform your digital presence with our cutting-edge design solutions. We create experiences that captivate and convert.
-          </p>
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-6xl md:text-7xl font-bold mb-6">
+              <span className="text-[#40E0D0] font-['Caveat']">movement</span>
+              <br />
+              A marketing agency
+              <br />
+              on a mission
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              A single content subscription to move your movement forward.
+              <br />
+              Pause or cancel anytime.
+            </p>
 
-          <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-            See plans
-          </Button>
-          <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+            <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+              See plans
+            </Button>
+            <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+          </div>
           
           <MacbookScrollDemo />
 
