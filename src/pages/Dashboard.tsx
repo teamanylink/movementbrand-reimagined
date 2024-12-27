@@ -180,7 +180,7 @@ const Dashboard = () => {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px]">
           {renderContent()}
         </div>
       </div>
