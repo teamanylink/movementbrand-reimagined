@@ -123,7 +123,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F8]">
+    <div className="min-h-screen bg-white">
       {/* Top Navigation Bar */}
       <nav className="bg-white border-gray-800 h-[72px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
