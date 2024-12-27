@@ -6,7 +6,7 @@ const services = [
   { name: 'Blogs', color: 'border-black' },
   { name: 'Carousels', color: 'border-black' },
   { name: 'Branding', color: 'border-black' },
-  { name: 'Logos', color: 'border-black' },
+  { name: 'Micro-Saas', color: 'border-black' },
   { name: 'Slide Decks', color: 'border-black' },
   { name: 'Automations', color: 'border-black' },
 ];
