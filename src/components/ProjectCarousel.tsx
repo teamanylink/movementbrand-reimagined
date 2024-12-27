@@ -12,11 +12,11 @@ import { useRef } from "react";
 const projects = [
   {
     src: "/lovable-uploads/1a4c3030-f086-4d69-9eed-dddeacb5aa18.png",
-    title: "Recaply - AI-Powered Daily Digest"
+    title: "Mirco-SaaS"
   },
   {
     src: "/lovable-uploads/a31fb496-0dcc-4ff9-b26e-05b6ccb6e76d.png",
-    title: "Sendero Recovery - Social Media"
+    title: "Social Campaigns"
   },
   {
     src: "/lovable-uploads/aa833a7d-015d-4fee-8000-a244358334e1.png",
