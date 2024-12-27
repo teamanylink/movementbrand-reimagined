@@ -71,8 +71,8 @@ export function ProjectCarousel() {
             <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
               we make your
             </h2>
-            <div className="h-[1.5em] relative">
-              <span className="absolute inset-0 flex items-center justify-center animate-fade-text text-4xl md:text-6xl font-bold">
+            <div className="h-[1.5em] relative min-w-[400px]">
+              <span className="absolute inset-0 flex items-center justify-center animate-fade-text text-4xl md:text-6xl font-bold whitespace-nowrap">
                 {services[currentServiceIndex]}
               </span>
             </div>
