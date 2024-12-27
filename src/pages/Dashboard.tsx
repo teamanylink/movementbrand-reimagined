@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,8 @@ import { Card } from "@/components/ui/card";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showProjectOptions, setShowProjectOptions] = useState(false);
+  const [hasProjects, setHasProjects] = useState(false); // This will be connected to Supabase later
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -37,6 +39,56 @@ const Dashboard = () => {
     { name: "Blog", duration: "48 hours" },
     { name: "Other", duration: "" },
   ];
+
+  const renderContent = () => {
+    if (showProjectOptions) {
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
+          {projectTypes.map((project, index) => (
+            <Card 
+              key={index}
+              className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102 transition-transform"
+            >
+              <div className="flex flex-col items-center text-center space-y-2">
+                <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+                {project.duration && (
+                  <p className="text-sm text-gray-500">Estimated time: {project.duration}</p>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+      );
+    }
+
+    if (!hasProjects) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <h3 className="text-2xl font-semibold text-gray-700 mb-4">Start Your First Project!</h3>
+          <p className="text-gray-500 max-w-md">
+            Click the "New Project" button above to begin your journey with MovementBrand.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-semibold mb-4 text-gray-700">To Do</h3>
+          {/* Kanban column content will go here */}
+        </div>
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-semibold mb-4 text-gray-700">In Progress</h3>
+          {/* Kanban column content will go here */}
+        </div>
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-semibold mb-4 text-gray-700">Completed</h3>
+          {/* Kanban column content will go here */}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
@@ -109,6 +161,7 @@ const Dashboard = () => {
             variant="default"
             size="sm"
             className="flex items-center gap-2"
+            onClick={() => setShowProjectOptions(!showProjectOptions)}
           >
             <Plus className="h-4 w-4" />
             New Project
@@ -117,23 +170,7 @@ const Dashboard = () => {
 
         {/* Main Card */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
-              {projectTypes.map((project, index) => (
-                <Card 
-                  key={index}
-                  className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100"
-                >
-                  <div className="flex flex-col items-center text-center space-y-2">
-                    <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                    {project.duration && (
-                      <p className="text-sm text-gray-500">{project.duration}</p>
-                    )}
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
+          {renderContent()}
         </div>
       </div>
     </div>
