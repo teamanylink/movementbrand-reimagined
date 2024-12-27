@@ -15,8 +15,26 @@ const Dashboard = () => {
   const [showProjectOptions, setShowProjectOptions] = useState(false);
   const [hasProjects, setHasProjects] = useState(false);
   const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchUserProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('email')
+          .eq('id', user.id)
+          .single();
+        
+        if (profile) {
+          setUserEmail(profile.email);
+        }
+      }
+    };
+
+    fetchUserProfile();
+
     const checkExistingProjects = async () => {
       const { count, error } = await supabase
         .from('projects')
@@ -38,6 +56,7 @@ const Dashboard = () => {
           title: "Welcome back!",
           description: "You have successfully signed in.",
         });
+        fetchUserProfile(); // Refetch profile when auth state changes
       }
     });
 
@@ -109,7 +128,7 @@ const Dashboard = () => {
               <div className="flex items-center">
                 <span className="text-black font-semibold">MovementBrand</span>
                 <span className="text-gray-400 mx-2">/</span>
-                <span className="text-gray-400">yanitsuka</span>
+                <span className="text-gray-400">{userEmail || 'Loading...'}</span>
               </div>
               <div className="hidden md:flex items-center space-x-1">
                 <Button 
