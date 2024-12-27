@@ -67,6 +67,19 @@ export const KanbanBoard = () => {
     return projects?.filter(project => project.status === status) || [];
   };
 
+  // If there are no projects, show the empty state message
+  if (!projects?.length) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <h3 className="text-2xl font-semibold text-gray-700 mb-4">Start Your First Project!</h3>
+        <p className="text-gray-500 max-w-md">
+          Click the "New Project" button above to begin your journey with MovementBrand.
+        </p>
+      </div>
+    );
+  }
+
+  // If there are projects, show the Kanban board
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="bg-gray-50 p-4 rounded-lg">
