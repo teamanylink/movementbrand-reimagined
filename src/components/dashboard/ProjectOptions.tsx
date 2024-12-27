@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Bot, Paintbrush, Layout, Building2, BookOpen, Plus } from "lucide-react";
 import { useState } from "react";
 import { ProjectForm } from "./ProjectForm";
@@ -70,29 +70,29 @@ export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChan
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[900px] p-6">
+        <DialogTitle className="text-2xl font-bold text-center mb-6">
+          {!selectedType ? "Let's start a new project 🔥" : `Create ${selectedType} Project`}
+        </DialogTitle>
         {!selectedType ? (
-          <>
-            <h2 className="text-2xl font-bold text-center mb-6">Let's start a new project 🔥</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projectTypes.map((project, index) => (
-                <Card 
-                  key={index}
-                  className="p-6 hover:shadow-lg transition-all cursor-pointer border border-gray-100 hover:scale-105 hover:border-accent/50 group"
-                  onClick={() => handleProjectSelect(project.name)}
-                >
-                  <div className="flex flex-col items-center text-center space-y-2">
-                    <div className={`p-3 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg group-hover:animate-glow-pulse`}>
-                      {getProjectIcon(project.name)}
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                    {project.duration && (
-                      <p className="text-sm text-gray-500">Estimated time: {project.duration}</p>
-                    )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projectTypes.map((project, index) => (
+              <Card 
+                key={index}
+                className="p-6 hover:shadow-lg transition-all cursor-pointer border border-gray-100 hover:scale-105 hover:border-accent/50 group"
+                onClick={() => handleProjectSelect(project.name)}
+              >
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className={`p-3 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg group-hover:animate-glow-pulse`}>
+                    {getProjectIcon(project.name)}
                   </div>
-                </Card>
-              ))}
-            </div>
-          </>
+                  <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+                  {project.duration && (
+                    <p className="text-sm text-gray-500">Estimated time: {project.duration}</p>
+                  )}
+                </div>
+              </Card>
+            ))}
+          </div>
         ) : (
           <ProjectForm 
             onBack={handleBack}
