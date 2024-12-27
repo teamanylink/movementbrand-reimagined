@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Package2, Users, Settings, Globe } from "lucide-react";
+import { Package2, Users, Settings, Globe, Plus } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const Dashboard = () => {
@@ -96,6 +96,14 @@ const Dashboard = () => {
             <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
             <p className="text-sm text-gray-500">Welcome to your dashboard</p>
           </div>
+          <Button 
+            variant="default"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            New Project
+          </Button>
         </div>
 
         {/* Main Card */}
