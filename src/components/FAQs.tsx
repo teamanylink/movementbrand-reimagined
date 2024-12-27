@@ -106,6 +106,33 @@ const FAQs = () => {
                 Movement Brand covers most digital needs—landing pages, micro-SaaS, marketing automations, brand refreshes, and more. For highly specialized tasks (e.g., advanced 3D modeling or large-scale print-only projects), we'll let you know if it's outside our scope. Chances are, if it lives in the digital realm, we can tackle it.
               </AccordionContent>
             </AccordionItem>
+
+            <AccordionItem value="item-12" className="border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                Is there any type of design or project you don't cover?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                While Movement Brand handles a broad range of digital projects—like landing pages, micro-SaaS, and automation setups—we don't typically take on 3D modeling, fully animated graphics (advanced GIFs, etc.), highly specialized document designs (such as medical forms), large-scale print projects (e.g., magazines or books), or InDesign-based layouts. If you're unsure whether your request falls under these categories, just reach out. We'll gladly confirm if we can accommodate you or suggest an alternative option.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-13" className="border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                What if I only have a single request?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                No worries! Our subscription model is built for flexibility. You're welcome to pause your plan once you've completed a project, then resume whenever a new need arises. That way, you're never paying for time you aren't using.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-14" className="border rounded-lg px-6">
+              <AccordionTrigger className="text-lg font-medium">
+                Do you offer refunds if I'm dissatisfied?
+              </AccordionTrigger>
+              <AccordionContent className="text-gray-600">
+                We stand behind the quality of our work; as a result, we don't issue refunds once deliverables have been provided. However, our goal is always to ensure you're thrilled with the final outcome, and we're more than happy to revise and refine until it meets your expectations.
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
 
           <div className="mt-12 text-center">
