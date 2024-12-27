@@ -64,10 +64,25 @@ export default {
             transform: "translateX(-50%)",
           },
         },
+        "typing": {
+          "0%, 20%, 100%": {
+            width: "0"
+          },
+          "10%, 15%": {
+            width: "100%"
+          }
+        },
+        "blink": {
+          "50%": {
+            borderColor: "transparent"
+          },
+        }
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out",
         "scroll": "scroll 25s linear infinite",
+        "typing": "typing 20s steps(40) infinite",
+        "cursor": "blink 1s step-end infinite",
       },
     },
   },

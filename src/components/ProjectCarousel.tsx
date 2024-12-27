@@ -50,9 +50,20 @@ export function ProjectCarousel() {
           transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
         }}
       >
-        <h2 className="max-w-7xl pl-4 mx-auto text-4xl md:text-6xl font-bold text-neutral-800 mb-16">
-          Latest Projects
-        </h2>
+        <div className="max-w-7xl pl-4 mx-auto mb-16">
+          <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
+            We create your{" "}
+            <span className="relative">
+              <span className="absolute -top-1 left-0 h-16 overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor bg-[#F5F5F7] pr-1">
+                MicroSaas
+                Automations
+                Landing page
+                Designs
+                Digital Products
+              </span>
+            </span>
+          </h2>
+        </div>
         <Carousel
           opts={{
             align: "start",
