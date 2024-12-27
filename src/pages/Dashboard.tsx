@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Package2, Users, Settings, Globe } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,24 +31,61 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       {/* Navigation Bar */}
-      <nav className="border-b bg-white">
+      <nav className="bg-[#1C1C1C] border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Package2 className="h-8 w-8" />
-              <span className="ml-2 text-xl font-semibold">MovementBrand</span>
-            </div>
+            {/* Left section - Logo and workspace */}
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm">
-                <Globe className="h-5 w-5" />
+              <Package2 className="h-6 w-6 text-white" />
+              <div className="flex items-center">
+                <span className="text-white font-semibold">MovementBrand</span>
+                <span className="text-gray-400 mx-2">/</span>
+                <span className="text-gray-400">yanitsuka</span>
+              </div>
+            </div>
+
+            {/* Center section - Navigation */}
+            <div className="hidden md:flex items-center space-x-1">
+              <Button 
+                variant="ghost" 
+                className="text-white hover:bg-gray-800"
+                size="sm"
+              >
+                Home
               </Button>
+              <Button 
+                variant="ghost"
+                className="text-gray-400 hover:bg-gray-800 hover:text-white"
+                size="sm"
+              >
+                Members
+              </Button>
+              <Button 
+                variant="ghost"
+                className="text-gray-400 hover:bg-gray-800 hover:text-white"
+                size="sm"
+              >
+                Settings
+              </Button>
+            </div>
+
+            {/* Right section - Actions */}
+            <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
                 size="sm"
+                className="text-gray-400 hover:bg-gray-800 hover:text-white"
+              >
+                <Globe className="h-5 w-5" />
+              </Button>
+              <Avatar 
+                className="h-8 w-8 cursor-pointer"
                 onClick={handleSignOut}
               >
-                Sign out
-              </Button>
+                <AvatarFallback className="bg-accent text-accent-foreground">
+                  MB
+                </AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </div>
