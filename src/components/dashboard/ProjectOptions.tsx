@@ -17,17 +17,34 @@ interface ProjectOptionsProps {
 const getProjectIcon = (name: string) => {
   switch (name.toLowerCase()) {
     case 'automation':
-      return <Bot className="h-8 w-8 text-accent mb-3" />;
+      return <Bot className="h-8 w-8 text-white" />;
     case 'design':
-      return <Paintbrush className="h-8 w-8 text-accent mb-3" />;
+      return <Paintbrush className="h-8 w-8 text-white" />;
     case 'landing page':
-      return <Layout className="h-8 w-8 text-accent mb-3" />;
+      return <Layout className="h-8 w-8 text-white" />;
     case 'micro-saas':
-      return <Building2 className="h-8 w-8 text-accent mb-3" />;
+      return <Building2 className="h-8 w-8 text-white" />;
     case 'blog':
-      return <BookOpen className="h-8 w-8 text-accent mb-3" />;
+      return <BookOpen className="h-8 w-8 text-white" />;
     default:
-      return <Wrench className="h-8 w-8 text-accent mb-3" />;
+      return <Wrench className="h-8 w-8 text-white" />;
+  }
+};
+
+const getIconBackground = (name: string) => {
+  switch (name.toLowerCase()) {
+    case 'automation':
+      return 'bg-gradient-to-br from-purple-500 to-indigo-600';
+    case 'design':
+      return 'bg-gradient-to-br from-pink-500 to-rose-500';
+    case 'landing page':
+      return 'bg-gradient-to-br from-blue-500 to-cyan-500';
+    case 'micro-saas':
+      return 'bg-gradient-to-br from-emerald-500 to-teal-600';
+    case 'blog':
+      return 'bg-gradient-to-br from-orange-500 to-amber-500';
+    default:
+      return 'bg-gradient-to-br from-gray-500 to-slate-600';
   }
 };
 
@@ -47,7 +64,9 @@ export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChan
               }}
             >
               <div className="flex flex-col items-center text-center space-y-2">
-                {getProjectIcon(project.name)}
+                <div className={`p-4 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg`}>
+                  {getProjectIcon(project.name)}
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
                 {project.duration && (
                   <p className="text-sm text-gray-500">Estimated time: {project.duration}</p>
