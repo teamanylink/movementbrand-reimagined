@@ -101,6 +101,44 @@ export type Database = {
           },
         ]
       }
+      project_history: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          new_status: string | null
+          previous_status: string | null
+          project_id: string | null
+          type: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          previous_status?: string | null
+          project_id?: string | null
+          type: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          previous_status?: string | null
+          project_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_history_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           created_at: string

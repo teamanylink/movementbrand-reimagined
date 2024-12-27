@@ -2,6 +2,7 @@ import { ChatMessage, ChatMessageInsert, ChatMessageUpdate } from './chat';
 import { Profile, ProfileInsert, ProfileUpdate } from './profile';
 import { Project, ProjectInsert, ProjectUpdate } from './project';
 import { Task, TaskInsert, TaskUpdate } from './task';
+import { ProjectHistory, ProjectHistoryInsert, ProjectHistoryUpdate } from './project-history';
 
 export type Database = {
   public: {
@@ -25,6 +26,11 @@ export type Database = {
         Row: Task;
         Insert: TaskInsert;
         Update: TaskUpdate;
+      };
+      project_history: {
+        Row: ProjectHistory;
+        Insert: ProjectHistoryInsert;
+        Update: ProjectHistoryUpdate;
       };
     };
     Views: Record<string, never>;

@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tables } from "@/integrations/supabase/types";
 
-interface HistoryItem {
+type HistoryItem = {
   id: string;
   type: 'project' | 'task' | 'status_change';
   title: string;
@@ -10,7 +11,7 @@ interface HistoryItem {
   created_at: string;
   action: string;
   previous_status?: string;
-}
+};
 
 export const ProjectHistory = ({ projectId }: { projectId: string }) => {
   const { data: history } = useQuery({
@@ -34,7 +35,16 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
 
       if (tasksError) throw tasksError;
 
-      // Combine project and task history
+      // Fetch status changes from project_history
+      const { data: statusChanges, error: historyError } = await supabase
+        .from('project_history')
+        .select('*')
+        .eq('project_id', projectId)
+        .order('created_at', { ascending: false });
+
+      if (historyError) throw historyError;
+
+      // Combine project, task, and status change history
       const historyItems: HistoryItem[] = [
         {
           id: project.id,
@@ -51,6 +61,15 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
           status: task.status,
           created_at: task.created_at,
           action: 'Task created'
+        })) || []),
+        ...(statusChanges?.map(change => ({
+          id: change.id,
+          type: 'status_change',
+          title: project.name,
+          status: change.new_status || undefined,
+          previous_status: change.previous_status || undefined,
+          created_at: change.created_at,
+          action: change.action
         })) || [])
       ];
 

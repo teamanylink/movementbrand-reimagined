@@ -3,14 +3,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { KanbanColumn } from "./KanbanColumn";
 import { EmptyStateMessage } from "./EmptyStateMessage";
+import { Tables } from "@/integrations/supabase/types";
 
-interface Project {
-  id: string;
-  name: string;
-  description: string | null;
-  status: string;
-  project_type: string;
-}
+type Project = Tables<"projects">;
 
 export const KanbanBoard = () => {
   const [projects, setProjects] = useState<Project[]>();
@@ -127,7 +122,7 @@ export const KanbanBoard = () => {
           .from('project_history')
           .insert({
             project_id: projectId,
-            type: 'status_change',
+            type: 'status_change' as const,
             action: `Status changed from ${previousStatus} to ${newStatus}`,
             previous_status: previousStatus,
             new_status: newStatus
