@@ -31,43 +31,41 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       {/* Navigation Bar */}
-      <nav className="bg-[#1C1C1C] border-b border-gray-800">
+      <nav className="bg-white border-gray-800 h-[72px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Left section - Logo and workspace */}
-            <div className="flex items-center space-x-4">
-              <Package2 className="h-6 w-6 text-white" />
+            <div className="flex items-center space-x-4 text-[18px]">
               <div className="flex items-center">
-                <span className="text-white font-semibold">MovementBrand</span>
+                <span className="text-black font-semibold">MovementBrand</span>
                 <span className="text-gray-400 mx-2">/</span>
                 <span className="text-gray-400">yanitsuka</span>
               </div>
-            </div>
-
-            {/* Center section - Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+              <div className="hidden md:flex items-center space-x-1">
               <Button 
                 variant="ghost" 
-                className="text-white hover:bg-gray-800"
+                className="bg-[#0f172a] text-white hover:bg-gray-800"
                 size="sm"
               >
                 Home
               </Button>
               <Button 
                 variant="ghost"
-                className="text-gray-400 hover:bg-gray-800 hover:text-white"
+                className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
                 size="sm"
               >
                 Members
               </Button>
               <Button 
                 variant="ghost"
-                className="text-gray-400 hover:bg-gray-800 hover:text-white"
+                className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
                 size="sm"
               >
                 Settings
               </Button>
             </div>
+            </div>
+            
 
             {/* Right section - Actions */}
             <div className="flex items-center space-x-4">
