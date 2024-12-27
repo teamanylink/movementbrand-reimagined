@@ -131,10 +131,10 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4 space-y-2">
+      <SidebarFooter className="p-2 space-y-1">
         <SidebarMenuButton 
           asChild
-          className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+          className="hover:bg-blue-50 h-10 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
         >
           <Link to="/help">
             <HelpCircle className="h-5 w-5" />
@@ -144,7 +144,7 @@ export function AppSidebar() {
         </SidebarMenuButton>
         <SidebarMenuButton 
           asChild
-          className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+          className="hover:bg-blue-50 h-10 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
         >
           <Link to="/dashboard/settings">
             <Settings className="h-5 w-5" />
@@ -153,7 +153,7 @@ export function AppSidebar() {
         </SidebarMenuButton>
         <SidebarMenuButton 
           onClick={handleSignOut}
-          className="w-full hover:bg-red-50 text-red-600 hover:text-red-700 h-12"
+          className="w-full hover:bg-red-50 text-red-600 hover:text-red-700 h-10"
         >
           <LogOut className="h-5 w-5" />
           <span>Sign Out</span>
