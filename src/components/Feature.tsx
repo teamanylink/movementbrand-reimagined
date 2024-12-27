@@ -1,15 +1,16 @@
-import { ReactNode } from "react";
+import React from 'react';
+import { LucideIcon } from 'lucide-react';
 
 interface FeatureProps {
-  icon: ReactNode;
+  icon: React.ReactNode;
   title: string;
   description: string;
 }
 
 const Feature = ({ icon, title, description }: FeatureProps) => {
   return (
-    <div className="flex flex-col items-center text-center p-6 animate-fade-up">
-      <div className="w-16 h-16 mb-4 flex items-center justify-center">
+    <div className="flex flex-col items-center text-center">
+      <div className="mb-4">
         {icon}
       </div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>

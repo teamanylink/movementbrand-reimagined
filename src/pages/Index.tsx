@@ -137,17 +137,17 @@ const Index = () => {
             <Feature
               icon={<RefreshCw className="w-10 h-10 text-primary" />}
               title="Subscribe & Request"
-              description="Subscribe to a plan & request as many designs as you'd like."
+              description="Subscribe to a plan & request as many projects as you'd like."
             />
             <Feature
               icon={<FileText className="w-10 h-10 text-secondary" />}
               title="Quick Delivery"
-              description="Receive your design within two business days on average."
+              description="Receive your projects at lightning speed & receive 24 hour status updates for longer projects."
             />
             <Feature
               icon={<ThumbsUp className="w-10 h-10 text-accent" />}
               title="100% Satisfaction"
-              description="We'll revise the designs until you're 100% satisfied."
+              description="We'll work on the project until you're 100% satisfied."
             />
           </div>
         </div>
