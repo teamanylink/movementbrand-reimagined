@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import Auth from "./components/Auth";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,10 @@ const App = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -39,25 +44,17 @@ const App = () => {
           <Routes>
             <Route 
               path="/" 
-              element={
-                isAuthenticated === null ? (
-                  <div>Loading...</div>
-                ) : isAuthenticated ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Index />
-                )
-              } 
+              element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Index />} 
             />
             <Route 
               path="/dashboard" 
               element={
-                isAuthenticated === null ? (
-                  <div>Loading...</div>
-                ) : !isAuthenticated ? (
-                  <Navigate to="/" replace />
-                ) : (
+                isAuthenticated ? (
                   <Dashboard />
+                ) : (
+                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                    <Auth />
+                  </div>
                 )
               } 
             />

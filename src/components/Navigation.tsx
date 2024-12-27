@@ -1,17 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 
 const Navigation = () => {
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session) {
-      navigate("/dashboard");
-    } else {
-      navigate("/dashboard"); // This will redirect to login due to auth check
-    }
+  const handleLogin = () => {
+    navigate("/dashboard");
   };
 
   return (
