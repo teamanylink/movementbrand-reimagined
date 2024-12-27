@@ -49,7 +49,7 @@ const Index = () => {
               on a mission
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              The subscription that moves with you.
+              The subscription service that moves with you.
               <br />
               Automations, Micro-saas, Blogs, and more.
             </p>
