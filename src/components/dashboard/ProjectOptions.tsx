@@ -17,17 +17,17 @@ interface ProjectOptionsProps {
 const getProjectIcon = (name: string) => {
   switch (name.toLowerCase()) {
     case 'automation':
-      return <Bot className="h-8 w-8 text-white" />;
+      return <Bot className="h-6 w-6 text-white" />;
     case 'design':
-      return <Paintbrush className="h-8 w-8 text-white" />;
+      return <Paintbrush className="h-6 w-6 text-white" />;
     case 'landing page':
-      return <Layout className="h-8 w-8 text-white" />;
+      return <Layout className="h-6 w-6 text-white" />;
     case 'micro-saas':
-      return <Building2 className="h-8 w-8 text-white" />;
+      return <Building2 className="h-6 w-6 text-white" />;
     case 'blog':
-      return <BookOpen className="h-8 w-8 text-white" />;
+      return <BookOpen className="h-6 w-6 text-white" />;
     default:
-      return <Wrench className="h-8 w-8 text-white" />;
+      return <Wrench className="h-6 w-6 text-white" />;
   }
 };
 
@@ -64,7 +64,7 @@ export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChan
               }}
             >
               <div className="flex flex-col items-center text-center space-y-2">
-                <div className={`p-4 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg`}>
+                <div className={`p-3 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg`}>
                   {getProjectIcon(project.name)}
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
