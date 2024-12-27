@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Send } from "lucide-react";
+import { Send, UserRound } from "lucide-react";
 
 interface Message {
   id: string;
@@ -109,12 +109,19 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
           {messages.map((message) => (
             <div
               key={message.id}
-              className="bg-gray-50 rounded-lg p-3"
+              className="flex items-start gap-3 bg-gray-50 rounded-lg p-3"
             >
-              <p className="text-sm text-gray-900">{message.message}</p>
-              <span className="text-xs text-gray-500">
-                {new Date(message.created_at).toLocaleTimeString()}
-              </span>
+              <div className="flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                  <UserRound className="h-5 w-5 text-gray-500" />
+                </div>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-gray-900">{message.message}</p>
+                <span className="text-xs text-gray-500">
+                  {new Date(message.created_at).toLocaleTimeString()}
+                </span>
+              </div>
             </div>
           ))}
         </div>
