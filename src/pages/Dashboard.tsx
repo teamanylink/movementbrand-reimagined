@@ -1,8 +1,26 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import Auth from "@/components/Auth";
+import { useToast } from "@/components/ui/use-toast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully signed in.",
+        });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [toast]);
 
   return (
     <div className="min-h-screen bg-[#F8F8F8] p-8">
@@ -13,9 +31,7 @@ const Dashboard = () => {
             Back to Home
           </Button>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <p className="text-gray-600">Welcome to your dashboard!</p>
-        </div>
+        <Auth />
       </div>
     </div>
   );
