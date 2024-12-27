@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Package2, Users, Settings, Globe, Plus } from "lucide-react";
+import { Globe, Plus } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { ProjectForm } from "@/components/dashboard/ProjectForm";
+import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
+import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,66 +43,29 @@ const Dashboard = () => {
     { name: "Other", duration: "" },
   ];
 
+  const handleProjectSubmit = () => {
+    setHasProjects(true);
+    setShowProjectOptions(false);
+    setSelectedProjectType(null);
+  };
+
   const renderContent = () => {
     if (selectedProjectType) {
       return (
-        <div className="max-w-xl mx-auto w-full space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="projectName" className="block text-sm font-medium text-gray-700 mb-1">
-                Let's give this project a name
-              </label>
-              <Input 
-                id="projectName"
-                placeholder="Enter project name"
-                className="w-full"
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                Description
-              </label>
-              <Textarea 
-                id="description"
-                placeholder="Tell us about your project"
-                className="w-full min-h-[120px]"
-              />
-            </div>
-            <div className="flex justify-end pt-4">
-              <Button 
-                onClick={() => setSelectedProjectType(null)}
-                variant="outline"
-                className="mr-2"
-              >
-                Back
-              </Button>
-              <Button>
-                Next
-              </Button>
-            </div>
-          </div>
-        </div>
+        <ProjectForm 
+          onBack={() => setSelectedProjectType(null)}
+          onSubmit={handleProjectSubmit}
+          selectedProjectType={selectedProjectType}
+        />
       );
     }
 
     if (showProjectOptions) {
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
-          {projectTypes.map((project, index) => (
-            <Card 
-              key={index}
-              className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102 transition-transform"
-              onClick={() => setSelectedProjectType(project.name)}
-            >
-              <div className="flex flex-col items-center text-center space-y-2">
-                <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                {project.duration && (
-                  <p className="text-sm text-gray-500">Estimated time: {project.duration}</p>
-                )}
-              </div>
-            </Card>
-          ))}
-        </div>
+        <ProjectOptions 
+          projectTypes={projectTypes}
+          onSelectProject={setSelectedProjectType}
+        />
       );
     }
 
@@ -117,22 +80,7 @@ const Dashboard = () => {
       );
     }
 
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-4 text-gray-700">To Do</h3>
-          {/* Kanban column content will go here */}
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-4 text-gray-700">In Progress</h3>
-          {/* Kanban column content will go here */}
-        </div>
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-4 text-gray-700">Completed</h3>
-          {/* Kanban column content will go here */}
-        </div>
-      </div>
-    );
+    return <KanbanBoard />;
   };
 
   return (
