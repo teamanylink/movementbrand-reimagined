@@ -15,17 +15,14 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 const Index = () => {
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
-  const awardsRef = useRef(null);
 
   const isHeroInView = useInView(heroRef, { once: true });
   const isFeaturesInView = useInView(featuresRef, { once: true });
-  const isAwardsInView = useInView(awardsRef, { once: true });
 
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       <Navigation />
       
-      {/* Hero Section */}
       <section 
         ref={heroRef}
         className="pt-32 pb-0 px-4 relative overflow-hidden"
@@ -115,10 +112,8 @@ const Index = () => {
 
       <ScrollingServices />
 
-      {/* Comparison Section */}
       <ComparisonSection />
 
-      {/* Project Carousel */}
       <ProjectCarousel />
 
       {/* Features Section */}
@@ -153,37 +148,9 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Membership Benefits Section */}
       <MembershipBenefits />
 
-      {/* Pricing Section */}
       <PricingSection />
-
-      {/* Awards Section */}
-      <section 
-        ref={awardsRef}
-        className="py-24 px-4 bg-[#F8F8F8]"
-        style={{
-          transform: isAwardsInView ? "none" : "translateY(20px)",
-          opacity: isAwardsInView ? 1 : 0,
-          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
-        }}
-      >
-        <div className="container mx-auto text-center">
-          <p className="text-xl text-gray-600 mb-12 font-medium">We're talking 'Product of the Year' good.</p>
-          <div className="flex flex-wrap justify-center gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <p className="font-bold text-lg">#1 Design Agency 2024</p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <p className="font-bold text-lg">Best Creative Solutions</p>
-            </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <p className="font-bold text-lg">Top Rated Service</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
