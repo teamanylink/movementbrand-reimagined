@@ -8,11 +8,16 @@ import {
 } from "@/components/ui/dialog";
 
 export function MacbookScrollDemo() {
+  // YouTube video ID from the embed URL
+  const videoId = "dQw4w9WgXcQ";
+  // High quality thumbnail URL
+  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
   return (
     <div className="overflow-hidden bg-white w-full relative">
       <MacbookScroll
         title={<div></div>}
-        src="/placeholder.svg"
+        src={thumbnailUrl}
         showGradient={false}
       />
       <Dialog>
