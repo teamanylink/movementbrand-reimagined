@@ -51,10 +51,10 @@ export function ProjectCarousel() {
         }}
       >
         <div className="max-w-7xl pl-4 mx-auto mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
+          <h2 className="text-4xl md:text-6xl font-bold text-neutral-800 flex items-center">
             We create your{" "}
-            <span className="relative inline-block w-[300px] h-[70px]">
-              <span className="absolute top-0 left-0 h-full overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor pr-1">
+            <span className="relative inline-block w-[300px] ml-3">
+              <span className="absolute top-0 left-0 overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor">
                 MicroSaas
                 Automations
                 Landing page
@@ -64,6 +64,7 @@ export function ProjectCarousel() {
             </span>
           </h2>
         </div>
+        
         <Carousel
           opts={{
             align: "start",
