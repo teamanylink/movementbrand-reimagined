@@ -35,7 +35,18 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
         return;
       }
 
-      setMessages(data || []);
+      // Add a mock message if there are no messages
+      if (!data || data.length === 0) {
+        const mockMessage = {
+          id: "mock-1",
+          message: "Hey, you free for a call this afternoon?",
+          created_at: new Date().toISOString(),
+          user_id: "mock-user"
+        };
+        setMessages([mockMessage]);
+      } else {
+        setMessages(data || []);
+      }
     };
 
     fetchMessages();
