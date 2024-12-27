@@ -53,8 +53,8 @@ export function ProjectCarousel() {
         <div className="max-w-7xl pl-4 mx-auto mb-16">
           <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
             We create your{" "}
-            <span className="relative">
-              <span className="absolute -top-1 left-0 h-16 overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor bg-[#F5F5F7] pr-1">
+            <span className="relative inline-block w-[300px] h-[70px]">
+              <span className="absolute top-0 left-0 h-full overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor pr-1">
                 MicroSaas
                 Automations
                 Landing page

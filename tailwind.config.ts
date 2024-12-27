@@ -65,12 +65,11 @@ export default {
           },
         },
         "typing": {
-          "0%, 20%, 100%": {
-            width: "0"
-          },
-          "10%, 15%": {
-            width: "100%"
-          }
+          "0%": { width: "0" },
+          "20%, 25%": { width: "100%" },
+          "45%, 50%": { width: "0" },
+          "70%, 75%": { width: "100%" },
+          "95%, 100%": { width: "0" }
         },
         "blink": {
           "50%": {
@@ -81,7 +80,7 @@ export default {
       animation: {
         "fade-up": "fade-up 0.5s ease-out",
         "scroll": "scroll 25s linear infinite",
-        "typing": "typing 20s steps(40) infinite",
+        "typing": "typing 8s steps(20) infinite",
         "cursor": "blink 1s step-end infinite",
       },
     },
