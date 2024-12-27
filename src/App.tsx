@@ -37,13 +37,24 @@ const App = () => {
       <TooltipProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route 
+              path="/" 
+              element={
+                isAuthenticated === null ? (
+                  <div>Loading...</div>
+                ) : isAuthenticated ? (
+                  <Navigate to="/dashboard" replace />
+                ) : (
+                  <Index />
+                )
+              } 
+            />
             <Route 
               path="/dashboard" 
               element={
                 isAuthenticated === null ? (
                   <div>Loading...</div>
-                ) : isAuthenticated ? (
+                ) : !isAuthenticated ? (
                   <Navigate to="/" replace />
                 ) : (
                   <Dashboard />
