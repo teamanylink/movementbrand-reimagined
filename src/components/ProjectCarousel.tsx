@@ -11,19 +11,28 @@ import { useRef } from "react";
 
 const projects = [
   {
-    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+    src: "/lovable-uploads/1a4c3030-f086-4d69-9eed-dddeacb5aa18.png",
+    title: "Recaply - AI-Powered Daily Digest"
   },
   {
-    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+    src: "/lovable-uploads/a31fb496-0dcc-4ff9-b26e-05b6ccb6e76d.png",
+    title: "Sendero Recovery - Social Media"
   },
   {
-    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+    src: "/lovable-uploads/aa833a7d-015d-4fee-8000-a244358334e1.png",
+    title: "Make - Automation Platform"
   },
   {
-    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+    src: "/lovable-uploads/7cfa0beb-6a50-4632-972a-4bb987e52f7a.png",
+    title: "1996 - Product Website"
   },
   {
-    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+    src: "/lovable-uploads/e9636c6c-5864-4749-8834-44ad2c0e8bc2.png",
+    title: "Game Plus - E-Sports Platform"
+  },
+  {
+    src: "/lovable-uploads/adde8d93-13db-4c7e-ad5b-c3c2d091fe04.png",
+    title: "Florida Retail - E-Book Landing"
   }
 ];
 
@@ -56,11 +65,18 @@ export function ProjectCarousel() {
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 pl-4">
                 <Card className="bg-white rounded-3xl overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <CardContent className="p-0">
-                    <img
-                      src={project.src}
-                      alt={`Project ${index + 1}`}
-                      className="w-full h-[400px] object-cover"
-                    />
+                    <div className="relative">
+                      <img
+                        src={project.src}
+                        alt={project.title}
+                        className="w-full h-[400px] object-cover"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                        <h3 className="text-white text-lg font-semibold">
+                          {project.title}
+                        </h3>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </CarouselItem>
