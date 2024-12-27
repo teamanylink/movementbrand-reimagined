@@ -98,15 +98,6 @@ const FAQs = () => {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-11" className="border rounded-lg px-6">
-              <AccordionTrigger className="text-lg font-medium">
-                Do you have any limitations on project types?
-              </AccordionTrigger>
-              <AccordionContent className="text-gray-600">
-                Movement Brand covers most digital needs—landing pages, micro-SaaS, marketing automations, brand refreshes, and more. For highly specialized tasks (e.g., advanced 3D modeling or large-scale print-only projects), we'll let you know if it's outside our scope. Chances are, if it lives in the digital realm, we can tackle it.
-              </AccordionContent>
-            </AccordionItem>
-
             <AccordionItem value="item-12" className="border rounded-lg px-6">
               <AccordionTrigger className="text-lg font-medium">
                 Is there any type of design or project you don't cover?
