@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { History } from "lucide-react";
 
 interface HistoryItem {
   id: string;
@@ -38,7 +37,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
       const historyItems: HistoryItem[] = [
         {
           id: project.id,
-          type: 'project',
+          type: 'project' as const,
           title: project.name,
           status: project.status,
           created_at: project.created_at,
@@ -46,7 +45,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
         },
         ...(tasks?.map(task => ({
           id: task.id,
-          type: 'task',
+          type: 'task' as const,
           title: task.title,
           status: task.status,
           created_at: task.created_at,
@@ -86,8 +85,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
 
   return (
     <div>
-      <div className="flex items-center gap-2 mb-4">
-        <History className="h-5 w-5 text-gray-500" />
+      <div className="mb-4">
         <h2 className="text-lg font-semibold">Project History</h2>
       </div>
 
