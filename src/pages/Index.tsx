@@ -57,7 +57,7 @@ const Index = () => {
             <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
               See plans
             </Button>
-            <div className="mt-6 text-sm text-gray-500 animate-pulse">Available now</div>
+            <div className="mt-6 text-sm text-gray-500 animate-pulse">Pause or cancel anytime</div>
 
             {/* Social Proof Section */}
             <div className="flex items-center justify-center mt-8 space-x-4">
