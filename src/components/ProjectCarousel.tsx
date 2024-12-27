@@ -20,19 +20,19 @@ const projects = [
   },
   {
     src: "/lovable-uploads/aa833a7d-015d-4fee-8000-a244358334e1.png",
-    title: "Make - Automation Platform"
+    title: "Automations"
   },
   {
     src: "/lovable-uploads/7cfa0beb-6a50-4632-972a-4bb987e52f7a.png",
-    title: "1996 - Product Website"
+    title: "Landing Pages"
   },
   {
     src: "/lovable-uploads/e9636c6c-5864-4749-8834-44ad2c0e8bc2.png",
-    title: "Game Plus - E-Sports Platform"
+    title: "Brand Design"
   },
   {
     src: "/lovable-uploads/adde8d93-13db-4c7e-ad5b-c3c2d091fe04.png",
-    title: "Florida Retail - E-Book Landing"
+    title: "Digital Products"
   }
 ];
 
