@@ -49,9 +49,9 @@ const Index = () => {
               on a mission
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              A single content subscription to move your movement forward.
+              The subscription that moves with you.
               <br />
-              Pause or cancel anytime.
+              Automations, Micro-saas, Blogs, and more.
             </p>
 
             <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
