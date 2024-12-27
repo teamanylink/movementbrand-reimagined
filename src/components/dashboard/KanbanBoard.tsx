@@ -63,82 +63,11 @@ export const KanbanBoard = () => {
     fetchProjects();
   };
 
-  const handleDragStart = (e: React.DragEvent, projectId: string) => {
-    e.dataTransfer.setData("projectId", projectId);
-    
-    // Create a custom drag image
-    const draggedElement = e.currentTarget as HTMLElement;
-    const clone = draggedElement.cloneNode(true) as HTMLElement;
-    
-    // Style the clone
-    clone.style.position = 'absolute';
-    clone.style.top = '-1000px';
-    clone.style.opacity = '0.8';
-    clone.style.transform = 'rotate(3deg)';
-    clone.style.width = `${draggedElement.offsetWidth}px`;
-    
-    // Add clone to document
-    document.body.appendChild(clone);
-    
-    // Set the custom drag image
-    e.dataTransfer.setDragImage(clone, 20, 20);
-    
-    // Remove clone after drag starts
-    requestAnimationFrame(() => {
-      document.body.removeChild(clone);
-    });
-
-    // Add dragging class to original element
-    draggedElement.classList.add('opacity-50');
-  };
-
-  const handleDragEnd = (e: React.DragEvent) => {
-    // Remove dragging class
-    const draggedElement = e.currentTarget as HTMLElement;
-    draggedElement.classList.remove('opacity-50');
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.currentTarget.classList.add('bg-gray-100');
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.currentTarget.classList.remove('bg-gray-100');
-  };
-
-  const handleDrop = async (e: React.DragEvent, newStatus: string) => {
-    e.preventDefault();
-    e.currentTarget.classList.remove('bg-gray-100');
-    const projectId = e.dataTransfer.getData("projectId");
-    
-    const { error } = await supabase
-      .from('projects')
-      .update({ status: newStatus })
-      .eq('id', projectId);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update project status",
-        variant: "destructive",
-      });
-      console.error("Error updating project status:", error);
-      return;
-    }
-
-    toast({
-      title: "Success",
-      description: `Project moved to ${newStatus.replace('_', ' ')}`,
-    });
-
-    fetchProjects();
-  };
-
   const getProjectsByStatus = (status: string) => {
     return projects?.filter(project => project.status === status) || [];
   };
 
+  // If there are no projects, show the empty state message
   if (!projects?.length) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -150,24 +79,14 @@ export const KanbanBoard = () => {
     );
   }
 
+  // If there are projects, show the Kanban board
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div 
-        className="bg-gray-50 p-4 rounded-lg transition-colors duration-200"
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={(e) => handleDrop(e, 'todo')}
-      >
+      <div className="bg-gray-50 p-4 rounded-lg">
         <h3 className="font-semibold mb-4 text-secondary">To Do</h3>
         <div className="space-y-3">
           {getProjectsByStatus('todo').map((project) => (
-            <div 
-              key={project.id} 
-              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-all duration-200"
-              draggable
-              onDragStart={(e) => handleDragStart(e, project.id)}
-              onDragEnd={handleDragEnd}
-            >
+            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-secondary">{project.name}</h4>
@@ -191,22 +110,11 @@ export const KanbanBoard = () => {
           ))}
         </div>
       </div>
-      <div 
-        className="bg-gray-50 p-4 rounded-lg transition-colors duration-200"
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={(e) => handleDrop(e, 'in_progress')}
-      >
+      <div className="bg-gray-50 p-4 rounded-lg">
         <h3 className="font-semibold mb-4 text-primary">In Progress</h3>
         <div className="space-y-3">
           {getProjectsByStatus('in_progress').map((project) => (
-            <div 
-              key={project.id} 
-              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-all duration-200"
-              draggable
-              onDragStart={(e) => handleDragStart(e, project.id)}
-              onDragEnd={handleDragEnd}
-            >
+            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-primary">{project.name}</h4>
@@ -230,22 +138,11 @@ export const KanbanBoard = () => {
           ))}
         </div>
       </div>
-      <div 
-        className="bg-gray-50 p-4 rounded-lg transition-colors duration-200"
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={(e) => handleDrop(e, 'completed')}
-      >
+      <div className="bg-gray-50 p-4 rounded-lg">
         <h3 className="font-semibold mb-4 text-accent">Completed</h3>
         <div className="space-y-3">
           {getProjectsByStatus('completed').map((project) => (
-            <div 
-              key={project.id} 
-              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-all duration-200"
-              draggable
-              onDragStart={(e) => handleDragStart(e, project.id)}
-              onDragEnd={handleDragEnd}
-            >
+            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-accent">{project.name}</h4>
