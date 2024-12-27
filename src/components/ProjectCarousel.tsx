@@ -8,6 +8,8 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const projects = [
   {
@@ -42,6 +44,11 @@ const services = [
   "Automations",
   "Landing Pages"
 ];
+
+const autoplayOptions = {
+  delay: 3000,
+  rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement,
+};
 
 export function ProjectCarousel() {
   const ref = useRef(null);
@@ -89,6 +96,9 @@ export function ProjectCarousel() {
             align: "start",
             loop: true,
           }}
+          plugins={[
+            Autoplay(autoplayOptions)
+          ]}
           className="w-full max-w-7xl mx-auto"
         >
           <CarouselContent>
