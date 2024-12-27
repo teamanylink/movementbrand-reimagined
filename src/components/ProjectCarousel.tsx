@@ -70,7 +70,7 @@ export function ProjectCarousel() {
       >
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <div className="flex flex-col items-center space-y-4">
-            <h2 className="text-4xl md:text-6xl font-['Caveat'] text-accent">
+            <h2 className="text-4xl md:text-6xl font-['Caveat'] text-accent tracking-tight">
               We create your
             </h2>
             <div className="h-[1.5em] relative min-w-[400px]">
