@@ -47,10 +47,12 @@ export function ProjectCarousel() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentServiceIndex((prev) => (prev + 1) % services.length);
+      setKey(prev => prev + 1);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -72,7 +74,10 @@ export function ProjectCarousel() {
               we make your
             </h2>
             <div className="h-[1.5em] relative min-w-[400px]">
-              <span className="absolute inset-0 flex items-center justify-center animate-fade-text text-4xl md:text-6xl font-bold whitespace-nowrap">
+              <span 
+                key={key}
+                className="absolute inset-0 flex items-center justify-center animate-fade-text text-4xl md:text-6xl font-bold whitespace-nowrap"
+              >
                 {services[currentServiceIndex]}
               </span>
             </div>
