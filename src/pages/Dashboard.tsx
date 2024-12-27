@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Globe } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { ProjectForm } from "@/components/dashboard/ProjectForm";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
@@ -28,7 +29,6 @@ const Dashboard = () => {
           .single();
         
         if (profile && profile.email) {
-          // Only keep the part before the @ symbol
           const username = profile.email.split('@')[0];
           setUserEmail(username);
         }
@@ -50,15 +50,13 @@ const Dashboard = () => {
       setHasProjects(count ? count > 0 : false);
     };
 
-    checkExistingProjects();
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         toast({
           title: "Welcome back!",
           description: "You have successfully signed in.",
         });
-        fetchUserProfile(); // Refetch profile when auth state changes
+        fetchUserProfile();
       }
     });
 
@@ -126,11 +124,9 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
-      {/* Navigation Bar */}
       <nav className="bg-white border-gray-800 h-[72px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            {/* Left section - Logo and workspace */}
             <div className="flex items-center space-x-4 text-[18px]">
               <div className="flex items-center">
                 <span className="text-black font-semibold">MovementBrand</span>
@@ -162,7 +158,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Right section - Actions */}
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
@@ -184,10 +179,8 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <DashboardHeader onNewProject={handleNewProject} />
-        {/* Main Card */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px]">
           {renderContent()}
         </div>
