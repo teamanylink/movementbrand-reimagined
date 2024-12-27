@@ -47,6 +47,11 @@ const ProjectDashboard = () => {
     );
   }
 
+  const getInitials = (email: string | null) => {
+    if (!email) return '?';
+    return email.charAt(0).toUpperCase();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Navigation Bar */}
@@ -101,10 +106,10 @@ const ProjectDashboard = () => {
                   <div className="mt-2 flex items-center gap-2">
                     <Avatar className="h-8 w-8">
                       {project?.profiles?.avatar_url ? (
-                        <AvatarImage src={project.profiles.avatar_url} />
+                        <AvatarImage src={project.profiles.avatar_url} alt="User avatar" />
                       ) : (
                         <AvatarFallback>
-                          {project?.profiles?.email?.charAt(0).toUpperCase()}
+                          {getInitials(project?.profiles?.email)}
                         </AvatarFallback>
                       )}
                     </Avatar>
