@@ -85,12 +85,24 @@ export default {
             opacity: "0",
             transform: "translateY(-10px)",
           }
+        },
+        "glow": {
+          "0%": {
+            boxShadow: "0 0 0 0 rgba(255, 255, 255, 0.4)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px 5px rgba(255, 255, 255, 0.4)",
+          },
+          "100%": {
+            boxShadow: "0 0 0 0 rgba(255, 255, 255, 0.4)",
+          }
         }
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out",
         "scroll": "scroll 25s linear infinite",
         "fade-text": "fade-in-out 4s ease-in-out",
+        "glow-pulse": "glow 2s ease-in-out infinite",
       },
     },
   },

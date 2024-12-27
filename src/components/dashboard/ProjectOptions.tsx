@@ -57,14 +57,14 @@ export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChan
           {projectTypes.map((project, index) => (
             <Card 
               key={index}
-              className="p-6 hover:shadow-lg transition-all cursor-pointer border border-gray-100 hover:scale-105 hover:border-accent/50"
+              className="p-6 hover:shadow-lg transition-all cursor-pointer border border-gray-100 hover:scale-105 hover:border-accent/50 group"
               onClick={() => {
                 onSelectProject(project.name);
                 onOpenChange(false);
               }}
             >
               <div className="flex flex-col items-center text-center space-y-2">
-                <div className={`p-3 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg`}>
+                <div className={`p-3 rounded-xl mb-3 ${getIconBackground(project.name)} shadow-lg group-hover:animate-glow-pulse`}>
                   {getProjectIcon(project.name)}
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
