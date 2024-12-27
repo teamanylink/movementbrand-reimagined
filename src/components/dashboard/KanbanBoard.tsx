@@ -70,17 +70,17 @@ export const KanbanBoard = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="font-semibold mb-4 text-accent">To Do</h3>
+        <h3 className="font-semibold mb-4 text-secondary">To Do</h3>
         <div className="space-y-3">
           {getProjectsByStatus('todo').map((project) => (
             <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h4 className="font-medium text-accent">{project.name}</h4>
+                  <h4 className="font-medium text-secondary">{project.name}</h4>
                   {project.description && (
                     <p className="text-sm text-gray-500 mt-1">{project.description}</p>
                   )}
-                  <span className="inline-block mt-2 text-xs font-medium text-accent/70">
+                  <span className="inline-block mt-2 text-xs font-medium text-secondary/70">
                     {project.project_type}
                   </span>
                 </div>
@@ -126,17 +126,17 @@ export const KanbanBoard = () => {
         </div>
       </div>
       <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="font-semibold mb-4 text-secondary">Completed</h3>
+        <h3 className="font-semibold mb-4 text-accent">Completed</h3>
         <div className="space-y-3">
           {getProjectsByStatus('completed').map((project) => (
             <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h4 className="font-medium text-secondary">{project.name}</h4>
+                  <h4 className="font-medium text-accent">{project.name}</h4>
                   {project.description && (
                     <p className="text-sm text-gray-500 mt-1">{project.description}</p>
                   )}
-                  <span className="inline-block mt-2 text-xs font-medium text-secondary/70">
+                  <span className="inline-block mt-2 text-xs font-medium text-accent/70">
                     {project.project_type}
                   </span>
                 </div>
