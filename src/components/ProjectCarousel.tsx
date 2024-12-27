@@ -102,11 +102,6 @@ export function ProjectCarousel() {
                         alt={project.title}
                         className="w-full h-[400px] object-cover"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/70 to-transparent p-6">
-                        <h3 className="text-black text-lg font-semibold">
-                          {project.title}
-                        </h3>
-                      </div>
                     </div>
                   </CardContent>
                 </Card>
