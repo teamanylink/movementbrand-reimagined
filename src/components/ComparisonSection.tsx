@@ -90,15 +90,15 @@ const ComparisonSection = () => {
           {/* The Better Way Card */}
           <div className="relative mt-6">
             <div className="absolute inset-0 bg-accent/20 backdrop-blur-3xl rounded-3xl" />
-            <div className="relative p-8 rounded-3xl border border-gray-100 bg-white/10 backdrop-filter backdrop-blur-lg">
+            <div className="relative p-12 rounded-3xl border border-gray-100 bg-white/10 backdrop-filter backdrop-blur-lg">
               <h3 className="text-sm font-semibold mb-2">THE BETTER WAY</h3>
-              <h4 className="text-3xl font-bold mb-4">Superside</h4>
-              <p className="mb-4">
+              <h4 className="text-3xl font-bold mb-6">Superside</h4>
+              <p className="mb-6 text-lg">
                 Superside is an{" "}
                 <span className="font-semibold">always-on, subscription-based service</span>{" "}
                 enabled by technology to deliver compelling creative at scale.
               </p>
-              <p>
+              <p className="text-lg">
                 With remote,{" "}
                 <span className="font-semibold">fully-managed creative talent</span>,
                 a unique platform for{" "}
