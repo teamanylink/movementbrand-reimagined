@@ -27,11 +27,44 @@ export type Database = {
         }
         Relationships: []
       }
+      project_files: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_path: string
+          id: string
+          project_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_path: string
+          id?: string
+          project_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_path?: string
+          id?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_files_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
           created_at: string
           description: string | null
           id: string
+          is_draft: boolean | null
           name: string
           project_type: string
           status: string | null
@@ -42,6 +75,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_draft?: boolean | null
           name: string
           project_type: string
           status?: string | null
@@ -52,6 +86,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_draft?: boolean | null
           name?: string
           project_type?: string
           status?: string | null
