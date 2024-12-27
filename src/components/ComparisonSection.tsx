@@ -100,12 +100,12 @@ const ComparisonSection = () => {
               </p>
               <p className="text-lg">
                 Whether you need a{" "}
-                <span className="font-semibold">landing page for that new offer</span>,
+                <span className="font-semibold">landing page for your new offer</span>,
                 a{" "}
-                <span className="font-semibold">micro-saas to attract new customers</span>,
+                <span className="font-semibold">micro-SaaS solution to attract more customers</span>,
                 or an{" "}
-                <span className="font-semibold">automation built out to streamline your business</span>.
-                You choose the task, We get it done!
+                <span className="font-semibold">automated workflow to streamline your business</span>,
+                you choose the task—and we'll get it done!
               </p>
             </div>
           </div>
