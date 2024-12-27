@@ -1,4 +1,5 @@
 import { KanbanCard } from "./KanbanCard";
+import { useState } from "react";
 
 interface Project {
   id: string;
@@ -25,25 +26,34 @@ export const KanbanColumn = ({
   onDelete,
   onDrop
 }: KanbanColumnProps) => {
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.currentTarget.style.backgroundColor = '#f3f4f6';
+    if (!isDraggingOver) {
+      setIsDraggingOver(true);
+    }
   };
 
   const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = '#f9fafb';
+    e.preventDefault();
+    setIsDraggingOver(false);
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.currentTarget.style.backgroundColor = '#f9fafb';
+    setIsDraggingOver(false);
     const projectId = e.dataTransfer.getData('projectId');
-    onDrop(projectId, status);
+    if (projectId) {
+      onDrop(projectId, status);
+    }
   };
 
   return (
     <div 
-      className="bg-gray-50 p-4 rounded-lg transition-colors duration-200"
+      className={`bg-gray-50 p-4 rounded-lg transition-colors duration-200 ${
+        isDraggingOver ? 'bg-blue-50 ring-2 ring-blue-200' : ''
+      }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}

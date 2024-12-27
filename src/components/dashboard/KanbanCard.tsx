@@ -24,8 +24,23 @@ export const KanbanCard = ({ project, onDelete, statusColor }: KanbanCardProps) 
     navigate(`/project/${project.id}`);
   };
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData('projectId', project.id);
+    e.currentTarget.style.opacity = '0.5';
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.currentTarget.style.opacity = '1';
+  };
+
   return (
-    <Card className="bg-white p-4 mb-2 cursor-pointer hover:shadow-md transition-shadow" onClick={handleClick}>
+    <Card 
+      className="bg-white p-4 mb-2 cursor-pointer hover:shadow-md transition-shadow" 
+      onClick={handleClick}
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="flex justify-between items-start gap-2">
         <div>
           <h3 className="font-medium text-sm">{project.name}</h3>
