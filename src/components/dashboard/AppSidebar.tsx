@@ -38,11 +38,6 @@ const mainMenuItems = [
     icon: FolderKanban,
     url: "/dashboard/projects",
   },
-  {
-    title: "Settings",
-    icon: Settings,
-    url: "/dashboard/settings",
-  },
 ]
 
 const fetchUserProjects = async () => {
@@ -145,6 +140,15 @@ export function AppSidebar() {
             <HelpCircle className="h-5 w-5" />
             <span>Help & Support</span>
             <span className="ml-auto bg-green-100 text-green-800 px-2 py-0.5 text-xs rounded-full">8</span>
+          </Link>
+        </SidebarMenuButton>
+        <SidebarMenuButton 
+          asChild
+          className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+        >
+          <Link to="/dashboard/settings">
+            <Settings className="h-5 w-5" />
+            <span>Settings</span>
           </Link>
         </SidebarMenuButton>
         <SidebarMenuButton 
