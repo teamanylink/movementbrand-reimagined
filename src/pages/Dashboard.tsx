@@ -6,13 +6,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Package2, Users, Settings, Globe, Plus } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -85,38 +78,6 @@ const Dashboard = () => {
 
             {/* Right section - Actions */}
             <div className="flex items-center space-x-4">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button 
-                    variant="default"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <Plus className="h-4 w-4" />
-                    New Project
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
-                  <DialogHeader>
-                    <DialogTitle>Choose a project type</DialogTitle>
-                  </DialogHeader>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                    {projectTypes.map((project, index) => (
-                      <Card 
-                        key={index}
-                        className="p-4 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102"
-                      >
-                        <div className="flex flex-col items-center text-center space-y-2">
-                          <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                          {project.duration && (
-                            <p className="text-sm text-gray-500">{project.duration}</p>
-                          )}
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
-                </DialogContent>
-              </Dialog>
               <Button 
                 variant="ghost" 
                 size="sm"
@@ -144,18 +105,34 @@ const Dashboard = () => {
             <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
             <p className="text-sm text-gray-500">Welcome to your dashboard</p>
           </div>
+          <Button 
+            variant="default"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            New Project
+          </Button>
         </div>
 
         {/* Main Card */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="bg-gray-50 p-4 rounded-lg mb-4">
-              <Package2 className="h-12 w-12 text-gray-400" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
+              {projectTypes.map((project, index) => (
+                <Card 
+                  key={index}
+                  className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100"
+                >
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
+                    {project.duration && (
+                      <p className="text-sm text-gray-500">{project.duration}</p>
+                    )}
+                  </div>
+                </Card>
+              ))}
             </div>
-            <h2 className="text-xl font-semibold mb-2">Let's get started</h2>
-            <p className="text-gray-500 text-center max-w-md mb-4">
-              You can customize this page by editing the Dashboard component
-            </p>
           </div>
         </div>
       </div>
