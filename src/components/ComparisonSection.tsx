@@ -23,7 +23,7 @@ const ComparisonSection = () => {
             {/* In-House Teams - Spans 2 rows */}
             <div className="relative lg:row-span-2">
               <div className="absolute inset-0 bg-white/60 backdrop-blur-xl rounded-3xl" />
-              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-white/20">
+              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-gray-100">
                 <div className="flex items-center gap-3 mb-4">
                   <Home className="w-6 h-6 text-primary" />
                   <h3 className="text-xl font-semibold">In-House Teams</h3>
@@ -39,7 +39,7 @@ const ComparisonSection = () => {
             {/* Creative Agencies */}
             <div className="relative">
               <div className="absolute inset-0 bg-white/60 backdrop-blur-xl rounded-3xl" />
-              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-white/20">
+              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-gray-100">
                 <div className="flex items-center gap-3 mb-4">
                   <Building2 className="w-6 h-6 text-secondary" />
                   <h3 className="text-xl font-semibold">Creative Agencies</h3>
@@ -55,7 +55,7 @@ const ComparisonSection = () => {
             {/* Freelancers */}
             <div className="relative lg:col-start-2 lg:row-start-2">
               <div className="absolute inset-0 bg-white/60 backdrop-blur-xl rounded-3xl" />
-              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-white/20">
+              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-gray-100">
                 <div className="flex items-center gap-3 mb-4">
                   <Monitor className="w-6 h-6 text-accent" />
                   <h3 className="text-xl font-semibold">Freelancers</h3>
@@ -70,7 +70,7 @@ const ComparisonSection = () => {
             {/* Self-service tools - Spans 2 rows */}
             <div className="relative lg:row-span-2">
               <div className="absolute inset-0 bg-white/60 backdrop-blur-xl rounded-3xl" />
-              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-white/20">
+              <div className="relative flex h-full flex-col p-8 overflow-hidden rounded-3xl border border-gray-100">
                 <div className="flex items-center gap-3 mb-4">
                   <Wrench className="w-6 h-6 text-primary" />
                   <h3 className="text-xl font-semibold">Self-service tools</h3>
@@ -86,7 +86,7 @@ const ComparisonSection = () => {
           {/* The Better Way Card */}
           <div className="relative mt-6 max-w-xl ml-auto">
             <div className="absolute inset-0 bg-accent/20 backdrop-blur-xl rounded-3xl" />
-            <div className="relative p-8 rounded-3xl border border-white/20">
+            <div className="relative p-8 rounded-3xl border border-gray-100">
               <h3 className="text-sm font-semibold mb-2">THE BETTER WAY</h3>
               <h4 className="text-3xl font-bold mb-4">Superside</h4>
               <p className="mb-4">
