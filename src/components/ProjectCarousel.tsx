@@ -67,16 +67,14 @@ export function ProjectCarousel() {
         }}
       >
         <div className="max-w-7xl mx-auto mb-16 text-center">
-          <div className="flex flex-col items-center space-y-4">
-            <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
-              we make your
-            </h2>
-            <div className="h-[1.5em] relative">
-              <span className="absolute inset-0 flex items-center justify-center animate-fade-text">
+          <h2 className="text-4xl md:text-6xl font-bold text-neutral-800 flex items-center justify-center gap-3">
+            we make your
+            <span className="relative inline-block">
+              <span className="absolute inset-0 flex items-center justify-center animate-fade-text text-4xl md:text-6xl font-bold">
                 {services[currentServiceIndex]}
               </span>
-            </div>
-          </div>
+            </span>
+          </h2>
         </div>
         
         <Carousel
