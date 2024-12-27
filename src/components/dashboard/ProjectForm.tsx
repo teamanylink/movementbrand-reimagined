@@ -29,32 +29,64 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
 
     setIsSubmitting(true);
     
-    const { error } = await supabase
-      .from('projects')
-      .insert({
-        name,
-        description: description.trim() || null,
-        project_type: selectedProjectType,
-        user_id: (await supabase.auth.getUser()).data.user?.id,
+    try {
+      // Get the current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) {
+        throw new Error("User not found");
+      }
+
+      // Ensure user has a profile
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', user.id)
+        .single();
+
+      // If no profile exists, create one
+      if (!existingProfile) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
+            email: user.email
+          });
+
+        if (profileError) {
+          throw profileError;
+        }
+      }
+
+      // Create the project
+      const { error: projectError } = await supabase
+        .from('projects')
+        .insert({
+          name,
+          description: description.trim() || null,
+          project_type: selectedProjectType,
+          user_id: user.id,
+        });
+
+      if (projectError) {
+        throw projectError;
+      }
+
+      toast({
+        title: "Success",
+        description: "Project created successfully!",
       });
-
-    setIsSubmitting(false);
-
-    if (error) {
+      onSubmit();
+    } catch (error) {
+      console.error("Error creating project:", error);
       toast({
         title: "Error",
         description: "Failed to create project. Please try again.",
         variant: "destructive",
       });
-      console.error("Error creating project:", error);
-      return;
+    } finally {
+      setIsSubmitting(false);
     }
-
-    toast({
-      title: "Success",
-      description: "Project created successfully!",
-    });
-    onSubmit();
   };
 
   return (
