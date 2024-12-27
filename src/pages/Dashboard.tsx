@@ -88,6 +88,11 @@ const Dashboard = () => {
     setSelectedProjectType(null);
   };
 
+  const getUserInitials = (email: string | null) => {
+    if (!email) return '';
+    return email.charAt(0).toUpperCase();
+  };
+
   const renderContent = () => {
     if (selectedProjectType) {
       return (
@@ -171,7 +176,7 @@ const Dashboard = () => {
                 onClick={handleSignOut}
               >
                 <AvatarFallback className="bg-accent text-accent-foreground">
-                  MB
+                  {getUserInitials(userEmail)}
                 </AvatarFallback>
               </Avatar>
             </div>
