@@ -16,7 +16,7 @@ export const ProjectOptions = ({ projectTypes, onSelectProject }: ProjectOptions
       {projectTypes.map((project, index) => (
         <Card 
           key={index}
-          className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102 transition-transform"
+          className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102 transition-transform flex items-center justify-center"
           onClick={() => onSelectProject(project.name)}
         >
           <div className="flex flex-col items-center text-center space-y-2">
