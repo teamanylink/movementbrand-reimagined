@@ -27,8 +27,10 @@ const Dashboard = () => {
           .eq('id', user.id)
           .single();
         
-        if (profile) {
-          setUserEmail(profile.email);
+        if (profile && profile.email) {
+          // Only keep the part before the @ symbol
+          const username = profile.email.split('@')[0];
+          setUserEmail(username);
         }
       }
     };
