@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const projects = [
   {
@@ -36,9 +36,26 @@ const projects = [
   }
 ];
 
+const services = [
+  "MicroSaas",
+  "Automations",
+  "Landing page",
+  "Designs",
+  "Digital Products"
+];
+
 export function ProjectCarousel() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const [currentServiceIndex, setCurrentServiceIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentServiceIndex((prev) => (prev + 1) % services.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section ref={ref} className="w-full py-24 bg-[#F5F5F7]">
@@ -54,12 +71,8 @@ export function ProjectCarousel() {
           <h2 className="text-4xl md:text-6xl font-bold text-neutral-800 flex items-center">
             We create your{" "}
             <span className="relative inline-block w-[300px] ml-3">
-              <span className="absolute top-0 left-0 overflow-hidden whitespace-nowrap border-r-4 border-neutral-800 animate-typing animate-cursor">
-                MicroSaas
-                Automations
-                Landing page
-                Designs
-                Digital Products
+              <span className="absolute top-0 left-0 animate-fade-text">
+                {services[currentServiceIndex]}
               </span>
             </span>
           </h2>
