@@ -87,12 +87,27 @@ export const KanbanBoard = () => {
 
   const handleDrop = async (projectId: string, newStatus: string) => {
     try {
+      // First, update the local state optimistically
+      setProjects(prevProjects => 
+        prevProjects?.map(project => 
+          project.id === projectId 
+            ? { ...project, status: newStatus }
+            : project
+        )
+      );
+
+      // Then, update the database
       const { error } = await supabase
         .from('projects')
-        .update({ status: newStatus })
+        .update({ 
+          status: newStatus,
+          updated_at: new Date().toISOString() // Update the timestamp
+        })
         .eq('id', projectId);
 
       if (error) {
+        // If there's an error, revert the optimistic update
+        fetchProjects();
         toast({
           title: "Error",
           description: "Failed to update project status",
@@ -102,9 +117,14 @@ export const KanbanBoard = () => {
         return;
       }
 
-      fetchProjects();
+      toast({
+        title: "Success",
+        description: `Project moved to ${newStatus.replace('_', ' ')}`,
+      });
     } catch (error) {
       console.error("Error in handleDrop:", error);
+      // Revert the optimistic update on error
+      fetchProjects();
       toast({
         title: "Error",
         description: "An unexpected error occurred",
