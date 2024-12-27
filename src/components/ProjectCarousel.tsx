@@ -70,8 +70,8 @@ export function ProjectCarousel() {
       >
         <div className="max-w-7xl mx-auto mb-16 text-center">
           <div className="flex flex-col items-center space-y-4">
-            <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
-              we make your
+            <h2 className="text-4xl md:text-6xl font-['Caveat'] text-neutral-800">
+              We create your
             </h2>
             <div className="h-[1.5em] relative min-w-[400px]">
               <span 
