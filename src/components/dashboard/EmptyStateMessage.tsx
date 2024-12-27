@@ -2,8 +2,8 @@ import { Plus } from "lucide-react";
 
 export const EmptyStateMessage = () => {
   return (
-    <div className="h-full flex flex-col items-center justify-center text-center">
-      <div className="flex flex-col items-center space-y-4 -mt-20">
+    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+      <div className="flex flex-col items-center space-y-4 -translate-y-12">
         <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-2">
           <Plus className="h-6 w-6 text-accent" />
         </div>
