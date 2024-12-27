@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Globe, LogOut, Plus } from "lucide-react";
+import { Globe, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ProjectForm } from "@/components/dashboard/ProjectForm";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -20,9 +19,7 @@ import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [showProjectOptions, setShowProjectOptions] = useState(false);
   const [hasProjects, setHasProjects] = useState(false);
-  const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
 
@@ -58,6 +55,8 @@ const Dashboard = () => {
       setHasProjects(count ? count > 0 : false);
     };
 
+    checkExistingProjects();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         toast({
@@ -87,38 +86,15 @@ const Dashboard = () => {
 
   const handleProjectSubmit = () => {
     setHasProjects(true);
-    setShowProjectOptions(false);
-    setSelectedProjectType(null);
   };
 
   const handleNewProject = () => {
     setIsProjectOptionsOpen(true);
-    setSelectedProjectType(null);
   };
 
   const getUserInitials = (email: string | null) => {
     if (!email) return '';
     return email.charAt(0).toUpperCase();
-  };
-
-  const renderContent = () => {
-    if (selectedProjectType) {
-      return (
-        <div className="h-full flex items-center justify-center">
-          <ProjectForm 
-            onBack={() => setSelectedProjectType(null)}
-            onSubmit={handleProjectSubmit}
-            selectedProjectType={selectedProjectType}
-          />
-        </div>
-      );
-    }
-
-    if (!hasProjects) {
-      return <EmptyStateMessage />;
-    }
-
-    return <KanbanBoard />;
   };
 
   return (
@@ -188,12 +164,12 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <DashboardHeader onNewProject={handleNewProject} />
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px] relative">
-          {renderContent()}
+          {!hasProjects ? <EmptyStateMessage /> : <KanbanBoard />}
         </div>
         
         <ProjectOptions 
           projectTypes={projectTypes}
-          onSelectProject={setSelectedProjectType}
+          onSelectProject={handleProjectSubmit}
           open={isProjectOptionsOpen}
           onOpenChange={setIsProjectOptionsOpen}
         />
