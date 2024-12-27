@@ -6,12 +6,15 @@ import { useToast } from "@/components/ui/use-toast";
 import { Package2, Users, Settings, Globe, Plus } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showProjectOptions, setShowProjectOptions] = useState(false);
-  const [hasProjects, setHasProjects] = useState(false); // This will be connected to Supabase later
+  const [hasProjects, setHasProjects] = useState(false);
+  const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -41,6 +44,47 @@ const Dashboard = () => {
   ];
 
   const renderContent = () => {
+    if (selectedProjectType) {
+      return (
+        <div className="max-w-xl mx-auto w-full space-y-6">
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="projectName" className="block text-sm font-medium text-gray-700 mb-1">
+                Let's give this project a name
+              </label>
+              <Input 
+                id="projectName"
+                placeholder="Enter project name"
+                className="w-full"
+              />
+            </div>
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+                Description
+              </label>
+              <Textarea 
+                id="description"
+                placeholder="Tell us about your project"
+                className="w-full min-h-[120px]"
+              />
+            </div>
+            <div className="flex justify-end pt-4">
+              <Button 
+                onClick={() => setSelectedProjectType(null)}
+                variant="outline"
+                className="mr-2"
+              >
+                Back
+              </Button>
+              <Button>
+                Next
+              </Button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (showProjectOptions) {
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
@@ -48,6 +92,7 @@ const Dashboard = () => {
             <Card 
               key={index}
               className="p-6 hover:shadow-md transition-shadow cursor-pointer border border-gray-100 hover:scale-102 transition-transform"
+              onClick={() => setSelectedProjectType(project.name)}
             >
               <div className="flex flex-col items-center text-center space-y-2">
                 <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
@@ -161,7 +206,10 @@ const Dashboard = () => {
             variant="default"
             size="sm"
             className="flex items-center gap-2"
-            onClick={() => setShowProjectOptions(!showProjectOptions)}
+            onClick={() => {
+              setShowProjectOptions(!showProjectOptions);
+              setSelectedProjectType(null);
+            }}
           >
             <Plus className="h-4 w-4" />
             New Project
