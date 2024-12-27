@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Bot, Paintbrush, Layout, Building2, BookOpen, Wrench } from "lucide-react";
+import { Bot, Paintbrush, Layout, Building2, BookOpen, Plus } from "lucide-react";
 
 interface ProjectType {
   name: string;
@@ -27,7 +27,7 @@ const getProjectIcon = (name: string) => {
     case 'blog':
       return <BookOpen className="h-6 w-6 text-white" />;
     default:
-      return <Wrench className="h-6 w-6 text-white" />;
+      return <Plus className="h-6 w-6 text-white" />;
   }
 };
 
