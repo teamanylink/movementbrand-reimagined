@@ -11,19 +11,19 @@ import { useRef } from "react";
 
 const projects = [
   {
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
+    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
   },
   {
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
+    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
   },
   {
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
+    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
   },
   {
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
+    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
   },
   {
-    src: "/lovable-uploads/ce67e3a0-9197-45b1-91c8-da1e63440e56.png"
+    src: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
   }
 ];
 
