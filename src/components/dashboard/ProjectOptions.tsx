@@ -35,6 +35,7 @@ export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChan
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[900px] p-6">
+        <h2 className="text-2xl font-bold text-center mb-6">Let's start a new project 🔥</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectTypes.map((project, index) => (
             <Card 
