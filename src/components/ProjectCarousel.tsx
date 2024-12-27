@@ -37,11 +37,10 @@ const projects = [
 ];
 
 const services = [
-  "MicroSaas",
-  "Automations",
-  "Landing page",
+  "Micro-SaaS",
   "Designs",
-  "Digital Products"
+  "Automations",
+  "Landing Pages"
 ];
 
 export function ProjectCarousel() {
@@ -67,15 +66,17 @@ export function ProjectCarousel() {
           transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
         }}
       >
-        <div className="max-w-7xl pl-4 mx-auto mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold text-neutral-800 flex items-center">
-            We create your{" "}
-            <span className="relative inline-block w-[300px] ml-3">
-              <span className="absolute top-0 left-0 animate-fade-text">
+        <div className="max-w-7xl mx-auto mb-16 text-center">
+          <div className="flex flex-col items-center space-y-4">
+            <h2 className="text-4xl md:text-6xl font-bold text-neutral-800">
+              we make your
+            </h2>
+            <div className="h-[1.5em] relative">
+              <span className="absolute inset-0 flex items-center justify-center animate-fade-text">
                 {services[currentServiceIndex]}
               </span>
-            </span>
-          </h2>
+            </div>
+          </div>
         </div>
         
         <Carousel
