@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [hasProjects, setHasProjects] = useState(false);
   const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -91,7 +92,7 @@ const Dashboard = () => {
   };
 
   const handleNewProject = () => {
-    setShowProjectOptions(!showProjectOptions);
+    setIsProjectOptionsOpen(true);
     setSelectedProjectType(null);
   };
 
@@ -110,15 +111,6 @@ const Dashboard = () => {
             selectedProjectType={selectedProjectType}
           />
         </div>
-      );
-    }
-
-    if (showProjectOptions) {
-      return (
-        <ProjectOptions 
-          projectTypes={projectTypes}
-          onSelectProject={setSelectedProjectType}
-        />
       );
     }
 
@@ -198,6 +190,13 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px] relative">
           {renderContent()}
         </div>
+        
+        <ProjectOptions 
+          projectTypes={projectTypes}
+          onSelectProject={setSelectedProjectType}
+          open={isProjectOptionsOpen}
+          onOpenChange={setIsProjectOptionsOpen}
+        />
       </div>
     </div>
   );
