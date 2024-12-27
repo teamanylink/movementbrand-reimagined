@@ -47,8 +47,8 @@ export const MacbookScroll = ({
               <div className="absolute inset-0 bg-white/50 blur-2xl rounded-[2.2rem] transform scale-102" />
               {/* Main content layer with enhanced glass effect */}
               <div className="absolute inset-0 bg-white/40 backdrop-blur-md rounded-[2rem] p-8 shadow-lg border-[0.5px] border-white/20">
-                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-white/30 backdrop-blur-sm border border-white/20">
-                  <img src={src} className="w-full h-full object-cover" />
+                <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-white/30 backdrop-blur-sm border border-white/20 p-4">
+                  <img src={src} className="w-full h-full object-cover rounded-[1rem]" />
                 </div>
               </div>
             </div>
