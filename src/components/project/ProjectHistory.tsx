@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tables } from "@/integrations/supabase/types";
+import { Pen } from "lucide-react";
 
 type HistoryItem = {
   id: string;
@@ -127,7 +128,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
           {history?.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg"
+              className="group flex items-center gap-4 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors"
             >
               <div className="w-6 flex-shrink-0 text-center">
                 {getActionIcon(item.type)}
@@ -153,6 +154,12 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
                   {item.status.replace('_', ' ')}
                 </div>
               )}
+              <button 
+                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-200 rounded"
+                onClick={() => console.log('Edit item:', item.id)}
+              >
+                <Pen className="h-4 w-4 text-gray-500" />
+              </button>
             </div>
           ))}
         </div>
