@@ -63,11 +63,45 @@ export const KanbanBoard = () => {
     fetchProjects();
   };
 
+  const handleDragStart = (e: React.DragEvent, projectId: string) => {
+    e.dataTransfer.setData("projectId", projectId);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = async (e: React.DragEvent, newStatus: string) => {
+    e.preventDefault();
+    const projectId = e.dataTransfer.getData("projectId");
+    
+    const { error } = await supabase
+      .from('projects')
+      .update({ status: newStatus })
+      .eq('id', projectId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update project status",
+        variant: "destructive",
+      });
+      console.error("Error updating project status:", error);
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: `Project moved to ${newStatus.replace('_', ' ')}`,
+    });
+
+    fetchProjects();
+  };
+
   const getProjectsByStatus = (status: string) => {
     return projects?.filter(project => project.status === status) || [];
   };
 
-  // If there are no projects, show the empty state message
   if (!projects?.length) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -79,14 +113,22 @@ export const KanbanBoard = () => {
     );
   }
 
-  // If there are projects, show the Kanban board
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="bg-gray-50 p-4 rounded-lg">
+      <div 
+        className="bg-gray-50 p-4 rounded-lg"
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e, 'todo')}
+      >
         <h3 className="font-semibold mb-4 text-secondary">To Do</h3>
         <div className="space-y-3">
           {getProjectsByStatus('todo').map((project) => (
-            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
+            <div 
+              key={project.id} 
+              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-shadow"
+              draggable
+              onDragStart={(e) => handleDragStart(e, project.id)}
+            >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-secondary">{project.name}</h4>
@@ -110,11 +152,20 @@ export const KanbanBoard = () => {
           ))}
         </div>
       </div>
-      <div className="bg-gray-50 p-4 rounded-lg">
+      <div 
+        className="bg-gray-50 p-4 rounded-lg"
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e, 'in_progress')}
+      >
         <h3 className="font-semibold mb-4 text-primary">In Progress</h3>
         <div className="space-y-3">
           {getProjectsByStatus('in_progress').map((project) => (
-            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
+            <div 
+              key={project.id} 
+              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-shadow"
+              draggable
+              onDragStart={(e) => handleDragStart(e, project.id)}
+            >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-primary">{project.name}</h4>
@@ -138,11 +189,20 @@ export const KanbanBoard = () => {
           ))}
         </div>
       </div>
-      <div className="bg-gray-50 p-4 rounded-lg">
+      <div 
+        className="bg-gray-50 p-4 rounded-lg"
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e, 'completed')}
+      >
         <h3 className="font-semibold mb-4 text-accent">Completed</h3>
         <div className="space-y-3">
           {getProjectsByStatus('completed').map((project) => (
-            <div key={project.id} className="bg-white p-3 rounded-md shadow-sm">
+            <div 
+              key={project.id} 
+              className="bg-white p-3 rounded-md shadow-sm cursor-move hover:shadow-md transition-shadow"
+              draggable
+              onDragStart={(e) => handleDragStart(e, project.id)}
+            >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <h4 className="font-medium text-accent">{project.name}</h4>
