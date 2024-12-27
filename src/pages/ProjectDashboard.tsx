@@ -9,9 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Share2, Paperclip, MoreHorizontal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-import { Avatar } from "@/components/ui/avatar";
-import { AvatarImage } from "@/components/ui/avatar";
-import { AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 const ProjectDashboard = () => {
@@ -102,10 +100,13 @@ const ProjectDashboard = () => {
                   <label className="text-sm font-medium text-gray-700">Assignee</label>
                   <div className="mt-2 flex items-center gap-2">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={project?.profiles?.avatar_url} />
-                      <AvatarFallback>
-                        {project?.profiles?.email?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
+                      {project?.profiles?.avatar_url ? (
+                        <AvatarImage src={project.profiles.avatar_url} />
+                      ) : (
+                        <AvatarFallback>
+                          {project?.profiles?.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      )}
                     </Avatar>
                     <span className="text-sm text-gray-900">{project?.profiles?.email}</span>
                   </div>
