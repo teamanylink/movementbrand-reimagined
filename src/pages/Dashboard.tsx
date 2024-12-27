@@ -17,6 +17,21 @@ const Dashboard = () => {
   const [selectedProjectType, setSelectedProjectType] = useState<string | null>(null);
 
   useEffect(() => {
+    const checkExistingProjects = async () => {
+      const { count, error } = await supabase
+        .from('projects')
+        .select('*', { count: 'exact', head: true });
+
+      if (error) {
+        console.error("Error checking projects:", error);
+        return;
+      }
+
+      setHasProjects(count ? count > 0 : false);
+    };
+
+    checkExistingProjects();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         toast({
