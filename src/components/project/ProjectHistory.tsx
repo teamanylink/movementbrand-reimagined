@@ -4,11 +4,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface HistoryItem {
   id: string;
-  type: 'project' | 'task';
+  type: 'project' | 'task' | 'status_change';
   title: string;
   status?: string;
   created_at: string;
   action: string;
+  previous_status?: string;
 }
 
 export const ProjectHistory = ({ projectId }: { projectId: string }) => {
@@ -37,7 +38,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
       const historyItems: HistoryItem[] = [
         {
           id: project.id,
-          type: 'project' as const,
+          type: 'project',
           title: project.name,
           status: project.status,
           created_at: project.created_at,
@@ -45,7 +46,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
         },
         ...(tasks?.map(task => ({
           id: task.id,
-          type: 'task' as const,
+          type: 'task',
           title: task.title,
           status: task.status,
           created_at: task.created_at,
@@ -83,6 +84,19 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
     });
   };
 
+  const getActionIcon = (type: string) => {
+    switch (type) {
+      case 'project':
+        return '🎯';
+      case 'task':
+        return '✅';
+      case 'status_change':
+        return '🔄';
+      default:
+        return '📝';
+    }
+  };
+
   return (
     <div>
       <div className="mb-4">
@@ -96,18 +110,28 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
               key={item.id}
               className="flex items-center gap-4 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg"
             >
+              <div className="w-6 flex-shrink-0 text-center">
+                {getActionIcon(item.type)}
+              </div>
               <div className="w-36 flex-shrink-0 text-xs">
                 {formatDate(item.created_at)}
               </div>
               <div className="flex-1">
                 <span className="font-medium">
-                  {item.type === 'project' ? 'Project' : 'Task'}:
+                  {item.type === 'project' ? 'Project' : 
+                   item.type === 'task' ? 'Task' : 
+                   'Status Change'}:
                 </span>{' '}
                 {item.action} - "{item.title}"
+                {item.type === 'status_change' && item.previous_status && (
+                  <span className="text-gray-500">
+                    {' '}(from {item.previous_status} to {item.status})
+                  </span>
+                )}
               </div>
               {item.status && (
                 <div className={`text-xs px-2 py-1 rounded-full ${getStatusColor(item.status)}`}>
-                  {item.status}
+                  {item.status.replace('_', ' ')}
                 </div>
               )}
             </div>

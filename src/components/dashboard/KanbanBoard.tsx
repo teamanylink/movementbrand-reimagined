@@ -87,6 +87,10 @@ export const KanbanBoard = () => {
 
   const handleDrop = async (projectId: string, newStatus: string) => {
     try {
+      // Get the current project status before updating
+      const currentProject = projects?.find(p => p.id === projectId);
+      const previousStatus = currentProject?.status;
+
       // First, update the local state optimistically
       setProjects(prevProjects => 
         prevProjects?.map(project => 
@@ -101,7 +105,7 @@ export const KanbanBoard = () => {
         .from('projects')
         .update({ 
           status: newStatus,
-          updated_at: new Date().toISOString() // Update the timestamp
+          updated_at: new Date().toISOString()
         })
         .eq('id', projectId);
 
@@ -115,6 +119,23 @@ export const KanbanBoard = () => {
         });
         console.error("Error updating project status:", error);
         return;
+      }
+
+      // Log the status change in the history
+      if (previousStatus && previousStatus !== newStatus) {
+        const { error: historyError } = await supabase
+          .from('project_history')
+          .insert({
+            project_id: projectId,
+            type: 'status_change',
+            action: `Status changed from ${previousStatus} to ${newStatus}`,
+            previous_status: previousStatus,
+            new_status: newStatus
+          });
+
+        if (historyError) {
+          console.error("Error logging status change:", historyError);
+        }
       }
 
       toast({
