@@ -92,19 +92,19 @@ const ComparisonSection = () => {
             <div className="absolute inset-0 bg-accent/20 backdrop-blur-3xl rounded-3xl" />
             <div className="relative p-12 rounded-3xl border border-gray-100 bg-white/10 backdrop-filter backdrop-blur-lg">
               <h3 className="text-sm font-semibold mb-2">THE BETTER WAY</h3>
-              <h4 className="text-3xl font-bold mb-6">Superside</h4>
+              <h4 className="text-3xl font-bold mb-6">Movement Brand</h4>
               <p className="mb-6 text-lg">
-                Superside is an{" "}
-                <span className="font-semibold">always-on, subscription-based service</span>{" "}
-                enabled by technology to deliver compelling creative at scale.
+                Movement Brand is the only{" "}
+                <span className="font-semibold">subscription-based service</span>{" "}
+                enabled by technology that adapts and evolves as both the market and your priorities change.
               </p>
               <p className="text-lg">
-                With remote,{" "}
-                <span className="font-semibold">fully-managed creative talent</span>,
+                With a{" "}
+                <span className="font-semibold">fully-managed creative team</span>,
                 a unique platform for{" "}
-                <span className="font-semibold">easy collaborations</span>, plus a
-                clear and{" "}
-                <span className="font-semibold">flexible pricing model</span>.
+                <span className="font-semibold">seamless collaboration</span>, and a
+                clear{" "}
+                <span className="font-semibold">value-driven approach</span>.
               </p>
             </div>
           </div>
