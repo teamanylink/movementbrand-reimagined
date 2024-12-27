@@ -88,7 +88,7 @@ const ComparisonSection = () => {
           </div>
 
           {/* The Better Way Card */}
-          <div className="relative mt-6 max-w-xl ml-auto">
+          <div className="relative mt-6">
             <div className="absolute inset-0 bg-accent/20 backdrop-blur-3xl rounded-3xl" />
             <div className="relative p-8 rounded-3xl border border-gray-100 bg-white/10 backdrop-filter backdrop-blur-lg">
               <h3 className="text-sm font-semibold mb-2">THE BETTER WAY</h3>
