@@ -42,30 +42,29 @@ const Dashboard = () => {
                 <span className="text-gray-400">yanitsuka</span>
               </div>
               <div className="hidden md:flex items-center space-x-1">
-              <Button 
-                variant="ghost" 
-                className="bg-[#0f172a] text-white hover:bg-gray-800"
-                size="sm"
-              >
-                Home
-              </Button>
-              <Button 
-                variant="ghost"
-                className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
-                size="sm"
-              >
-                Members
-              </Button>
-              <Button 
-                variant="ghost"
-                className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
-                size="sm"
-              >
-                Settings
-              </Button>
+                <Button 
+                  variant="ghost" 
+                  className="bg-[#0f172a] text-white hover:bg-gray-800"
+                  size="sm"
+                >
+                  Home
+                </Button>
+                <Button 
+                  variant="ghost"
+                  className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
+                  size="sm"
+                >
+                  Members
+                </Button>
+                <Button 
+                  variant="ghost"
+                  className="text-[#0f172a] hover:bg-gray-800 hover:text-white"
+                  size="sm"
+                >
+                  Settings
+                </Button>
+              </div>
             </div>
-            </div>
-            
 
             {/* Right section - Actions */}
             <div className="flex items-center space-x-4">
@@ -117,31 +116,6 @@ const Dashboard = () => {
               You can customize this page by editing the Dashboard component
             </p>
           </div>
-        </div>
-
-        {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Button
-            variant="outline"
-            className="h-24 flex flex-col items-center justify-center space-y-2"
-          >
-            <Package2 className="h-6 w-6" />
-            <span>Home</span>
-          </Button>
-          <Button
-            variant="outline"
-            className="h-24 flex flex-col items-center justify-center space-y-2"
-          >
-            <Users className="h-6 w-6" />
-            <span>Members</span>
-          </Button>
-          <Button
-            variant="outline"
-            className="h-24 flex flex-col items-center justify-center space-y-2"
-          >
-            <Settings className="h-6 w-6" />
-            <span>Settings</span>
-          </Button>
         </div>
       </div>
     </div>
