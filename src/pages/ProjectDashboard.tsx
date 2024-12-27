@@ -53,7 +53,7 @@ const ProjectDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F8F9FB]">
       {/* Top Navigation Bar */}
       <div className="bg-white border-b px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -99,58 +99,69 @@ const ProjectDashboard = () => {
           {/* Right Column - Project Details & Chat */}
           <div className="col-span-4 space-y-6">
             {/* Project Details Card */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <div className="space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Assignee</label>
-                  <div className="mt-2 flex items-center gap-2">
-                    <Avatar className="h-8 w-8">
-                      {project?.profiles?.avatar_url ? (
-                        <AvatarImage src={project.profiles.avatar_url} alt="User avatar" />
-                      ) : (
-                        <AvatarFallback>
-                          {getInitials(project?.profiles?.email)}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <span className="text-sm text-gray-900">{project?.profiles?.email}</span>
+            <div className="bg-white rounded-xl shadow-sm divide-y">
+              <div className="p-6">
+                <div className="space-y-6">
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Assignee</label>
+                    <div className="mt-2 flex items-center gap-2">
+                      <Avatar className="h-8 w-8">
+                        {project?.profiles?.avatar_url ? (
+                          <AvatarImage src={project.profiles.avatar_url} alt="User avatar" />
+                        ) : (
+                          <AvatarFallback>
+                            {getInitials(project?.profiles?.email)}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <span className="text-sm text-gray-900">{project?.profiles?.email}</span>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Due Date</label>
-                  <div className="mt-2 flex items-center gap-2 text-sm text-gray-900">
-                    <Calendar className="h-4 w-4 text-gray-500" />
-                    {new Date().toLocaleDateString('en-US', { 
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Due Date</label>
+                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-900">
+                      <Calendar className="h-4 w-4 text-gray-400" />
+                      {new Date().toLocaleDateString('en-US', { 
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                      })}
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Status</label>
-                  <div className="mt-2">
-                    <Badge variant="secondary" className="text-sm">
-                      {project?.status || 'In Progress'}
-                    </Badge>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Status</label>
+                    <div className="mt-2">
+                      <Badge 
+                        variant="secondary" 
+                        className={`text-sm ${
+                          project?.status === 'completed' 
+                            ? 'bg-green-100 text-green-800' 
+                            : project?.status === 'in_progress' 
+                            ? 'bg-purple-100 text-purple-800'
+                            : 'bg-blue-100 text-blue-800'
+                        }`}
+                      >
+                        {project?.status || 'In Progress'}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Description</label>
-                  <p className="mt-2 text-sm text-gray-600">
-                    {project?.description || 'No description provided.'}
-                  </p>
-                </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Description</label>
+                    <p className="mt-2 text-sm text-gray-600">
+                      {project?.description || 'No description provided.'}
+                    </p>
+                  </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Attachments</label>
-                  <Button variant="outline" className="mt-2 w-full justify-start gap-2 text-sm">
-                    <Paperclip className="h-4 w-4" />
-                    Add files
-                  </Button>
+                  <div>
+                    <label className="text-sm font-medium text-gray-500">Attachments</label>
+                    <Button variant="outline" className="mt-2 w-full justify-start gap-2 text-sm">
+                      <Paperclip className="h-4 w-4" />
+                      Add files
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
