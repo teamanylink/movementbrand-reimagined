@@ -15,6 +15,7 @@ import { ProjectForm } from "@/components/dashboard/ProjectForm";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -122,19 +123,7 @@ const Dashboard = () => {
     }
 
     if (!hasProjects) {
-      return (
-        <div className="h-full flex flex-col items-center justify-center text-center">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mb-2">
-              <Plus className="h-6 w-6 text-accent" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-700">Start Your First Project!</h3>
-            <p className="text-gray-500 max-w-md">
-              Click the "New Project" button above to begin your journey with MovementBrand.
-            </p>
-          </div>
-        </div>
-      );
+      return <EmptyStateMessage />;
     }
 
     return <KanbanBoard />;
