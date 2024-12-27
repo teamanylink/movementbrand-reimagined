@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Globe } from "lucide-react";
+import { Globe, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ProjectForm } from "@/components/dashboard/ProjectForm";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
@@ -171,14 +177,21 @@ const Dashboard = () => {
               >
                 <Globe className="h-5 w-5" />
               </Button>
-              <Avatar 
-                className="h-8 w-8 cursor-pointer"
-                onClick={handleSignOut}
-              >
-                <AvatarFallback className="bg-accent text-accent-foreground">
-                  {getUserInitials(userEmail)}
-                </AvatarFallback>
-              </Avatar>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarFallback className="bg-accent text-accent-foreground">
+                      {getUserInitials(userEmail)}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
