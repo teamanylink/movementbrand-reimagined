@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Globe, LogOut, Clock, CheckCircle, Loader2, Plus, Share2, CalendarDays } from "lucide-react";
+import { Globe, LogOut, Clock, CheckCircle, Loader2, Plus, Share2 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -204,29 +204,9 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex justify-end space-x-4 mb-6">
-          <Button variant="outline" className="flex items-center gap-2">
-            <Share2 className="h-4 w-4" />
-            Share
-          </Button>
-          <Button onClick={handleNewProject} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add Task
-          </Button>
-        </div>
-
         {/* Main Content Area */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px] relative">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <h2 className="text-xl font-semibold">My Projects</h2>
-              <Button variant="outline" size="sm">This Week</Button>
-            </div>
-            <Button variant="link" className="text-gray-500">
-              See All
-            </Button>
-          </div>
+          <DashboardHeader onNewProject={() => setIsProjectOptionsOpen(true)} />
           {!hasProjects ? <EmptyStateMessage /> : <KanbanBoard />}
         </div>
         
