@@ -3,10 +3,14 @@ import { Home, Building2, Monitor, Wrench } from "lucide-react";
 const ComparisonSection = () => {
   return (
     <section className="w-full py-24 bg-[#F8F8F8] relative overflow-hidden">
-      {/* Glowing background effects */}
+      {/* Floating background elements */}
       <div className="absolute top-1/4 -left-20 w-72 h-72 bg-[#8B5CF6]/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-[#D946EF]/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-primary/10 rounded-full blur-3xl animate-[pulse_4s_ease-in-out_infinite]" />
+      <div className="absolute bottom-1/3 right-1/3 w-56 h-56 bg-secondary/10 rounded-full blur-3xl animate-[pulse_5s_ease-in-out_infinite]" />
+      <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-[pulse_6s_ease-in-out_infinite]" />
       
+      {/* Original content */}
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-bold mb-4 text-center">
