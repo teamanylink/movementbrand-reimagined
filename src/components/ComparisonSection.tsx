@@ -99,12 +99,13 @@ const ComparisonSection = () => {
                 enabled by technology that adapts and evolves as both the market and your priorities change.
               </p>
               <p className="text-lg">
-                With a{" "}
-                <span className="font-semibold">fully-managed creative team</span>,
-                a unique platform for{" "}
-                <span className="font-semibold">seamless collaboration</span>, and a
-                clear{" "}
-                <span className="font-semibold">value-driven approach</span>.
+                Whether you need a{" "}
+                <span className="font-semibold">landing page for that new offer</span>,
+                a{" "}
+                <span className="font-semibold">micro-saas to attract new customers</span>,
+                or an{" "}
+                <span className="font-semibold">automation built out to streamline your business</span>.
+                You choose the task, We get it done!
               </p>
             </div>
           </div>
