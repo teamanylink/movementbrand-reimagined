@@ -48,7 +48,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
       const historyItems: HistoryItem[] = [
         {
           id: project.id,
-          type: 'project',
+          type: 'project' as const,
           title: project.name,
           status: project.status,
           created_at: project.created_at,
@@ -56,7 +56,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
         },
         ...(tasks?.map(task => ({
           id: task.id,
-          type: 'task',
+          type: 'task' as const,
           title: task.title,
           status: task.status,
           created_at: task.created_at,
@@ -64,7 +64,7 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
         })) || []),
         ...(statusChanges?.map(change => ({
           id: change.id,
-          type: 'status_change',
+          type: 'status_change' as const,
           title: project.name,
           status: change.new_status || undefined,
           previous_status: change.previous_status || undefined,
