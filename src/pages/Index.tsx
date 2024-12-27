@@ -8,6 +8,7 @@ import PricingSection from "@/components/PricingSection";
 import ScrollingServices from "@/components/ScrollingServices";
 import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
 import ComparisonSection from "@/components/ComparisonSection";
+import FAQs from "@/components/FAQs";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -116,7 +117,6 @@ const Index = () => {
 
       <ProjectCarousel />
 
-      {/* Features Section */}
       <section 
         ref={featuresRef}
         className="py-24 px-4 bg-white relative overflow-hidden"
@@ -151,6 +151,8 @@ const Index = () => {
       <MembershipBenefits />
 
       <PricingSection />
+
+      <FAQs />
     </div>
   );
 };
