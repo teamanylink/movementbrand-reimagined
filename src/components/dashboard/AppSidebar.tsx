@@ -135,27 +135,18 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  asChild
-                  className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
-                >
-                  <Link to="/help">
-                    <HelpCircle className="h-5 w-5" />
-                    <span>Help & Support</span>
-                    <span className="ml-auto bg-green-100 text-green-800 px-2 py-0.5 text-xs rounded-full">8</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 space-y-4">
+        <SidebarMenuButton 
+          asChild
+          className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+        >
+          <Link to="/help">
+            <HelpCircle className="h-5 w-5" />
+            <span>Help & Support</span>
+            <span className="ml-auto bg-green-100 text-green-800 px-2 py-0.5 text-xs rounded-full">8</span>
+          </Link>
+        </SidebarMenuButton>
         <SidebarMenuButton 
           onClick={handleSignOut}
           className="w-full hover:bg-red-50 text-red-600 hover:text-red-700 h-12"
