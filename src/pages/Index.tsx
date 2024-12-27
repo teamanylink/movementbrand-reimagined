@@ -7,6 +7,7 @@ import { MembershipBenefits } from "@/components/MembershipBenefits";
 import PricingSection from "@/components/PricingSection";
 import ScrollingServices from "@/components/ScrollingServices";
 import { MacbookScrollDemo } from "@/components/MacbookScrollDemo";
+import ComparisonSection from "@/components/ComparisonSection";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -113,6 +114,9 @@ const Index = () => {
       </section>
 
       <ScrollingServices />
+
+      {/* Comparison Section */}
+      <ComparisonSection />
 
       {/* Project Carousel */}
       <ProjectCarousel />
