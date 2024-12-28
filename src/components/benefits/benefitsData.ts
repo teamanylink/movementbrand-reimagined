@@ -2,7 +2,7 @@ export const benefits = [
   {
     type: 'project' as const,
     title: "Project Portal",
-    description: "Easily manage your design queue with a Trello board."
+    description: "Manage, communicate, and track project progress—all from a single dashboard."
   },
   {
     type: 'automation' as const,
