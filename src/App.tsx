@@ -10,7 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import Auth from "./components/Auth";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
-import { useToast } from "./components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,61 +28,74 @@ const App = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const checkSession = async () => {
+    let authListener: any = null;
+
+    const initializeAuth = async () => {
       try {
-        console.log("Checking initial session...");
-        const { data: { session }, error } = await supabase.auth.getSession();
+        console.log("Initializing auth...");
+        // First, check if there's an existing session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error("Session check error:", error);
-          throw error;
+        if (sessionError) {
+          console.error("Session initialization error:", sessionError);
+          throw sessionError;
         }
 
         if (isMounted.current) {
-          console.log("Initial session check:", session ? "Session exists" : "No session");
+          console.log("Initial auth state:", session ? "Authenticated" : "Not authenticated");
           setIsAuthenticated(!!session);
           setIsLoading(false);
         }
+
+        // Then set up the auth listener
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, currentSession) => {
+          console.log("Auth state change:", event, currentSession ? "Session exists" : "No session");
+          
+          if (isMounted.current) {
+            if (event === 'SIGNED_OUT') {
+              console.log("User signed out, clearing cache...");
+              queryClient.clear();
+              setIsAuthenticated(false);
+              toast({
+                title: "Signed out successfully",
+                description: "You have been logged out of your account.",
+              });
+            } else if (event === 'SIGNED_IN') {
+              console.log("User signed in...");
+              setIsAuthenticated(true);
+              toast({
+                title: "Signed in successfully",
+                description: "Welcome back!",
+              });
+            }
+            setIsLoading(false);
+          }
+        });
+
+        authListener = subscription;
       } catch (error) {
-        console.error("Error checking session:", error);
+        console.error("Auth initialization error:", error);
         if (isMounted.current) {
           setIsAuthenticated(false);
           setIsLoading(false);
           toast({
             title: "Authentication Error",
-            description: "There was a problem checking your session. Please try logging in again.",
+            description: "There was a problem with authentication. Please try logging in again.",
             variant: "destructive",
           });
         }
       }
     };
 
-    // Initial session check
-    checkSession();
+    initializeAuth();
 
-    // Set up auth state change listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state change:", event, session ? "Session exists" : "No session");
-      
-      if (isMounted.current) {
-        if (event === 'SIGNED_OUT') {
-          // Clear any cached data
-          queryClient.clear();
-          toast({
-            title: "Signed out successfully",
-            description: "You have been logged out of your account.",
-          });
-        }
-
-        setIsAuthenticated(!!session);
-        setIsLoading(false);
-      }
-    });
-
-    // Cleanup function
     return () => {
+      console.log("Cleaning up auth...");
       isMounted.current = false;
-      subscription.unsubscribe();
+      if (authListener) {
+        console.log("Unsubscribing from auth listener...");
+        authListener.unsubscribe();
+      }
     };
   }, [toast]);
 
