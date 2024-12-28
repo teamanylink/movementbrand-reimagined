@@ -70,8 +70,12 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                         <Menu className="h-5 w-5" />
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="p-0 w-72">
-                      <div className="h-full bg-white">
+                    <SheetContent 
+                      side="left" 
+                      className="p-0 w-72 block"
+                      style={{ position: 'fixed', top: 0, bottom: 0, left: 0 }}
+                    >
+                      <div className="h-full overflow-y-auto bg-white">
                         <AppSidebar />
                       </div>
                     </SheetContent>
