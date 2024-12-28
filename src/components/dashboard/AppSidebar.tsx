@@ -1,9 +1,10 @@
-import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings } from "lucide-react"
+import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings, ChevronDown } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@tanstack/react-query"
 import { Input } from "@/components/ui/input"
+import { useState } from "react"
 
 import {
   Sidebar,
@@ -13,13 +14,13 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
 
-import { SidebarMenuItems } from "./sidebar/SidebarMenuItems"
 import { ProjectsList } from "./sidebar/ProjectsList"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 export function AppSidebar() {
   const navigate = useNavigate()
   const { toast } = useToast()
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false)
 
   const { data: profile } = useQuery({
     queryKey: ['current-profile'],
@@ -77,63 +78,32 @@ export function AppSidebar() {
             </a>
           </SidebarMenuButton>
           
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/dashboard">
-              <LayoutDashboard className="h-4 w-4" />
-              <span>Dashboard</span>
-            </a>
-          </SidebarMenuButton>
+          <div>
+            <SidebarMenuButton 
+              onClick={() => setIsProjectsOpen(!isProjectsOpen)}
+              className="w-full justify-between text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium group"
+            >
+              <div className="flex items-center">
+                <FolderKanban className="h-4 w-4 mr-2" />
+                <span>Projects</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform ${isProjectsOpen ? 'rotate-180' : ''}`} />
+            </SidebarMenuButton>
+            
+            {isProjectsOpen && (
+              <div className="mt-1">
+                <ProjectsList />
+              </div>
+            )}
+          </div>
           
           <SidebarMenuButton 
             asChild
             className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
           >
-            <a href="/projects">
-              <FolderKanban className="h-4 w-4" />
-              <span>Projects</span>
-            </a>
-          </SidebarMenuButton>
-          
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/tasks">
+            <a href="/chat">
               <CheckSquare className="h-4 w-4" />
-              <span>Tasks</span>
-            </a>
-          </SidebarMenuButton>
-          
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/reporting">
-              <PieChart className="h-4 w-4" />
-              <span>Reporting</span>
-            </a>
-          </SidebarMenuButton>
-          
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/users">
-              <Users className="h-4 w-4" />
-              <span>Users</span>
-            </a>
-          </SidebarMenuButton>
-          
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/support">
-              <LifeBuoy className="h-4 w-4" />
-              <span>Support</span>
+              <span>Chat</span>
             </a>
           </SidebarMenuButton>
           
