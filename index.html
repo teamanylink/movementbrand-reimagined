@@ -8,11 +8,25 @@
     <meta name="author" content="Lovable" />
     <meta property="og:image" content="/og-image.png" />
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   </head>
 
   <body>
     <div id="root"></div>
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="text/javascript">
+      window.onload = function() {
+        if (typeof Calendly !== 'undefined') {
+          Calendly.initBadgeWidget({
+            url: 'https://calendly.com/movementbrand/movement-brand-discovery-call',
+            text: 'Book a call',
+            color: '#40E0D0',
+            textColor: '#ffffff'
+          });
+        }
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
