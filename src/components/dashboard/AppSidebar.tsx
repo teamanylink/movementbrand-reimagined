@@ -1,4 +1,4 @@
-import { LogOut, Search, LayoutDashboard, FolderKanban, MessageSquare, Settings } from "lucide-react"
+import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
 
+import { SidebarMenuItems } from "./sidebar/SidebarMenuItems"
 import { ProjectsList } from "./sidebar/ProjectsList"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
@@ -70,34 +71,69 @@ export function AppSidebar() {
             asChild
             className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
           >
-            <a href="/admin">
-              <LayoutDashboard className="h-4 w-4" />
-              <span>Admin Dashboard</span>
+            <a href="/dashboard">
+              <Home className="h-4 w-4" />
+              <span>Home</span>
             </a>
           </SidebarMenuButton>
-          
-          <div>
-            <SidebarMenuButton 
-              asChild
-              className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-            >
-              <a href="/projects">
-                <FolderKanban className="h-4 w-4" />
-                <span>Projects</span>
-              </a>
-            </SidebarMenuButton>
-            <div className="ml-6">
-              <ProjectsList />
-            </div>
-          </div>
           
           <SidebarMenuButton 
             asChild
             className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
           >
-            <a href="/chat">
-              <MessageSquare className="h-4 w-4" />
-              <span>Chat</span>
+            <a href="/dashboard">
+              <LayoutDashboard className="h-4 w-4" />
+              <span>Dashboard</span>
+            </a>
+          </SidebarMenuButton>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/projects">
+              <FolderKanban className="h-4 w-4" />
+              <span>Projects</span>
+            </a>
+          </SidebarMenuButton>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/tasks">
+              <CheckSquare className="h-4 w-4" />
+              <span>Tasks</span>
+            </a>
+          </SidebarMenuButton>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/reporting">
+              <PieChart className="h-4 w-4" />
+              <span>Reporting</span>
+            </a>
+          </SidebarMenuButton>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/users">
+              <Users className="h-4 w-4" />
+              <span>Users</span>
+            </a>
+          </SidebarMenuButton>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/support">
+              <LifeBuoy className="h-4 w-4" />
+              <span>Support</span>
             </a>
           </SidebarMenuButton>
           
