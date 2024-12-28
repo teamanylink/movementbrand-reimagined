@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Send, UserRound } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface Message {
   id: string;
@@ -12,6 +13,20 @@ interface Message {
   created_at: string;
   user_id: string;
 }
+
+// Mock users for the chat
+const mockUsers = [
+  {
+    id: "1",
+    avatar: "/lovable-uploads/3d28c59d-ed5d-4676-8112-bcaed14888cf.png",
+    name: "Alex"
+  },
+  {
+    id: "2",
+    avatar: "/lovable-uploads/be79ceb2-a394-4096-a00b-470f8d078876.png",
+    name: "Sam"
+  }
+];
 
 export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -100,8 +115,16 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
 
   return (
     <div className="flex flex-col h-[600px]">
-      <div className="p-4 border-b">
+      <div className="p-4 border-b flex justify-between items-center">
         <h2 className="text-lg font-semibold">Project Chat</h2>
+        <div className="flex items-center -space-x-2">
+          {mockUsers.map((user) => (
+            <Avatar key={user.id} className="h-8 w-8 border-2 border-white">
+              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarFallback>{user.name[0]}</AvatarFallback>
+            </Avatar>
+          ))}
+        </div>
       </div>
 
       <ScrollArea className="flex-1 p-4">
