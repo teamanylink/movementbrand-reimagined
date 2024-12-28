@@ -1,10 +1,16 @@
-import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings, ChevronDown, MessageSquare } from "lucide-react"
+import { LogOut, Search, Home, FolderKanban, CheckSquare, Settings, ChevronDown, MessageSquare } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@tanstack/react-query"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import {
   Sidebar,
@@ -49,7 +55,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar className="border-r border-gray-200 bg-red-500">
+    <Sidebar className="border-r border-gray-200">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
           <h2 className="text-lg font-semibold">MovementBrand</h2>
@@ -129,21 +135,31 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t">
-        <div className="flex items-center gap-3">
-          <Avatar className="h-9 w-9">
-            <AvatarFallback className="bg-purple-100 text-purple-600">
-              {profile?.email?.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-700 truncate">
-              {profile?.email?.split('@')[0]}
-            </p>
-            <p className="text-xs text-gray-500 truncate">
-              {profile?.email}
-            </p>
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="w-full">
+            <div className="flex items-center gap-3">
+              <Avatar className="h-9 w-9">
+                <AvatarFallback className="bg-purple-100 text-purple-600">
+                  {profile?.email?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex-1 min-w-0 text-left">
+                <p className="text-sm font-medium text-gray-700 truncate">
+                  {profile?.email?.split('@')[0]}
+                </p>
+                <p className="text-xs text-gray-500 truncate">
+                  {profile?.email}
+                </p>
+              </div>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Sign out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   )
