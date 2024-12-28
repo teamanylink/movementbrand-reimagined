@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
@@ -9,10 +9,21 @@ import { ProjectChat } from "@/components/project/ProjectChat";
 import { ProjectFilesView } from "@/components/project/ProjectFilesView";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectDashboardView } from "@/components/project/ProjectDashboardView";
+import { useSubscription } from "@/hooks/use-subscription";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const ProjectDashboard = () => {
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
   const { projectId } = useParams();
+  const { data: subscriptionData } = useSubscription();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const projectTypes = [
     { name: "Automation", duration: "1 week" },
@@ -22,6 +33,19 @@ const ProjectDashboard = () => {
     { name: "Blog", duration: "48 hours" },
     { name: "Other", duration: "" },
   ];
+
+  const handleNewProjectClick = () => {
+    if (!subscriptionData?.subscribed) {
+      toast({
+        title: "Subscription Required",
+        description: "Please upgrade your account to create new projects.",
+        variant: "destructive",
+      });
+      navigate('/dashboard/settings');
+      return;
+    }
+    setIsProjectOptionsOpen(true);
+  };
 
   // If we have a projectId, show the project detail view
   if (projectId) {
@@ -53,13 +77,27 @@ const ProjectDashboard = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold">Projects</h1>
-        <Button 
-          onClick={() => setIsProjectOptionsOpen(true)}
-          className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
-        >
-          <Plus className="h-5 w-5 mr-2" />
-          New Project
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span>
+                <Button 
+                  onClick={handleNewProjectClick}
+                  className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+                  disabled={!subscriptionData?.subscribed}
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  New Project
+                </Button>
+              </span>
+            </TooltipTrigger>
+            {!subscriptionData?.subscribed && (
+              <TooltipContent>
+                <p>Upgrade your account to create projects</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
       {/* Kanban Board */}
