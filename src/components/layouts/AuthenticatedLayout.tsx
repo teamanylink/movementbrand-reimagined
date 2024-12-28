@@ -77,7 +77,7 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                     </SheetTrigger>
                     <SheetContent 
                       side="left" 
-                      className="w-[280px] p-0"
+                      className="w-[280px] p-0 h-full"
                     >
                       <AppSidebar />
                     </SheetContent>
