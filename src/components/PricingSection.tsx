@@ -54,7 +54,16 @@ const PricingSection = () => {
   const handleSignupSubmit = async (formData: SignupFormData) => {
     setIsLoading(true);
     try {
-      // Update the user's profile with the form data
+      // First, sign up the user
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) throw authError;
+
+      // The profile will be automatically created by our trigger
+      // We just need to update it with the additional information
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
@@ -65,7 +74,7 @@ const PricingSection = () => {
           phone_number: formData.phoneNumber,
           email: formData.email
         })
-        .eq('id', (await supabase.auth.getUser()).data.user?.id);
+        .eq('id', authData.user?.id);
 
       if (updateError) throw updateError;
 
