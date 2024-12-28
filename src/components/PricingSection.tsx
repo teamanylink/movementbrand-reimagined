@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const { toast } = useToast();
-  const navigate = useNavigate();
   
   const price = isPro ? 8200 : 5280;
   const features = isPro ? [
@@ -30,35 +27,18 @@ const PricingSection = () => {
     "2 hours of Consults"
   ];
 
-  useEffect(() => {
-    checkSubscription();
-  }, []);
-
-  const checkSubscription = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (session) {
-      try {
-        const { data, error } = await supabase.functions.invoke('check-subscription');
-        
-        if (error) throw error;
-        
-        setIsSubscribed(data?.subscribed || false);
-      } catch (error) {
-        console.error('Error checking subscription:', error);
-      }
-    }
-  };
-
   const handleGetStarted = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
-      navigate("/dashboard");
-      toast({
-        title: "Create an account",
-        description: "Please create an account to continue with your subscription.",
-      });
+      // If not logged in, show Calendly
+      // @ts-ignore
+      if (window.Calendly) {
+        // @ts-ignore
+        window.Calendly.initPopupWidget({
+          url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
+        });
+      }
       return;
     }
 
@@ -130,7 +110,7 @@ const PricingSection = () => {
               className="px-8 py-6 text-lg rounded-xl"
               onClick={handleGetStarted}
             >
-              {isSubscribed ? "Manage Subscription" : "Get started"}
+              Get started
             </Button>
             <button 
               onClick={handleGetStarted}
