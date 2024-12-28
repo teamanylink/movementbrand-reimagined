@@ -64,7 +64,7 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
         </div>
         
         <div className="flex-1">
-          <nav className="bg-white border-gray-800 h-[72px]">
+          <nav className="bg-white border-b border-gray-200 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
@@ -77,11 +77,9 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                     </SheetTrigger>
                     <SheetContent 
                       side="left" 
-                      className="p-0 w-72"
+                      className="w-[280px] p-0"
                     >
-                      <div className="h-full overflow-y-auto">
-                        <AppSidebar />
-                      </div>
+                      <AppSidebar />
                     </SheetContent>
                   </Sheet>
                   <div className="flex items-center">
