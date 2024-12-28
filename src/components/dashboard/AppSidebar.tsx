@@ -118,7 +118,6 @@ export function AppSidebar() {
           </SidebarMenuButton>
         </nav>
       </SidebarContent>
-
       <SidebarFooter className="p-4 border-t">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -140,7 +139,7 @@ export function AppSidebar() {
             variant="ghost"
             size="icon"
             onClick={handleSignOut}
-            className="h-9 w-9 text-gray-500 hover:text-white hover:bg-primary/20"
+            className="h-9 w-9 text-gray-500 hover:text-black hover:bg-primary/20"
           >
             <LogOut className="h-4 w-4" />
           </Button>
