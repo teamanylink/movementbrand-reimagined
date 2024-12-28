@@ -101,7 +101,7 @@ export function MembershipBenefits() {
           Membership benefits
         </h2>
         <p className="text-xl md:text-2xl text-center text-gray-600 max-w-3xl mx-auto mb-20">
-          Perks so good you'll never need to go anywhere else for your design. Seriously.
+          High value services at scale that grows with your brands or business.
         </p>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
