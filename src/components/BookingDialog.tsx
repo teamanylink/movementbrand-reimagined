@@ -1,6 +1,9 @@
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useEffect } from "react";
@@ -29,6 +32,12 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
         {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle>Schedule a Meeting</DialogTitle>
+          <DialogDescription>
+            Choose a time that works best for you to discuss your project.
+          </DialogDescription>
+        </DialogHeader>
         <div className="tidycal-embed" data-path="denis5/15-minute-meeting"></div>
       </DialogContent>
     </Dialog>
