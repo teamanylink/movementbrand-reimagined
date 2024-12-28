@@ -72,17 +72,12 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                     </SheetTrigger>
                     <SheetContent 
                       side="left" 
-                      className="p-0 w-72 block z-50"
-                      style={{ 
-                        position: 'fixed', 
-                        top: 0, 
-                        bottom: 0, 
-                        left: 0,
-                        height: '100vh',
-                        overflowY: 'auto'
-                      }}
+                      className="p-0 w-72 block"
+                      style={{ position: 'fixed', top: 0, bottom: 0, left: 0 }}
                     >
-                      <AppSidebar />
+                      <div className="h-full overflow-y-auto bg-white">
+                        <AppSidebar />
+                      </div>
                     </SheetContent>
                   </Sheet>
                   <div className="flex items-center">
