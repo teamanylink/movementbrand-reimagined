@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { SettingsLayout } from "@/components/settings/SettingsLayout";
-import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
-import { ProfileSection } from "@/components/settings/sections/ProfileSection";
-import { AccountSection } from "@/components/settings/sections/AccountSection";
 
-export interface UserProfile {
+interface UserProfile {
   first_name: string | null;
   last_name: string | null;
   email: string | null;
@@ -16,8 +16,7 @@ export interface UserProfile {
   phone_number: string | null;
 }
 
-export default function Settings() {
-  const [activeSection, setActiveSection] = useState("profile");
+const Settings = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -97,6 +96,30 @@ export default function Settings() {
     }
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { 
+          mode: 'subscription',
+          priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9'
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to manage subscription.",
+      });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -106,25 +129,95 @@ export default function Settings() {
   }
 
   return (
-    <SettingsLayout>
-      <div className="flex gap-8">
-        <SettingsNavigation
-          activeSection={activeSection}
-          onSectionChange={setActiveSection}
-        />
-        <div className="flex-1">
-          {activeSection === "profile" && (
-            <ProfileSection
-              profile={profile}
-              onProfileChange={(updates) => setProfile(prev => ({ ...prev!, ...updates }))}
-              onSave={handleUpdateProfile}
-              isSaving={isSaving}
+    <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <h1 className="text-3xl font-bold">Settings</h1>
+
+      <Card className="p-6">
+        <h2 className="text-xl font-semibold mb-6">Profile Information</h2>
+        <div className="grid gap-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="firstName">First Name</Label>
+              <Input
+                id="firstName"
+                value={profile?.first_name || ''}
+                onChange={(e) => setProfile(prev => ({ ...prev!, first_name: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input
+                id="lastName"
+                value={profile?.last_name || ''}
+                onChange={(e) => setProfile(prev => ({ ...prev!, last_name: e.target.value }))}
+              />
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              value={profile?.email || ''}
+              disabled
+              className="bg-gray-50"
             />
-          )}
-          {activeSection === "account" && <AccountSection />}
-          {/* Additional sections can be added here */}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="company">Company</Label>
+            <Input
+              id="company"
+              value={profile?.company || ''}
+              onChange={(e) => setProfile(prev => ({ ...prev!, company: e.target.value }))}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="website">Website URL</Label>
+            <Input
+              id="website"
+              type="url"
+              value={profile?.website_url || ''}
+              onChange={(e) => setProfile(prev => ({ ...prev!, website_url: e.target.value }))}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={profile?.phone_number || ''}
+              onChange={(e) => setProfile(prev => ({ ...prev!, phone_number: e.target.value }))}
+            />
+          </div>
+
+          <Button 
+            onClick={handleUpdateProfile} 
+            disabled={isSaving}
+            className="w-full md:w-auto"
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </Button>
         </div>
-      </div>
-    </SettingsLayout>
+      </Card>
+
+      <Card className="p-6">
+        <h2 className="text-xl font-semibold mb-6">Subscription</h2>
+        <div className="space-y-4">
+          <p className="text-gray-600">
+            {isSubscribed 
+              ? "You are currently subscribed to our premium plan." 
+              : "You are currently on the free plan."}
+          </p>
+          <Button onClick={handleManageSubscription}>
+            {isSubscribed ? "Manage Subscription" : "Upgrade Plan"}
+          </Button>
+        </div>
+      </Card>
+    </div>
   );
-}
+};
+
+export default Settings;
