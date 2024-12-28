@@ -138,15 +138,21 @@ const Auth = () => {
           variables: {
             sign_up: {
               link_text: "Don't have an account? Sign up",
+              button_label: "Sign up",
+              email_label: "Email",
+              password_label: "Password",
             },
           },
         }}
-        onViewChange={(view) => {
-          if (view === "sign_up") {
-            setIsSignUp(true);
-          }
-        }}
       />
+      <div className="mt-4 text-center">
+        <button
+          onClick={() => setIsSignUp(true)}
+          className="text-sm text-blue-600 hover:underline"
+        >
+          Don't have an account? Sign up
+        </button>
+      </div>
     </div>
   );
 };
