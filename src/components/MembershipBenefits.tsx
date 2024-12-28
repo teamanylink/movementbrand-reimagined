@@ -28,7 +28,7 @@ const benefits = [
       </div>
     ),
     title: "AI automation experts",
-    description: "Get your design one at a time in just a few days on average."
+    description: "Add AI automation into your business or sell AI automation to your customers."
   },
   {
     icon: (
