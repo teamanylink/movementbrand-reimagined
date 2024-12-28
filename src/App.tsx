@@ -25,17 +25,26 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     // Initial session check
     const checkSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) throw error;
+        
         console.log("Initial session check:", session ? "Session exists" : "No session");
-        setIsAuthenticated(!!session);
+        
+        if (mounted) {
+          setIsAuthenticated(!!session);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error("Session check error:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setIsLoading(false);
+        if (mounted) {
+          setIsAuthenticated(false);
+          setIsLoading(false);
+        }
       }
     };
 
@@ -44,16 +53,28 @@ const App = () => {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state change:", event, session ? "Session exists" : "No session");
-      setIsAuthenticated(!!session);
+      
+      if (mounted) {
+        setIsAuthenticated(!!session);
+        if (event === 'SIGNED_OUT') {
+          // Clear any cached data or state here if needed
+          queryClient.clear();
+        }
+      }
     });
 
     return () => {
-      subscription.unsubscribe();
+      mounted = false;
+      subscription?.unsubscribe();
     };
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return (
@@ -73,7 +94,9 @@ const App = () => {
                     <Dashboard />
                   </AuthenticatedLayout>
                 ) : (
-                  <Navigate to="/" replace />
+                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                    <Auth />
+                  </div>
                 )
               } 
             />
