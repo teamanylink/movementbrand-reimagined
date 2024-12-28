@@ -28,10 +28,14 @@ const App = () => {
 
     const initializeAuth = async () => {
       try {
+        // Debug current session state
+        console.log('Initializing auth...');
+        
         // Clear any potentially invalid session data
-        const currentSession = await supabase.auth.getSession();
-        if (currentSession.error) {
-          console.error('Session error:', currentSession.error);
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
           if (mounted) {
             setIsAuthenticated(false);
             localStorage.clear();
@@ -39,8 +43,28 @@ const App = () => {
           return;
         }
 
+        // Debug session data
+        console.log('Current session:', session ? 'Valid' : 'None');
+        
+        if (session) {
+          // Verify JWT is still valid
+          const { user, error: userError } = await supabase.auth.getUser();
+          
+          if (userError) {
+            console.error('User verification error:', userError);
+            if (mounted) {
+              setIsAuthenticated(false);
+              localStorage.clear();
+              await supabase.auth.signOut();
+            }
+            return;
+          }
+          
+          console.log('User verified:', !!user);
+        }
+
         if (mounted) {
-          setIsAuthenticated(!!currentSession.data.session);
+          setIsAuthenticated(!!session);
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
@@ -58,10 +82,10 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, !!session);
       if (mounted) {
-        if (event === 'SIGNED_OUT') {
+        if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
           localStorage.clear();
           setIsAuthenticated(false);
-        } else {
+        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           setIsAuthenticated(!!session);
         }
       }
