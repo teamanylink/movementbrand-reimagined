@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const price = isPro ? 8200 : 5280;
   const features = isPro ? [
@@ -52,14 +54,11 @@ const PricingSection = () => {
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
-      // If not logged in, show Calendly
-      // @ts-ignore
-      if (window.Calendly) {
-        // @ts-ignore
-        window.Calendly.initPopupWidget({
-          url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
-        });
-      }
+      navigate("/dashboard");
+      toast({
+        title: "Create an account",
+        description: "Please create an account to continue with your subscription.",
+      });
       return;
     }
 
