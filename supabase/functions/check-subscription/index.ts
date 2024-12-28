@@ -34,8 +34,14 @@ Deno.serve(async (req) => {
       authHeader.replace('Bearer ', '')
     )
 
-    if (userError || !user) {
-      throw new Error('Error getting user: ' + userError?.message)
+    if (userError) {
+      console.error('Error getting user:', userError)
+      throw new Error('Error getting user: ' + userError.message)
+    }
+
+    if (!user) {
+      console.error('No user found')
+      throw new Error('No user found')
     }
 
     // Get the user's profile
@@ -43,7 +49,7 @@ Deno.serve(async (req) => {
       .from('profiles')
       .select('email')
       .eq('id', user.id)
-      .single()
+      .maybeSingle()
 
     if (profileError) {
       console.error('Error getting profile:', profileError)

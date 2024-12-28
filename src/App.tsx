@@ -36,13 +36,21 @@ const App = () => {
         if (sessionError) {
           console.error('Session error:', sessionError);
           setIsAuthenticated(false);
+          toast({
+            title: "Session Error",
+            description: "There was a problem with your session. Please try logging in again.",
+            variant: "destructive",
+          });
           return;
         }
 
-        setIsAuthenticated(!!session);
-        if (session?.user) {
-          await checkSuperAdmin(session.user.id);
+        if (!session) {
+          setIsAuthenticated(false);
+          return;
         }
+
+        setIsAuthenticated(true);
+        await checkSuperAdmin(session.user.id);
       } catch (error) {
         console.error('Error initializing auth:', error);
         setIsAuthenticated(false);
@@ -59,17 +67,18 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, !!session);
       
-      if (event === 'SIGNED_OUT') {
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
         setIsAuthenticated(false);
         setIsSuperAdmin(false);
         queryClient.clear();
         return;
       }
 
-      setIsAuthenticated(!!session);
       if (session?.user) {
+        setIsAuthenticated(true);
         await checkSuperAdmin(session.user.id);
       } else {
+        setIsAuthenticated(false);
         setIsSuperAdmin(false);
       }
     });
@@ -89,7 +98,7 @@ const App = () => {
         console.error('Error checking superadmin status:', error);
         toast({
           title: "Error",
-          description: "Failed to check admin privileges",
+          description: "Failed to check admin privileges. Please try refreshing the page.",
           variant: "destructive",
         });
         return;
@@ -100,14 +109,18 @@ const App = () => {
       console.error('Error checking superadmin status:', error);
       toast({
         title: "Error",
-        description: "An unexpected error occurred while checking admin status",
+        description: "An unexpected error occurred while checking admin status. Please try refreshing the page.",
         variant: "destructive",
       });
     }
   };
 
   if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return (
