@@ -1,113 +1,51 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { ProjectChat } from "@/components/project/ProjectChat";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Share2, MoreHorizontal, Grid, MessageSquare, Files } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ProjectDashboardView } from "@/components/project/ProjectDashboardView";
-import { ProjectFilesView } from "@/components/project/ProjectFilesView";
+import { Plus } from "lucide-react";
+import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
+import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
+import { useState } from "react";
 
 const ProjectDashboard = () => {
-  const { projectId } = useParams();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
 
-  const { data: project, isLoading } = useQuery({
-    queryKey: ['project', projectId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('projects')
-        .select('*, profiles(*)')
-        .eq('id', projectId)
-        .single();
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load project details",
-          variant: "destructive",
-        });
-        throw error;
-      }
-
-      return data;
-    },
-  });
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#F8F9FB] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-      </div>
-    );
-  }
+  const projectTypes = [
+    { name: "Automation", duration: "1 week" },
+    { name: "Design", duration: "48 hours" },
+    { name: "Landing Page", duration: "48 hours" },
+    { name: "Micro-Saas", duration: "3 weeks" },
+    { name: "Blog", duration: "48 hours" },
+    { name: "Other", duration: "" },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#F8F9FB]">
-      {/* Top Navigation Bar */}
-      <div className="bg-white border-b px-6 py-4 shadow-sm rounded-b-xl">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate('/dashboard')}
-              className="hover:bg-[#F1F0FB] rounded-xl transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">{project?.name}</h1>
-              <p className="text-sm text-gray-500">{project?.description}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="gap-2 rounded-xl hover:bg-[#F1F0FB]">
-              <Share2 className="h-4 w-4" />
-              Share
-            </Button>
-            <Button variant="outline" size="icon" className="rounded-xl hover:bg-[#F1F0FB]">
-              <MoreHorizontal className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
+    <div className="p-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-semibold">Projects</h1>
+        <Button 
+          onClick={() => setIsProjectOptionsOpen(true)}
+          className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+        >
+          <Plus className="h-5 w-5 mr-2" />
+          New Project
+        </Button>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-6">
-        <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="mb-6 bg-white rounded-xl p-1 border shadow-sm">
-            <TabsTrigger value="dashboard" className="gap-2 rounded-lg data-[state=active]:bg-[#F1F0FB]">
-              <Grid className="h-4 w-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="chat" className="gap-2 rounded-lg data-[state=active]:bg-[#F1F0FB]">
-              <MessageSquare className="h-4 w-4" />
-              Chat
-            </TabsTrigger>
-            <TabsTrigger value="files" className="gap-2 rounded-lg data-[state=active]:bg-[#F1F0FB]">
-              <Files className="h-4 w-4" />
-              Files
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="dashboard">
-            <ProjectDashboardView projectId={projectId!} />
-          </TabsContent>
-
-          <TabsContent value="chat">
-            <div className="bg-white rounded-xl shadow-sm min-h-[600px]">
-              <ProjectChat projectId={projectId!} />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="files">
-            <ProjectFilesView />
-          </TabsContent>
-        </Tabs>
+      {/* Kanban Board */}
+      <div className="bg-white rounded-xl shadow-sm p-6">
+        <KanbanBoard />
       </div>
+
+      {/* Project Options Dialog */}
+      <ProjectOptions 
+        projectTypes={projectTypes}
+        open={isProjectOptionsOpen}
+        onOpenChange={setIsProjectOptionsOpen}
+        onSelectProject={() => {
+          setIsProjectOptionsOpen(false);
+        }}
+      />
     </div>
   );
 };
