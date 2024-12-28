@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
+import BookingDialog from "./BookingDialog";
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
@@ -70,9 +71,11 @@ const PricingSection = () => {
             <Button size="lg" className="px-8 py-6 text-lg rounded-xl">
               Get started
             </Button>
-            <a href="#" className="text-sm underline">
-              book a call
-            </a>
+            <BookingDialog>
+              <a href="#" className="text-sm underline">
+                book a call
+              </a>
+            </BookingDialog>
           </div>
         </div>
       </div>
