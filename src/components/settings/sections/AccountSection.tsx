@@ -6,11 +6,12 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { Loader2 } from "lucide-react";
+import { Loader2, Zap } from "lucide-react";
 
 export function AccountSection() {
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUpgrading, setIsUpgrading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -36,6 +37,33 @@ export function AccountSection() {
     }
   };
 
+  const handleUpgradeClick = async () => {
+    setIsUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { 
+          priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9',
+          mode: 'subscription'
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error: any) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to initiate upgrade process.",
+      });
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
+
   return (
     <Card className="p-6 space-y-6">
       <div className="space-y-4">
@@ -48,6 +76,35 @@ export function AccountSection() {
               {isSubscribed ? "Active Subscription" : "No Active Subscription"}
             </Badge>
           )}
+        </div>
+
+        <div className="space-y-4">
+          <div className="p-4 bg-gray-50 rounded-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-medium">Subscription</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isSubscribed 
+                    ? "You have an active subscription" 
+                    : "Upgrade to create unlimited projects"}
+                </p>
+              </div>
+              <Button
+                onClick={handleUpgradeClick}
+                disabled={isUpgrading || isSubscribed}
+                className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+              >
+                {isUpgrading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Zap className="h-4 w-4 mr-2" />
+                    {isSubscribed ? "Already Subscribed" : "Upgrade Now"}
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
         </div>
         
         <div className="space-y-2">
