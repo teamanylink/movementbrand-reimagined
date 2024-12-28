@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Check, Trash2 } from "lucide-react";
+import { Plus, Circle, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Task {
@@ -125,7 +125,13 @@ export const ProjectTasks = ({ projectId }: { projectId: string }) => {
                 onClick={() => handleToggleTask(task.id, task.status)}
                 className={task.status === 'completed' ? 'text-green-500' : ''}
               >
-                <Check className="h-4 w-4" />
+                <Circle 
+                  className={`h-4 w-4 ${
+                    task.status === 'completed' 
+                      ? 'fill-green-500 stroke-green-500' 
+                      : 'stroke-[#ebebeb] fill-white'
+                  }`}
+                />
               </Button>
               <span className={task.status === 'completed' ? 'line-through text-gray-500' : ''}>
                 {task.title}
