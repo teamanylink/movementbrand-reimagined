@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import Auth from "./components/Auth";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
+import { useToast } from "./components/ui/use-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     let mounted = true;
@@ -31,7 +33,7 @@ const App = () => {
         // Debug current session state
         console.log('Initializing auth...');
         
-        // Clear any potentially invalid session data
+        // Get current session
         const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (sessionError) {
@@ -39,6 +41,11 @@ const App = () => {
           if (mounted) {
             setIsAuthenticated(false);
             localStorage.clear();
+            toast({
+              title: "Session Error",
+              description: "Please sign in again.",
+              variant: "destructive"
+            });
           }
           return;
         }
@@ -47,30 +54,52 @@ const App = () => {
         console.log('Current session:', session ? 'Valid' : 'None');
         
         if (session) {
-          // Verify JWT is still valid
-          const { data, error: userError } = await supabase.auth.getUser();
-          
-          if (userError) {
-            console.error('User verification error:', userError);
+          try {
+            // Verify JWT is still valid
+            const { data: user, error: userError } = await supabase.auth.getUser();
+            
+            if (userError) {
+              console.error('User verification error:', userError);
+              if (mounted) {
+                setIsAuthenticated(false);
+                localStorage.clear();
+                await supabase.auth.signOut();
+                toast({
+                  title: "Session Expired",
+                  description: "Please sign in again.",
+                  variant: "destructive"
+                });
+              }
+              return;
+            }
+            
+            console.log('User verified:', !!user);
+            if (mounted) {
+              setIsAuthenticated(true);
+            }
+          } catch (verifyError) {
+            console.error('Verification error:', verifyError);
             if (mounted) {
               setIsAuthenticated(false);
               localStorage.clear();
               await supabase.auth.signOut();
             }
-            return;
           }
-          
-          console.log('User verified:', !!data.user);
-        }
-
-        if (mounted) {
-          setIsAuthenticated(!!session);
+        } else {
+          if (mounted) {
+            setIsAuthenticated(false);
+          }
         }
       } catch (error) {
         console.error('Auth initialization error:', error);
         if (mounted) {
           setIsAuthenticated(false);
           localStorage.clear();
+          toast({
+            title: "Authentication Error",
+            description: "Please try signing in again.",
+            variant: "destructive"
+          });
         }
       }
     };
@@ -82,11 +111,21 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, !!session);
       if (mounted) {
-        if (event === 'SIGNED_OUT') {
+        if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
           localStorage.clear();
           setIsAuthenticated(false);
+          toast({
+            title: "Signed Out",
+            description: "You have been logged out.",
+          });
         } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           setIsAuthenticated(!!session);
+          if (event === 'SIGNED_IN') {
+            toast({
+              title: "Signed In",
+              description: "Welcome back!",
+            });
+          }
         }
       }
     });
@@ -95,7 +134,7 @@ const App = () => {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
