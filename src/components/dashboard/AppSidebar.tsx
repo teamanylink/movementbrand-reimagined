@@ -71,30 +71,32 @@ export function AppSidebar() {
             asChild
             className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
           >
-            <a href="/dashboard">
+            <a href={profile?.is_superadmin ? "/admin" : "/dashboard"}>
               <Home className="h-4 w-4" />
-              <span>Home</span>
+              <span>{profile?.is_superadmin ? "Admin Dashboard" : "Home"}</span>
             </a>
           </SidebarMenuButton>
           
-          <div>
-            <SidebarMenuButton 
-              onClick={() => setIsProjectsOpen(!isProjectsOpen)}
-              className="w-full justify-between text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium group"
-            >
-              <div className="flex items-center">
-                <FolderKanban className="h-4 w-4 mr-2" />
-                <span>Projects</span>
-              </div>
-              <ChevronDown className={`h-4 w-4 transition-transform ${isProjectsOpen ? 'rotate-180' : ''}`} />
-            </SidebarMenuButton>
-            
-            {isProjectsOpen && (
-              <div className="mt-1">
-                <ProjectsList />
-              </div>
-            )}
-          </div>
+          {!profile?.is_superadmin && (
+            <div>
+              <SidebarMenuButton 
+                onClick={() => setIsProjectsOpen(!isProjectsOpen)}
+                className="w-full justify-between text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium group"
+              >
+                <div className="flex items-center">
+                  <FolderKanban className="h-4 w-4 mr-2" />
+                  <span>Projects</span>
+                </div>
+                <ChevronDown className={`h-4 w-4 transition-transform ${isProjectsOpen ? 'rotate-180' : ''}`} />
+              </SidebarMenuButton>
+              
+              {isProjectsOpen && (
+                <div className="mt-1">
+                  <ProjectsList />
+                </div>
+              )}
+            </div>
+          )}
           
           <SidebarMenuButton 
             asChild
