@@ -108,16 +108,6 @@ export function AppSidebar() {
           >
             <a href="/chat">
               <MessageSquare className="h-4 w-4" />
-              <span>Messages</span>
-            </a>
-          </SidebarMenuButton>
-          
-          <SidebarMenuButton 
-            asChild
-            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
-          >
-            <a href="/chat">
-              <CheckSquare className="h-4 w-4" />
               <span>Chat</span>
             </a>
           </SidebarMenuButton>
