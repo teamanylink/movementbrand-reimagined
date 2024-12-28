@@ -55,29 +55,6 @@ export const ProjectsList = () => {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="flex justify-between items-center px-4 py-2">
-        <span>Projects</span>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="h-6 w-6"
-                onClick={handleNewProjectClick}
-                disabled={!subscriptionData?.subscribed}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            {!subscriptionData?.subscribed && (
-              <TooltipContent>
-                <p>Upgrade your account to create projects</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
-      </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {projects?.map((project, index) => (
