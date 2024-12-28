@@ -110,7 +110,7 @@ export function AppSidebar() {
             asChild
             className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
           >
-            <a href="/dashboard/settings">
+            <a href="/settings">
               <Settings className="h-4 w-4" />
               <span>Settings</span>
             </a>
