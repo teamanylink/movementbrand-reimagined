@@ -22,23 +22,48 @@ import {
 
 export const ProjectsList = () => {
   const { toast } = useToast()
-  const { data: projects } = useQuery({
-    queryKey: ['projects'],
+  const { data: profile } = useQuery({
+    queryKey: ['current-profile'],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return null
+
       const { data, error } = await supabase
-        .from('projects')
+        .from('profiles')
         .select('*')
-        .order('created_at', { ascending: false })
+        .eq('id', user.id)
+        .single()
       
       if (error) throw error
       return data
-    }
+    },
+  })
+
+  const { data: projects } = useQuery({
+    queryKey: ['projects', profile?.is_superadmin],
+    queryFn: async () => {
+      // If superadmin, fetch all projects, otherwise only user's projects
+      const query = supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (!profile?.is_superadmin) {
+        query.eq('user_id', profile?.id)
+      }
+
+      const { data, error } = await query
+      
+      if (error) throw error
+      return data
+    },
+    enabled: !!profile,
   })
 
   const { data: subscriptionData } = useSubscription()
 
   const handleNewProjectClick = () => {
-    if (!subscriptionData?.subscribed) {
+    if (!subscriptionData?.subscribed && !profile?.is_superadmin) {
       toast({
         title: "Subscription Required",
         description: "Please upgrade your account to create projects.",
