@@ -9,7 +9,6 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import Auth from "./components/Auth";
-import { SignupForm } from "./components/SignupForm";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
 
 const queryClient = new QueryClient({
@@ -48,10 +47,6 @@ const App = () => {
             <Route 
               path="/" 
               element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Index />} 
-            />
-            <Route 
-              path="/signup" 
-              element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignupForm />} 
             />
             <Route 
               path="/dashboard" 
