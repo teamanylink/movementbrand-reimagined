@@ -33,18 +33,8 @@ const Navigation = () => {
             >
               Benefits
             </button>
-            <button 
-              onClick={() => scrollToSection('pricing')} 
-              className="text-gray-600 hover:text-gray-900"
-            >
-              Pricing
-            </button>
-            <button 
-              onClick={() => scrollToSection('faqs')} 
-              className="text-gray-600 hover:text-gray-900"
-            >
-              FAQs
-            </button>
+            <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
+            <a href="#faqs" className="text-gray-600 hover:text-gray-900">FAQs</a>
             <Button variant="default" onClick={handleLogin}>Login</Button>
           </div>
         </div>
