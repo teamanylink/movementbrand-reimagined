@@ -72,13 +72,13 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const mockUsers = [
     {
       id: 1,
-      name: "John Doe",
-      avatar: "/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png"
+      name: "Alex Chen",
+      avatar: "/lovable-uploads/89f2ac54-dbad-4de8-89b2-4f8a98396080.png"
     },
     {
       id: 2,
-      name: "Jane Smith",
-      avatar: "/lovable-uploads/7cfa0beb-6a50-4632-972a-4bb987e52f7a.png"
+      name: "Sam Wilson",
+      avatar: "/lovable-uploads/dcff319f-0927-47c3-bc8f-28a465752bf0.png"
     }
   ];
 
@@ -105,7 +105,7 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
         {messages.map((message) => (
           <div key={message.id} className="flex items-start gap-2">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/lovable-uploads/4e0e3ac1-e9cd-4d77-aa48-cada87b27bda.png" />
+              <AvatarImage src={mockUsers[0].avatar} />
               <AvatarFallback>
                 <UserRound className="h-4 w-4" />
               </AvatarFallback>
