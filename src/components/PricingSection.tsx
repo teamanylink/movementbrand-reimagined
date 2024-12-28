@@ -24,6 +24,16 @@ const PricingSection = () => {
     "2 hours of Consults"
   ];
 
+  const handleGetStarted = () => {
+    // @ts-ignore
+    if (window.Calendly) {
+      // @ts-ignore
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
+      });
+    }
+  };
+
   return (
     <section className="py-24 px-4 bg-white relative overflow-hidden">
       <div className="container mx-auto max-w-4xl">
@@ -67,12 +77,19 @@ const PricingSection = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button size="lg" className="px-8 py-6 text-lg rounded-xl">
+            <Button 
+              size="lg" 
+              className="px-8 py-6 text-lg rounded-xl"
+              onClick={handleGetStarted}
+            >
               Get started
             </Button>
-            <a href="#" className="text-sm underline">
+            <button 
+              onClick={handleGetStarted}
+              className="text-sm underline"
+            >
               book a call
-            </a>
+            </button>
           </div>
         </div>
       </div>
