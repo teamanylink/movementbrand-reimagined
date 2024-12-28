@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface UsersListProps {
   onSelectUser: (userId: string) => void;
@@ -12,21 +12,46 @@ interface UsersListProps {
 
 export const UsersList = ({ onSelectUser, selectedUserId }: UsersListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
-  const { data: users } = useQuery({
-    queryKey: ['chat-users'],
-    queryFn: async () => {
+  // Fetch current user and their profile
+  useEffect(() => {
+    const getCurrentUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return [];
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+        
+        setCurrentUser(profile);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
-      const { data, error } = await supabase
+  // Fetch users based on current user's role
+  const { data: users } = useQuery({
+    queryKey: ['chat-users', currentUser?.is_superadmin],
+    queryFn: async () => {
+      if (!currentUser) return [];
+
+      let query = supabase
         .from('profiles')
         .select('*')
-        .neq('id', user.id);
-      
+        .neq('id', currentUser.id);
+
+      // If user is not an admin, only show admins
+      if (!currentUser.is_superadmin) {
+        query = query.eq('is_superadmin', true);
+      }
+
+      const { data, error } = await query;
       if (error) throw error;
       return data || [];
     },
+    enabled: !!currentUser,
   });
 
   const filteredUsers = users?.filter(user => 
