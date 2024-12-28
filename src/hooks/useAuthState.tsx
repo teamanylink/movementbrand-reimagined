@@ -9,7 +9,10 @@ export const useAuthState = () => {
   useEffect(() => {
     const fetchInitialState = async () => {
       try {
+        console.log("Fetching initial auth state...");
         const { data: { session } } = await supabase.auth.getSession();
+        console.log("Session:", session);
+        
         setIsAuthenticated(!!session);
 
         if (session) {
@@ -19,11 +22,13 @@ export const useAuthState = () => {
             .eq('id', session.user.id)
             .single();
           
+          console.log("Profile:", profile);
           setUserProfile(profile);
         }
       } catch (error) {
         console.error('Error fetching initial state:', error);
       } finally {
+        console.log("Setting loading to false");
         setIsLoading(false);
       }
     };
@@ -31,6 +36,7 @@ export const useAuthState = () => {
     fetchInitialState();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state changed:", event, session);
       const isAuthed = !!session;
       setIsAuthenticated(isAuthed);
       
