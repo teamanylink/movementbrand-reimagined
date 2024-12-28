@@ -61,9 +61,9 @@ export const ProjectsList = () => {
             <SidebarMenuItem key={project.id}>
               <SidebarMenuButton 
                 asChild
-                className="hover:bg-blue-50 h-10 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+                className="hover:bg-gray-100 h-10 px-3 text-sm font-medium text-gray-700"
               >
-                <Link to={`/project/${project.id}`}>
+                <Link to={`/project/${project.id}`} className="flex items-center gap-2">
                   <div className={`h-2 w-2 rounded-full ${getProjectColor(index)}`} />
                   <span>{project.name}</span>
                 </Link>
