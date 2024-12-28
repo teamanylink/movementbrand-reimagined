@@ -55,11 +55,15 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() || !currentUserId) return;
 
     const { error } = await supabase
       .from('chat_messages')
-      .insert([{ message: newMessage, project_id: projectId }]);
+      .insert([{ 
+        message: newMessage, 
+        project_id: projectId,
+        user_id: currentUserId // Add the user_id here
+      }]);
 
     if (error) {
       toast({
