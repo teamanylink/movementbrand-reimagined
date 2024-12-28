@@ -14,21 +14,26 @@ interface Message {
   created_at: string;
 }
 
-interface MockUser {
-  id: number;
-  name: string;
-  avatar: string;
-}
-
 export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUserId(user.id);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   const fetchMessages = async () => {
     const { data, error } = await supabase
       .from('chat_messages')
-      .select('*')
+      .select('*, profiles(email)')
       .eq('project_id', projectId)
       .order('created_at', { ascending: true });
 
@@ -69,52 +74,37 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
     fetchMessages();
   };
 
-  const mockUsers = [
-    {
-      id: 1,
-      name: "Alex Chen",
-      avatar: "/lovable-uploads/89f2ac54-dbad-4de8-89b2-4f8a98396080.png"
-    },
-    {
-      id: 2,
-      name: "Sam Wilson",
-      avatar: "/lovable-uploads/dcff319f-0927-47c3-bc8f-28a465752bf0.png"
-    }
-  ];
-
   return (
     <div className="flex flex-col h-[600px]">
       <div className="flex justify-between items-center p-4 border-b">
         <h2 className="font-semibold">Project Chat</h2>
-        <div className="flex items-center -space-x-2">
-          {mockUsers.map((user) => (
-            <Avatar 
-              key={user.id} 
-              className="h-8 w-8 border-2 border-white transition-transform hover:scale-105 hover:z-10 hover:bg-[#F1F0FB] cursor-pointer"
-            >
-              <AspectRatio ratio={1}>
-                <AvatarImage src={user.avatar} alt={user.name} className="object-cover" />
-                <AvatarFallback>{user.name[0]}</AvatarFallback>
-              </AspectRatio>
-            </Avatar>
-          ))}
-        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div key={message.id} className="flex items-start gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={mockUsers[0].avatar} />
-              <AvatarFallback>
-                <UserRound className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
-            <div className="bg-gray-100 rounded-lg p-2 max-w-[80%]">
-              <p className="text-sm">{message.message}</p>
+        {messages.map((message) => {
+          const isCurrentUser = message.user_id === currentUserId;
+          return (
+            <div 
+              key={message.id} 
+              className={`flex items-start gap-2 ${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}
+            >
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className={`${isCurrentUser ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600'}`}>
+                  {(message as any).profiles?.email?.[0]?.toUpperCase() || <UserRound className="h-4 w-4" />}
+                </AvatarFallback>
+              </Avatar>
+              <div 
+                className={`rounded-lg p-2 max-w-[80%] ${
+                  isCurrentUser 
+                    ? 'bg-purple-100 text-purple-900' 
+                    : 'bg-gray-100 text-gray-900'
+                }`}
+              >
+                <p className="text-sm">{message.message}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="border-t p-4">
