@@ -21,6 +21,7 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   const { toast } = useToast();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const isMobile = useIsMobile();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -54,11 +55,15 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
     return email.charAt(0).toUpperCase();
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-white">
-        {/* Desktop sidebar */}
-        <div className="hidden md:block">
+        {/* Sidebar */}
+        <div className={`${isSidebarOpen ? 'block' : 'hidden'} md:block fixed md:relative z-50 h-full`}>
           <AppSidebar />
         </div>
         
@@ -67,7 +72,12 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="icon" className="md:hidden">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="md:hidden"
+                    onClick={toggleSidebar}
+                  >
                     <Menu className="h-5 w-5" />
                   </Button>
                   <div className="flex items-center">
