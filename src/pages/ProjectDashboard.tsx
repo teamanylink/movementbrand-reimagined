@@ -50,40 +50,62 @@ const ProjectDashboard = () => {
   // If we have a projectId, show the project detail view
   if (projectId) {
     return (
-      <div className="p-6">
-        <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList>
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="chat">Chat</TabsTrigger>
-            <TabsTrigger value="files">Files</TabsTrigger>
-          </TabsList>
-          <TabsContent value="dashboard">
-            <ProjectDashboardView projectId={projectId} />
-          </TabsContent>
-          <TabsContent value="chat">
-            <ProjectChat projectId={projectId} />
-          </TabsContent>
-          <TabsContent value="files">
-            <ProjectFilesView />
-          </TabsContent>
-        </Tabs>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-[1600px] mx-auto p-8">
+          <Tabs defaultValue="dashboard" className="w-full space-y-8">
+            <div className="bg-white rounded-xl shadow-sm p-4">
+              <TabsList className="grid w-full max-w-[400px] grid-cols-3">
+                <TabsTrigger 
+                  value="dashboard"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  Dashboard
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="chat"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  Chat
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="files"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  Files
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            
+            <TabsContent value="dashboard" className="mt-0">
+              <ProjectDashboardView projectId={projectId} />
+            </TabsContent>
+            <TabsContent value="chat" className="mt-0">
+              <div className="bg-white rounded-xl shadow-sm">
+                <ProjectChat projectId={projectId} />
+              </div>
+            </TabsContent>
+            <TabsContent value="files" className="mt-0">
+              <ProjectFilesView />
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     );
   }
 
   // Otherwise, show the projects list view
   return (
-    <div className="p-6">
+    <div className="p-8 max-w-[1600px] mx-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">Projects</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-semibold text-gray-900">Projects</h1>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <span>
                 <Button 
                   onClick={handleNewProjectClick}
-                  className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+                  className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800 shadow-sm"
                   disabled={!subscriptionData?.subscribed}
                 >
                   <Plus className="h-5 w-5 mr-2" />
@@ -101,7 +123,7 @@ const ProjectDashboard = () => {
       </div>
 
       {/* Kanban Board */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white rounded-xl shadow-sm">
         <KanbanBoard />
       </div>
 
