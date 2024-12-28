@@ -24,15 +24,27 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Check initial session
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setIsAuthenticated(!!session);
+      } catch (error) {
+        console.error('Session check error:', error);
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkSession();
+
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   if (isAuthenticated === null) {
@@ -56,9 +68,7 @@ const App = () => {
                     <Dashboard />
                   </AuthenticatedLayout>
                 ) : (
-                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                    <Auth />
-                  </div>
+                  <Navigate to="/" replace />
                 )
               } 
             />
