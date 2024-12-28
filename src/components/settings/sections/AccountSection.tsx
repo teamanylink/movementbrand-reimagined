@@ -1,13 +1,54 @@
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 
 export function AccountSection() {
+  const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    checkSubscription();
+  }, []);
+
+  const checkSubscription = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('check-subscription');
+      
+      if (error) throw error;
+      
+      setIsSubscribed(data?.subscribed || false);
+    } catch (error: any) {
+      console.error('Error checking subscription:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to check subscription status.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Card className="p-6 space-y-6">
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold">Account Settings</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Account Settings</h2>
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Badge variant={isSubscribed ? "default" : "secondary"}>
+              {isSubscribed ? "Active Subscription" : "No Active Subscription"}
+            </Badge>
+          )}
+        </div>
         
         <div className="space-y-2">
           <Label>Password</Label>
