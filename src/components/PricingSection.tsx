@@ -63,14 +63,6 @@ const PricingSection = () => {
       return;
     }
 
-    if (isSubscribed) {
-      toast({
-        title: "Already subscribed",
-        description: "You're already subscribed to this plan!",
-      });
-      return;
-    }
-
     try {
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9' }
