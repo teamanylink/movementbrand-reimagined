@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
-import { ArrowLeft, Upload, Trash2 } from "lucide-react";
-import { ProjectFormBrandSelect } from "./ProjectFormBrandSelect";
+import { ArrowLeft } from "lucide-react";
+import { ProjectDetailsStep } from "./project-form/ProjectDetailsStep";
+import { FileUploadStep } from "./project-form/FileUploadStep";
+import { ReviewStep } from "./project-form/ReviewStep";
 
 interface ProjectFormProps {
   onBack: () => void;
@@ -131,7 +129,7 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
         description: isDraft ? "Project saved as draft!" : "Project created successfully!",
       });
       onSubmit();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating project:", error);
       toast({
         title: "Error",
@@ -147,115 +145,34 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
     switch (step) {
       case 1:
         return (
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-lg font-semibold mb-4">Step 1: Project Details</h2>
-              <label htmlFor="projectName" className="block text-sm font-medium text-gray-700 mb-1">
-                Project Name
-              </label>
-              <Input 
-                id="projectName"
-                placeholder="Enter project name"
-                className="w-full"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-                Description
-              </label>
-              <Textarea 
-                id="description"
-                placeholder="Tell us about your project"
-                className="w-full min-h-[120px]"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <ProjectFormBrandSelect
-              value={selectedBrand}
-              onChange={setSelectedBrand}
-            />
-          </div>
+          <ProjectDetailsStep
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
+            selectedBrand={selectedBrand}
+            setSelectedBrand={setSelectedBrand}
+          />
         );
       case 2:
         return (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold mb-4">Step 2: File Upload (Optional)</h2>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
-              {!file ? (
-                <div className="text-center">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-primary hover:text-primary/80"
-                    >
-                      <span>Upload a file</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        onChange={handleFileChange}
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs leading-5 text-gray-600">Any file up to 10MB</p>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">{file.name}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={removeFile}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
+          <FileUploadStep
+            file={file}
+            onFileChange={handleFileChange}
+            onRemoveFile={removeFile}
+          />
         );
       case 3:
         return (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold mb-4">Step 3: Review</h2>
-            <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-              <div>
-                <span className="font-medium">Project Name:</span> {name}
-              </div>
-              <div>
-                <span className="font-medium">Project Type:</span> {selectedProjectType}
-              </div>
-              {description && (
-                <div>
-                  <span className="font-medium">Description:</span> {description}
-                </div>
-              )}
-              <div>
-                <span className="font-medium">Brand:</span>{" "}
-                {selectedBrand === "movementbrand" ? "MovementBrand" : "Other"}
-              </div>
-              {file && (
-                <div>
-                  <span className="font-medium">Attached File:</span> {file.name}
-                </div>
-              )}
-              <div className="flex items-center space-x-2 pt-2">
-                <Switch
-                  id="draft-toggle"
-                  checked={!isDraft}
-                  onCheckedChange={(checked) => setIsDraft(!checked)}
-                />
-                <Label htmlFor="draft-toggle">Publish immediately</Label>
-              </div>
-            </div>
-          </div>
+          <ReviewStep
+            name={name}
+            selectedProjectType={selectedProjectType}
+            description={description}
+            selectedBrand={selectedBrand}
+            file={file}
+            isDraft={isDraft}
+            setIsDraft={setIsDraft}
+          />
         );
       default:
         return null;
