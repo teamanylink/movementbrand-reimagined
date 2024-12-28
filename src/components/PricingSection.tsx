@@ -87,13 +87,13 @@ const PricingSection = () => {
               <DialogTrigger asChild>
                 <Button variant="outline" className="w-full">Schedule a Call</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px]">
-                <DialogHeader>
+              <DialogContent className="w-screen h-screen max-w-none m-0 p-0 rounded-none">
+                <DialogHeader className="absolute top-4 right-4 left-4 z-50">
                   <DialogTitle>Schedule a Call</DialogTitle>
                 </DialogHeader>
-                <div className="min-h-[600px]">
+                <div className="w-full h-full">
                   <div 
-                    className="tidycal-embed w-full h-[600px]" 
+                    className="tidycal-embed w-full h-full" 
                     data-path="denis5/15-minute-meeting"
                     style={{ 
                       overflow: 'hidden',
