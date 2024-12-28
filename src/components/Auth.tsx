@@ -136,11 +136,19 @@ const Auth = () => {
         view="sign_in"
         localization={{
           variables: {
-            sign_up: {
-              link_text: "Don't have an account? Sign up",
-              button_label: "Sign up",
+            sign_in: {
               email_label: "Email",
               password_label: "Password",
+              button_label: "Sign in",
+              link_text: "",
+              password_input_placeholder: "Password",
+              email_input_placeholder: "Email",
+            },
+            forgotten_password: {
+              link_text: "",
+            },
+            sign_up: {
+              link_text: "",
             },
           },
         }}
