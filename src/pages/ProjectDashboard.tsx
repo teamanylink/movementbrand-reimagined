@@ -85,7 +85,7 @@ const ProjectDashboard = () => {
               </div>
             </TabsContent>
             <TabsContent value="files" className="mt-0">
-              <ProjectFilesView />
+              <ProjectFilesView projectId={projectId} />
             </TabsContent>
           </Tabs>
         </div>
