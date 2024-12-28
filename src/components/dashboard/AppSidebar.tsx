@@ -1,4 +1,4 @@
-import { LogOut, Search, Home, FolderKanban, CheckSquare, Settings, ChevronDown, MessageSquare, AppWindow } from "lucide-react"
+import { LogOut, Search, Home, FolderKanban, CheckSquare, Settings, ChevronDown, MessageSquare } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
@@ -53,7 +53,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-gray-200">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
-          <AppWindow className="h-5 w-5 text-gray-700" />
+          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#9b87f5] to-[#0EA5E9]" />
           <h2 className="text-lg font-semibold">MovementBrand</h2>
         </div>
         <div className="px-2 mt-4">
@@ -119,6 +119,7 @@ export function AppSidebar() {
           </SidebarMenuButton>
         </nav>
       </SidebarContent>
+
       <SidebarFooter className="p-4 border-t">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
