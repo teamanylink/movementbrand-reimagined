@@ -75,7 +75,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <h2 className="text-xl font-semibold">Mondays</h2>
+        <h2 className="text-xl font-semibold">MovementBrand</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
