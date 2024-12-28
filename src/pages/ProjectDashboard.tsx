@@ -6,11 +6,12 @@ import { ProjectChat } from "@/components/project/ProjectChat";
 import { ProjectTasks } from "@/components/project/ProjectTasks";
 import { ProjectHistory } from "@/components/project/ProjectHistory";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Share2, Paperclip, MoreHorizontal } from "lucide-react";
+import { ArrowLeft, Calendar, Share2, Paperclip, MoreHorizontal, Grid, MessageSquare, Files } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const ProjectDashboard = () => {
   const { projectId } = useParams();
@@ -85,93 +86,127 @@ const ProjectDashboard = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-12 gap-6">
-          {/* Left Column - Tasks */}
-          <div className="col-span-8">
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              <ProjectTasks projectId={projectId!} />
-            </div>
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <ProjectHistory projectId={projectId!} />
-            </div>
-          </div>
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="dashboard" className="gap-2">
+              <Grid className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="chat" className="gap-2">
+              <MessageSquare className="h-4 w-4" />
+              Chat
+            </TabsTrigger>
+            <TabsTrigger value="files" className="gap-2">
+              <Files className="h-4 w-4" />
+              Files
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Right Column - Project Details & Chat */}
-          <div className="col-span-4 space-y-6">
-            {/* Project Details Card */}
-            <div className="bg-white rounded-xl shadow-sm divide-y">
-              <div className="p-6">
-                <div className="space-y-6">
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Assignee</label>
-                    <div className="mt-2 flex items-center gap-2">
-                      <Avatar className="h-8 w-8">
-                        {project?.profiles?.avatar_url ? (
-                          <AvatarImage src={project.profiles.avatar_url} alt="User avatar" />
-                        ) : (
-                          <AvatarFallback>
-                            {getInitials(project?.profiles?.email)}
-                          </AvatarFallback>
-                        )}
-                      </Avatar>
-                      <span className="text-sm text-gray-900">{project?.profiles?.email}</span>
+          <TabsContent value="dashboard">
+            <div className="grid grid-cols-12 gap-6">
+              {/* Left Column - Tasks */}
+              <div className="col-span-8">
+                <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                  <ProjectTasks projectId={projectId!} />
+                </div>
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                  <ProjectHistory projectId={projectId!} />
+                </div>
+              </div>
+
+              {/* Right Column - Project Details & Chat */}
+              <div className="col-span-4 space-y-6">
+                {/* Project Details Card */}
+                <div className="bg-white rounded-xl shadow-sm divide-y">
+                  <div className="p-6">
+                    <div className="space-y-6">
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Assignee</label>
+                        <div className="mt-2 flex items-center gap-2">
+                          <Avatar className="h-8 w-8">
+                            {project?.profiles?.avatar_url ? (
+                              <AvatarImage src={project.profiles.avatar_url} alt="User avatar" />
+                            ) : (
+                              <AvatarFallback>
+                                {getInitials(project?.profiles?.email)}
+                              </AvatarFallback>
+                            )}
+                          </Avatar>
+                          <span className="text-sm text-gray-900">{project?.profiles?.email}</span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Due Date</label>
+                        <div className="mt-2 flex items-center gap-2 text-sm text-gray-900">
+                          <Calendar className="h-4 w-4 text-gray-400" />
+                          {new Date().toLocaleDateString('en-US', { 
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Status</label>
+                        <div className="mt-2">
+                          <Badge 
+                            variant="secondary" 
+                            className={`text-sm ${
+                              project?.status === 'completed' 
+                                ? 'bg-green-100 text-green-800' 
+                                : project?.status === 'in_progress' 
+                                ? 'bg-purple-100 text-purple-800'
+                                : 'bg-blue-100 text-blue-800'
+                            }`}
+                          >
+                            {project?.status || 'In Progress'}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Description</label>
+                        <p className="mt-2 text-sm text-gray-600">
+                          {project?.description || 'No description provided.'}
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="text-sm font-medium text-gray-500">Attachments</label>
+                        <Button variant="outline" className="mt-2 w-full justify-start gap-2 text-sm">
+                          <Paperclip className="h-4 w-4" />
+                          Add files
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Due Date</label>
-                    <div className="mt-2 flex items-center gap-2 text-sm text-gray-900">
-                      <Calendar className="h-4 w-4 text-gray-400" />
-                      {new Date().toLocaleDateString('en-US', { 
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Status</label>
-                    <div className="mt-2">
-                      <Badge 
-                        variant="secondary" 
-                        className={`text-sm ${
-                          project?.status === 'completed' 
-                            ? 'bg-green-100 text-green-800' 
-                            : project?.status === 'in_progress' 
-                            ? 'bg-purple-100 text-purple-800'
-                            : 'bg-blue-100 text-blue-800'
-                        }`}
-                      >
-                        {project?.status || 'In Progress'}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Description</label>
-                    <p className="mt-2 text-sm text-gray-600">
-                      {project?.description || 'No description provided.'}
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-gray-500">Attachments</label>
-                    <Button variant="outline" className="mt-2 w-full justify-start gap-2 text-sm">
-                      <Paperclip className="h-4 w-4" />
-                      Add files
-                    </Button>
                   </div>
                 </div>
               </div>
             </div>
+          </TabsContent>
 
-            {/* Chat Section */}
+          <TabsContent value="chat">
             <div className="bg-white rounded-xl shadow-sm">
               <ProjectChat projectId={projectId!} />
             </div>
-          </div>
-        </div>
+          </TabsContent>
+
+          <TabsContent value="files">
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <h2 className="text-lg font-semibold mb-4">Project Files</h2>
+              <div className="text-center text-gray-500 py-8">
+                <Files className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <p>No files uploaded yet</p>
+                <Button variant="outline" className="mt-4 gap-2">
+                  <Paperclip className="h-4 w-4" />
+                  Upload Files
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
