@@ -102,7 +102,7 @@ export function AppSidebar() {
           >
             <a href="/chat">
               <CheckSquare className="h-4 w-4" />
-              <span>Chat</span>
+              <span>Support Chat</span>
             </a>
           </SidebarMenuButton>
           
@@ -136,5 +136,5 @@ export function AppSidebar() {
         </div>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
