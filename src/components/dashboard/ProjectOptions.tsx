@@ -3,6 +3,9 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Bot, Paintbrush, Layout, Building2, BookOpen, Plus } from "lucide-react";
 import { useState } from "react";
 import { ProjectForm } from "./ProjectForm";
+import { useSubscription } from "@/hooks/use-subscription";
+import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface ProjectType {
   name: string;
@@ -52,8 +55,21 @@ const getIconBackground = (name: string) => {
 
 export const ProjectOptions = ({ projectTypes, onSelectProject, open, onOpenChange }: ProjectOptionsProps) => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const { data: subscriptionData } = useSubscription();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleProjectSelect = (projectName: string) => {
+    if (!subscriptionData?.subscribed) {
+      toast({
+        title: "Subscription Required",
+        description: "Please upgrade your account to create new projects.",
+        variant: "destructive",
+      });
+      navigate('/dashboard/settings');
+      onOpenChange(false);
+      return;
+    }
     setSelectedType(projectName);
   };
 

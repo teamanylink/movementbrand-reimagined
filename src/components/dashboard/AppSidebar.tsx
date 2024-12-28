@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@tanstack/react-query"
+import { useSubscription } from "@/hooks/use-subscription"
 
 import {
   Sidebar,
@@ -25,6 +26,12 @@ import {
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const mainMenuItems = [
   {
@@ -72,7 +79,9 @@ export function AppSidebar() {
       if (error) throw error;
       return data;
     },
-  });
+  })
+
+  const { data: subscriptionData } = useSubscription()
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -86,6 +95,18 @@ export function AppSidebar() {
   const getProjectColor = (index: number) => {
     const colors = ['bg-purple-100', 'bg-green-100', 'bg-blue-100', 'bg-yellow-100', 'bg-red-100']
     return colors[index % colors.length]
+  }
+
+  const handleNewProjectClick = () => {
+    if (!subscriptionData?.subscribed) {
+      toast({
+        title: "Subscription Required",
+        description: "Please upgrade your account to create new projects.",
+        variant: "destructive",
+      })
+      return
+    }
+    navigate('/project')
   }
 
   return (
@@ -132,14 +153,26 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="flex justify-between items-center px-4 py-2">
             <span>Projects</span>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="h-6 w-6"
-              onClick={() => navigate('/project')}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={handleNewProjectClick}
+                    disabled={!subscriptionData?.subscribed}
+                  >
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                {!subscriptionData?.subscribed && (
+                  <TooltipContent>
+                    <p>Upgrade your account to create projects</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
