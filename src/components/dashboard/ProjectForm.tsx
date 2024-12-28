@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { ArrowLeft, Upload, Trash2 } from "lucide-react";
+import { ProjectFormBrandSelect } from "./ProjectFormBrandSelect";
 
 interface ProjectFormProps {
   onBack: () => void;
@@ -19,7 +18,7 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [isMovementBrand, setIsMovementBrand] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState("movementbrand");
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDraft, setIsDraft] = useState(true);
@@ -58,21 +57,18 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
     setIsSubmitting(true);
     
     try {
-      // Get the current user
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError || !user) {
         throw new Error("User not found");
       }
 
-      // Ensure user has a profile
       const { data: existingProfile } = await supabase
         .from('profiles')
         .select()
         .eq('id', user.id)
         .single();
 
-      // If no profile exists, create one
       if (!existingProfile) {
         const { error: profileError } = await supabase
           .from('profiles')
@@ -86,7 +82,6 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
         }
       }
 
-      // Create the project
       const { data: project, error: projectError } = await supabase
         .from('projects')
         .insert({
@@ -94,7 +89,8 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
           description: description.trim() || null,
           project_type: selectedProjectType,
           user_id: user.id,
-          is_draft: isDraft
+          is_draft: isDraft,
+          brand: selectedBrand
         })
         .select()
         .single();
@@ -103,7 +99,6 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
         throw projectError;
       }
 
-      // Upload file if present
       if (file && project.id) {
         const fileExt = file.name.split('.').pop();
         const filePath = `${project.id}/${crypto.randomUUID()}.${fileExt}`;
@@ -116,7 +111,6 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
           throw uploadError;
         }
 
-        // Save file reference
         const { error: fileError } = await supabase
           .from('project_files')
           .insert({
@@ -177,14 +171,10 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <Switch
-                id="brand-toggle"
-                checked={isMovementBrand}
-                onCheckedChange={setIsMovementBrand}
-              />
-              <Label htmlFor="brand-toggle">This is a MovementBrand project</Label>
-            </div>
+            <ProjectFormBrandSelect
+              value={selectedBrand}
+              onChange={setSelectedBrand}
+            />
           </div>
         );
       case 2:
@@ -247,7 +237,7 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
               )}
               <div>
                 <span className="font-medium">Brand:</span>{" "}
-                {isMovementBrand ? "MovementBrand" : "Other"}
+                {selectedBrand === "movementbrand" ? "MovementBrand" : "Other"}
               </div>
               {file && (
                 <div>
