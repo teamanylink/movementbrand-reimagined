@@ -1,4 +1,4 @@
-import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings, ChevronDown } from "lucide-react"
+import { LogOut, Search, Home, LayoutDashboard, FolderKanban, CheckSquare, PieChart, Users, LifeBuoy, Settings, ChevronDown, MessageSquare } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
@@ -95,6 +95,16 @@ export function AppSidebar() {
               </div>
             )}
           </div>
+          
+          <SidebarMenuButton 
+            asChild
+            className="w-full justify-start text-gray-700 hover:bg-gray-100 h-10 px-3 text-sm font-medium"
+          >
+            <a href="/chat">
+              <MessageSquare className="h-4 w-4" />
+              <span>Messages</span>
+            </a>
+          </SidebarMenuButton>
           
           <SidebarMenuButton 
             asChild

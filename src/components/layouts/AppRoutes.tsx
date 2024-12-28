@@ -8,6 +8,7 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import Auth from "@/components/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import Chat from "@/pages/Chat";
 
 interface AppRoutesProps {
   isAuthenticated: boolean;
@@ -115,6 +116,18 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
             <Navigate to="/" replace />
           )
         }
+      />
+      <Route 
+        path="/chat" 
+        element={
+          isAuthenticated ? (
+            <AuthenticatedLayout>
+              <Chat />
+            </AuthenticatedLayout>
+          ) : (
+            <Navigate to="/" replace />
+          )
+        } 
       />
     </Routes>
   );
