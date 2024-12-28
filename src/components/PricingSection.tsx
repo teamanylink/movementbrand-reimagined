@@ -92,7 +92,16 @@ const PricingSection = () => {
                   <DialogTitle>Schedule a Call</DialogTitle>
                 </DialogHeader>
                 <div className="min-h-[600px]">
-                  <div className="tidycal-embed" data-path="denis5/15-minute-meeting"></div>
+                  <div 
+                    className="tidycal-embed w-full h-[600px]" 
+                    data-path="denis5/15-minute-meeting"
+                    style={{ 
+                      overflow: 'hidden',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  ></div>
                 </div>
               </DialogContent>
             </Dialog>
