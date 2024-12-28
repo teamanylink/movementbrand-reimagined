@@ -49,7 +49,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar className="border-r border-gray-200 bg-white">
+    <Sidebar className="border-r border-gray-200 bg-red-500">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
           <h2 className="text-lg font-semibold">MovementBrand</h2>
