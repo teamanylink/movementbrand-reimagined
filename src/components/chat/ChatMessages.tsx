@@ -67,6 +67,7 @@ export const ChatMessages = ({ userId }: { userId: string }) => {
 
     fetchMessages();
 
+    // Subscribe to new messages
     const channel = supabase
       .channel('chat-messages')
       .on(
