@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Send, UserRound } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface Message {
   id: string;
@@ -120,8 +121,10 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
         <div className="flex items-center -space-x-2">
           {mockUsers.map((user) => (
             <Avatar key={user.id} className="h-8 w-8 border-2 border-white">
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback>{user.name[0]}</AvatarFallback>
+              <AspectRatio ratio={1}>
+                <AvatarImage src={user.avatar} alt={user.name} className="object-cover" />
+                <AvatarFallback>{user.name[0]}</AvatarFallback>
+              </AspectRatio>
             </Avatar>
           ))}
         </div>
