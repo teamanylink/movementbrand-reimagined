@@ -50,7 +50,6 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
     setIsUploading(true);
 
     try {
-      // Upload file to storage
       const fileExt = file.name.split('.').pop();
       const filePath = `${projectId}/${crypto.randomUUID()}.${fileExt}`;
 
@@ -60,7 +59,6 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
 
       if (uploadError) throw uploadError;
 
-      // Create file record in database
       const { error: dbError } = await supabase
         .from('project_files')
         .insert({
@@ -86,7 +84,6 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
       });
     } finally {
       setIsUploading(false);
-      // Reset the input
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
@@ -95,14 +92,22 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
 
   const handleDelete = async (filePath: string, fileId: string) => {
     try {
-      // Delete from storage
+      // First, remove references from chat_messages
+      const { error: chatError } = await supabase
+        .from('chat_messages')
+        .update({ file_id: null })
+        .eq('file_id', fileId);
+
+      if (chatError) throw chatError;
+
+      // Then delete from storage
       const { error: storageError } = await supabase.storage
         .from('project-files')
         .remove([filePath]);
 
       if (storageError) throw storageError;
 
-      // Delete from database
+      // Finally delete from database
       const { error: dbError } = await supabase
         .from('project_files')
         .delete()
@@ -130,7 +135,7 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
     try {
       const { data } = await supabase.storage
         .from('project-files')
-        .createSignedUrl(filePath, 3600); // URL valid for 1 hour
+        .createSignedUrl(filePath, 3600);
 
       if (data?.signedUrl) {
         const fileType = fileName.split('.').pop()?.toLowerCase();
