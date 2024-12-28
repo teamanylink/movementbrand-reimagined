@@ -27,14 +27,29 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
+  // Function to handle session cleanup and state reset
+  const handleSessionCleanup = async () => {
+    setIsAuthenticated(false);
+    queryClient.clear();
+    // Ensure we clear any lingering session
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Cleanup signout error:', error);
+    }
+  };
+
   useEffect(() => {
+    let mounted = true;
+
     // Check initial session
     const checkSession = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Session check error:", error);
-          setIsAuthenticated(false);
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error("Session check error:", sessionError);
+          await handleSessionCleanup();
           toast({
             variant: "destructive",
             title: "Authentication Error",
@@ -42,19 +57,18 @@ const App = () => {
           });
           return;
         }
-        
+
         if (!session) {
-          setIsAuthenticated(false);
+          await handleSessionCleanup();
           return;
         }
 
-        // Verify the session is still valid
+        // Additional session validation
         const { data: { user }, error: userError } = await supabase.auth.getUser();
+        
         if (userError || !user) {
           console.error("User verification error:", userError);
-          setIsAuthenticated(false);
-          // Clear the invalid session
-          await supabase.auth.signOut();
+          await handleSessionCleanup();
           toast({
             variant: "destructive",
             title: "Session Expired",
@@ -63,12 +77,16 @@ const App = () => {
           return;
         }
 
-        setIsAuthenticated(true);
+        if (mounted) {
+          setIsAuthenticated(true);
+        }
       } catch (error) {
         console.error("Session check error:", error);
-        setIsAuthenticated(false);
+        await handleSessionCleanup();
       } finally {
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     };
 
@@ -78,15 +96,27 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, !!session);
       
-      if (event === 'SIGNED_OUT') {
-        // Clear any application cache/state
-        queryClient.clear();
-        setIsAuthenticated(false);
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        await handleSessionCleanup();
         toast({
           title: "Signed out",
           description: "You have been successfully signed out.",
         });
-      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+      } else if (event === 'SIGNED_IN' && session) {
+        setIsAuthenticated(true);
+      } else if (event === 'TOKEN_REFRESHED' && session) {
+        // Validate the refreshed session
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+          console.error("Session refresh validation error:", userError);
+          await handleSessionCleanup();
+          toast({
+            variant: "destructive",
+            title: "Session Error",
+            description: "There was a problem with your session. Please sign in again.",
+          });
+          return;
+        }
         setIsAuthenticated(true);
       }
 
@@ -94,6 +124,7 @@ const App = () => {
     });
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, [toast]);
