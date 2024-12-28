@@ -28,15 +28,28 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
       const script = document.createElement("script");
       script.src = "https://asset-tidycal.b-cdn.net/js/embed.js";
       script.async = true;
+      script.crossOrigin = "anonymous";
+      
+      // Add error handling
+      script.onerror = (error) => {
+        console.error("Error loading TidyCal script:", error);
+      };
+
+      // Initialize TidyCal after a short delay to ensure proper loading
+      script.onload = () => {
+        setTimeout(() => {
+          if (window.TidyCal) {
+            try {
+              window.TidyCal.init();
+            } catch (error) {
+              console.error("Error initializing TidyCal:", error);
+            }
+          }
+        }, 100);
+      };
+
       document.body.appendChild(script);
       scriptRef.current = script;
-
-      // Initialize TidyCal
-      script.onload = () => {
-        if (window.TidyCal) {
-          window.TidyCal.init();
-        }
-      };
     }
 
     return () => {
