@@ -85,12 +85,6 @@ const Index = () => {
                   </AspectRatio>
                   <AvatarFallback>AL</AvatarFallback>
                 </Avatar>
-                <Avatar className="w-10 h-10 border-2 border-white">
-                  <AspectRatio ratio={1}>
-                    <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" className="object-cover" />
-                  </AspectRatio>
-                  <AvatarFallback>TG</AvatarFallback>
-                </Avatar>
               </div>
               <p className="text-sm text-gray-600">
                 <span className="font-semibold">250+</span> creators joined this month
