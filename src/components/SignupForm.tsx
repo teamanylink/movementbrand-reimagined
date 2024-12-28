@@ -20,6 +20,7 @@ export interface SignupFormData {
   websiteUrl: string;
   email: string;
   phoneNumber: string;
+  password: string;
 }
 
 export const SignupForm = ({ open, onOpenChange, onSubmit, isLoading }: SignupFormProps) => {
@@ -30,16 +31,27 @@ export const SignupForm = ({ open, onOpenChange, onSubmit, isLoading }: SignupFo
     websiteUrl: "",
     email: "",
     phoneNumber: "",
+    password: "",
   });
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.email || !formData.firstName || !formData.lastName) {
+    if (!formData.email || !formData.firstName || !formData.lastName || !formData.password) {
       toast({
         title: "Error",
         description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Password validation
+    if (formData.password.length < 6) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 6 characters long",
         variant: "destructive",
       });
       return;
@@ -99,6 +111,18 @@ export const SignupForm = ({ open, onOpenChange, onSubmit, isLoading }: SignupFo
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password *</Label>
+            <Input
+              id="password"
+              type="password"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              required
+              minLength={6}
+            />
+            <p className="text-sm text-gray-500">Password must be at least 6 characters long</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="phoneNumber">Phone Number</Label>
