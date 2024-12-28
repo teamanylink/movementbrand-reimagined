@@ -2,7 +2,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Globe, LogOut, Settings } from "lucide-react";
+import { Globe, LogOut, Settings, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,12 +56,24 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
-        <AppSidebar />
+        <div className="hidden md:block">
+          <AppSidebar />
+        </div>
         <div className="flex-1">
           <nav className="bg-white border-gray-800 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
-                <div className="flex items-center">
+                <div className="flex items-center gap-4">
+                  <Sheet>
+                    <SheetTrigger asChild className="md:hidden">
+                      <Button variant="ghost" size="icon">
+                        <Menu className="h-5 w-5" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="p-0 w-72">
+                      <AppSidebar />
+                    </SheetContent>
+                  </Sheet>
                   <div className="flex items-center">
                     <span className="text-black font-semibold">MovementBrand</span>
                     <span className="text-gray-400 mx-2">/</span>
