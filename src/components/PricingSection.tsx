@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 
@@ -23,20 +24,8 @@ const PricingSection = () => {
     "2 hours of Consults"
   ];
 
-  useEffect(() => {
-    // Load TidyCal script
-    const script = document.createElement('script');
-    script.src = 'https://asset-tidycal.b-cdn.net/js/embed.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
-    <section id="pricing" className="py-24 px-4 bg-white relative overflow-hidden">
+    <section className="py-24 px-4 bg-white relative overflow-hidden">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Membership</h2>
@@ -77,10 +66,13 @@ const PricingSection = () => {
             </div>
           </div>
 
-          <div className="space-y-6">
-            <Button size="lg" className="px-8 py-6 text-lg rounded-xl w-full">
+          <div className="flex items-center gap-4">
+            <Button size="lg" className="px-8 py-6 text-lg rounded-xl">
               Get started
             </Button>
+            <a href="#" className="text-sm underline">
+              book a call
+            </a>
           </div>
         </div>
       </div>
