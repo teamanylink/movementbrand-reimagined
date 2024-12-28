@@ -59,12 +59,23 @@ export function AppSidebar() {
   })
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    toast({
-      title: "Signed out successfully",
-      description: "You have been logged out of your account.",
-    })
-    navigate("/")
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+
+      toast({
+        title: "Signed out successfully",
+        description: "You have been logged out of your account.",
+      })
+      navigate("/")
+    } catch (error) {
+      console.error('Sign out error:', error)
+      toast({
+        variant: "destructive",
+        title: "Error signing out",
+        description: "There was a problem signing you out. Please try again.",
+      })
+    }
   }
 
   const getProjectColor = (index: number) => {
