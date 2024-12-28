@@ -59,14 +59,26 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // Update sidebar state when screen size changes
+  useEffect(() => {
+    setIsSidebarOpen(!isMobile);
+  }, [isMobile]);
+
   return (
     <SidebarProvider defaultOpen={!isMobile}>
       <div className="flex min-h-screen w-full bg-white">
         {/* Sidebar */}
-        <div className={`${isSidebarOpen ? 'block' : 'hidden'} md:block fixed md:relative z-50 h-full`}>
+        <div 
+          className={`
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+            transform transition-transform duration-300 ease-in-out
+            fixed md:relative md:translate-x-0 z-50 h-full
+          `}
+        >
           <AppSidebar />
         </div>
         
+        {/* Main content */}
         <div className="flex-1">
           <nav className="bg-white border-b border-gray-200 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,6 +135,14 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
             {children}
           </main>
         </div>
+
+        {/* Overlay for mobile */}
+        {isSidebarOpen && isMobile && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
       </div>
     </SidebarProvider>
   );
