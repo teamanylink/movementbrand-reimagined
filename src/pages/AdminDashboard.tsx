@@ -14,42 +14,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-
-  // Check authentication status
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      navigate('/');
-      return false;
-    }
-    return true;
-  };
-
   const { data: profiles } = useQuery({
     queryKey: ['admin-profiles'],
     queryFn: async () => {
-      const isAuthenticated = await checkAuth();
-      if (!isAuthenticated) return [];
-
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('is_superadmin', false)
         .order('created_at', { ascending: false });
       
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to fetch profiles. Please try again.",
-        });
-        throw error;
-      }
+      if (error) throw error;
       return data;
     },
   });
@@ -57,22 +34,12 @@ const AdminDashboard = () => {
   const { data: projects } = useQuery({
     queryKey: ['admin-projects'],
     queryFn: async () => {
-      const isAuthenticated = await checkAuth();
-      if (!isAuthenticated) return [];
-
       const { data, error } = await supabase
         .from('projects')
         .select('*, profiles(email)')
         .order('created_at', { ascending: false });
       
-      if (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to fetch projects. Please try again.",
-        });
-        throw error;
-      }
+      if (error) throw error;
       return data;
     },
   });
