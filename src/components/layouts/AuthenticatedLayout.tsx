@@ -2,11 +2,12 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Globe, LogOut } from "lucide-react";
+import { Globe, LogOut, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
@@ -21,9 +22,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      // console.log("Fetching user...");
-  
-      // Fetch the authenticated user
       const { data: userResponse, error: userError } = await supabase.auth.getUser();
   
       if (userError) {
@@ -32,13 +30,10 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
       }
   
       const user = userResponse?.user;
-      // console.log("Fetched user:", user);
   
       if (user && user.email) {
-        // Directly set userEmail to user.email (before the '@' character)
         const username = user.email.split("@")[0];
         setUserEmail(username);
-        // console.log("Set userEmail:", username);
       } else {
         console.warn("No user or email found.");
       }
@@ -46,8 +41,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   
     fetchUserProfile();
   }, []);
-  
-  
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -64,7 +57,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
       <div className="flex min-h-screen w-full bg-white">
         <AppSidebar />
         <div className="flex-1">
-          {/* Top Navigation Bar */}
           <nav className="bg-white border-gray-800 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
@@ -93,6 +85,11 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                       </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem onClick={() => navigate('/dashboard/settings')} className="cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
