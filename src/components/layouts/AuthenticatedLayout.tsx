@@ -58,34 +58,32 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
-        {/* Show AppSidebar directly on desktop */}
-        {!isMobile && (
-          <div className="hidden md:block">
-            <AppSidebar />
-          </div>
-        )}
+        {/* Desktop sidebar */}
+        <div className="hidden md:block">
+          <AppSidebar />
+        </div>
         
         <div className="flex-1">
           <nav className="bg-white border-gray-800 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
-                  {/* Show Sheet with AppSidebar on mobile */}
-                  {isMobile && (
-                    <Sheet>
-                      <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <Menu className="h-5 w-5" />
-                        </Button>
-                      </SheetTrigger>
-                      <SheetContent 
-                        side="left" 
-                        className="p-0 w-72"
-                      >
+                  {/* Mobile sidebar trigger */}
+                  <Sheet>
+                    <SheetTrigger asChild className="md:hidden">
+                      <Button variant="ghost" size="icon">
+                        <Menu className="h-5 w-5" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent 
+                      side="left" 
+                      className="p-0 w-72"
+                    >
+                      <div className="h-full overflow-y-auto">
                         <AppSidebar />
-                      </SheetContent>
-                    </Sheet>
-                  )}
+                      </div>
+                    </SheetContent>
+                  </Sheet>
                   <div className="flex items-center">
                     <span className="text-black font-semibold">MovementBrand</span>
                     <span className="text-gray-400 mx-2">/</span>
