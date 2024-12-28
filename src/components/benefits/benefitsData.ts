@@ -26,7 +26,7 @@ export const benefits = [
   },
   {
     type: 'unique' as const,
-    title: "Unique and all yours",
-    description: "Each of your designs is made especially for you and is 100% yours."
+    title: "Sell as your own",
+    description: "Use your subscription for yourself or to sell high-ticket services to your clients."
   }
 ];
