@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Send, UserRound, Paperclip, Heart, Flame } from "lucide-react";
+import { Send, UserRound, Paperclip } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface Message {
@@ -98,14 +98,11 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
               key={message.id} 
               className={`flex items-start gap-3 ${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}
             >
-              <div className="relative">
-                <Avatar className="h-8 w-8">
-                  <AvatarFallback className={`${isCurrentUser ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600'}`}>
-                    {(message as any).profiles?.email?.[0]?.toUpperCase() || <UserRound className="h-4 w-4" />}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white" />
-              </div>
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className={`${isCurrentUser ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600'}`}>
+                  {(message as any).profiles?.email?.[0]?.toUpperCase() || <UserRound className="h-4 w-4" />}
+                </AvatarFallback>
+              </Avatar>
               <div className="flex flex-col gap-1 max-w-[70%]">
                 <div className="flex items-center gap-2 text-xs text-gray-500">
                   <span>{(message as any).profiles?.email?.split('@')[0]}</span>
@@ -119,14 +116,6 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>
-                </div>
-                <div className={`flex gap-2 text-xs ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
-                  <button className="flex items-center gap-1 text-gray-500 hover:text-red-500">
-                    <Heart className="h-4 w-4" /> 2
-                  </button>
-                  <button className="flex items-center gap-1 text-gray-500 hover:text-orange-500">
-                    <Flame className="h-4 w-4" /> 1
-                  </button>
                 </div>
               </div>
             </div>
