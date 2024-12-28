@@ -92,10 +92,10 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
 
   const handleDelete = async (filePath: string, fileId: string) => {
     try {
-      // First, remove references from chat_messages
+      // First, delete chat messages that reference this file
       const { error: chatError } = await supabase
         .from('chat_messages')
-        .update({ file_id: null })
+        .delete()
         .eq('file_id', fileId);
 
       if (chatError) throw chatError;
