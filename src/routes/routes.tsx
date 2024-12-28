@@ -27,9 +27,7 @@ export const createRoutes = (isAuthenticated: boolean | null, userProfile: any) 
         <Navigate to="/signup" replace />
       )
     ) : (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Auth />
-      </div>
+      <Navigate to="/" replace />
     )
   },
   {
