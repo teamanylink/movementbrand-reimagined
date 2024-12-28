@@ -51,9 +51,9 @@ const ProjectDashboard = () => {
   if (projectId) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-[1600px] mx-auto p-8">
-          <Tabs defaultValue="dashboard" className="w-full space-y-8">
-            <div className="bg-white rounded-xl shadow-sm p-4">
+        <div className="max-w-[1600px] mx-auto p-4 md:p-8">
+          <Tabs defaultValue="dashboard" className="w-full space-y-4 md:space-y-8">
+            <div className="bg-white rounded-xl shadow-sm p-3 md:p-4">
               <TabsList className="grid w-full max-w-[400px] grid-cols-3">
                 <TabsTrigger 
                   value="dashboard"
@@ -95,10 +95,10 @@ const ProjectDashboard = () => {
 
   // Otherwise, show the projects list view
   return (
-    <div className="p-8 max-w-[1600px] mx-auto">
+    <div className="p-4 md:p-8 max-w-[1600px] mx-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold text-gray-900">Projects</h1>
+      <div className="flex justify-between items-center mb-6 md:mb-8">
+        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Projects</h1>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

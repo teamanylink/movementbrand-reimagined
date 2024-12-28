@@ -35,7 +35,7 @@ export const UsersList = ({ onSelectUser, selectedUserId }: UsersListProps) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="p-4 border-b">
+      <div className="p-3 md:p-4 border-b">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
           <Input 
@@ -51,7 +51,7 @@ export const UsersList = ({ onSelectUser, selectedUserId }: UsersListProps) => {
           <button
             key={user.id}
             onClick={() => onSelectUser(user.id)}
-            className={`w-full p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors ${
+            className={`w-full p-3 md:p-4 flex items-center gap-3 hover:bg-gray-50 transition-colors ${
               selectedUserId === user.id ? 'bg-gray-50' : ''
             }`}
           >
