@@ -23,14 +23,41 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
-    });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        // Check if user has a profile
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+        
+        setUserProfile(profile);
+      }
+    };
+
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setIsAuthenticated(!!session);
+      
+      if (session) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+        
+        setUserProfile(profile);
+      } else {
+        setUserProfile(null);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -56,10 +83,12 @@ const App = () => {
             <Route 
               path="/dashboard" 
               element={
-                isAuthenticated ? (
+                isAuthenticated && userProfile ? (
                   <AuthenticatedLayout>
                     <Dashboard />
                   </AuthenticatedLayout>
+                ) : isAuthenticated ? (
+                  <Navigate to="/signup" replace />
                 ) : (
                   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                     <Auth />
@@ -70,10 +99,12 @@ const App = () => {
             <Route 
               path="/project" 
               element={
-                isAuthenticated ? (
+                isAuthenticated && userProfile ? (
                   <AuthenticatedLayout>
                     <ProjectDashboard />
                   </AuthenticatedLayout>
+                ) : isAuthenticated ? (
+                  <Navigate to="/signup" replace />
                 ) : (
                   <Navigate to="/" replace />
                 )
@@ -82,10 +113,12 @@ const App = () => {
             <Route 
               path="/project/:projectId" 
               element={
-                isAuthenticated ? (
+                isAuthenticated && userProfile ? (
                   <AuthenticatedLayout>
                     <ProjectDashboard />
                   </AuthenticatedLayout>
+                ) : isAuthenticated ? (
+                  <Navigate to="/signup" replace />
                 ) : (
                   <Navigate to="/" replace />
                 )
