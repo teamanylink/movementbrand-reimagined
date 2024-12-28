@@ -86,8 +86,45 @@ const Dashboard = () => {
     { name: "Other", duration: "" },
   ];
 
-  const handleProjectSubmit = () => {
+  const handleProjectSubmit = async (projectName: string) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to create a project",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const { error } = await supabase
+      .from('projects')
+      .insert([
+        {
+          name: projectName,
+          project_type: projectName.toLowerCase(),
+          user_id: user.id,
+          status: 'todo',
+        }
+      ]);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create project",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Project created successfully",
+    });
+    
     setHasProjects(true);
+    setIsProjectOptionsOpen(false);
   };
 
   return (
