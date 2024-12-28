@@ -9,13 +9,10 @@ import { ProjectChat } from "@/components/project/ProjectChat";
 import { ProjectFilesView } from "@/components/project/ProjectFilesView";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectDashboardView } from "@/components/project/ProjectDashboardView";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 
 const ProjectDashboard = () => {
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
   const { projectId } = useParams();
-  const { toast } = useToast();
 
   const projectTypes = [
     { name: "Automation", duration: "1 week" },
@@ -25,46 +22,6 @@ const ProjectDashboard = () => {
     { name: "Blog", duration: "48 hours" },
     { name: "Other", duration: "" },
   ];
-
-  const handleProjectSubmit = async (projectName: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Error",
-        description: "You must be logged in to create a project",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const { error } = await supabase
-      .from('projects')
-      .insert([
-        {
-          name: projectName,
-          project_type: projectName.toLowerCase(),
-          user_id: user.id,
-          status: 'todo',
-        }
-      ]);
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create project",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Success",
-      description: "Project created successfully",
-    });
-    
-    setIsProjectOptionsOpen(false);
-  };
 
   // If we have a projectId, show the project detail view
   if (projectId) {
@@ -113,9 +70,11 @@ const ProjectDashboard = () => {
       {/* Project Options Dialog */}
       <ProjectOptions 
         projectTypes={projectTypes}
-        onSelectProject={handleProjectSubmit}
         open={isProjectOptionsOpen}
         onOpenChange={setIsProjectOptionsOpen}
+        onSelectProject={() => {
+          setIsProjectOptionsOpen(false);
+        }}
       />
     </div>
   );
