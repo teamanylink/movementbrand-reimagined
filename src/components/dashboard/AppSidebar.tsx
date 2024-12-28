@@ -36,7 +36,7 @@ const mainMenuItems = [
   {
     title: "Projects",
     icon: FolderKanban,
-    url: "/dashboard/projects",
+    url: "/project",
   },
 ]
 
@@ -107,7 +107,7 @@ export function AppSidebar() {
               variant="ghost" 
               size="icon"
               className="h-6 w-6"
-              onClick={() => navigate('/dashboard/projects/new')}
+              onClick={() => navigate('/project')}
             >
               <Plus className="h-4 w-4" />
             </Button>
@@ -120,7 +120,7 @@ export function AppSidebar() {
                     asChild
                     className="hover:bg-blue-50 h-10 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
                   >
-                    <Link to={`/dashboard/projects/${project.id}`}>
+                    <Link to={`/project/${project.id}`}>
                       <div className={`h-2 w-2 rounded-full ${getProjectColor(index)}`} />
                       <span>{project.name}</span>
                     </Link>

@@ -63,6 +63,18 @@ const App = () => {
               } 
             />
             <Route 
+              path="/project" 
+              element={
+                isAuthenticated ? (
+                  <AuthenticatedLayout>
+                    <ProjectDashboard />
+                  </AuthenticatedLayout>
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              } 
+            />
+            <Route 
               path="/project/:projectId" 
               element={
                 isAuthenticated ? (
