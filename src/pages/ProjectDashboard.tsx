@@ -57,19 +57,19 @@ const ProjectDashboard = () => {
               <TabsList className="grid w-full max-w-[400px] grid-cols-3">
                 <TabsTrigger 
                   value="dashboard"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-[#1A1F2C] font-medium"
                 >
                   Dashboard
                 </TabsTrigger>
                 <TabsTrigger 
                   value="chat"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-[#1A1F2C] font-medium"
                 >
                   Chat
                 </TabsTrigger>
                 <TabsTrigger 
                   value="files"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-[#1A1F2C] font-medium"
                 >
                   Files
                 </TabsTrigger>
