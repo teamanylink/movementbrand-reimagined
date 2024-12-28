@@ -116,25 +116,6 @@ export function AppSidebar() {
             </a>
           </SidebarMenuButton>
         </nav>
-
-        <div className="mt-4 mx-3 p-3 bg-gray-50 rounded-lg">
-          <div className="flex items-start gap-3">
-            <div className="flex-1">
-              <h3 className="text-sm font-medium">New features available!</h3>
-              <p className="text-xs text-gray-500 mt-1">Check out the new dashboard view. Pages now load faster.</p>
-            </div>
-            <button className="text-gray-400 hover:text-gray-500">
-              <span className="sr-only">Dismiss</span>
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-              </svg>
-            </button>
-          </div>
-          <div className="mt-4 flex gap-3">
-            <button className="text-xs text-gray-600">Dismiss</button>
-            <button className="text-xs text-purple-600 font-medium">What's new?</button>
-          </div>
-        </div>
       </SidebarContent>
 
       <SidebarFooter className="p-4 border-t">

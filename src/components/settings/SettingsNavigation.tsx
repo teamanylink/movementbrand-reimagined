@@ -9,11 +9,7 @@ interface SettingsNavigationProps {
 
 const navigationItems = [
   { id: "profile", label: "Profile", icon: User },
-  { id: "account", label: "Account", icon: Settings },
-  { id: "chat", label: "Chat", icon: MessageCircle },
-  { id: "voice", label: "Voice & video", icon: Video },
-  { id: "appearance", label: "Appearance", icon: Palette },
-  { id: "notification", label: "Notification", icon: Bell },
+  { id: "account", label: "Account", icon: Settings }
 ];
 
 export function SettingsNavigation({ activeSection, onSectionChange }: SettingsNavigationProps) {
