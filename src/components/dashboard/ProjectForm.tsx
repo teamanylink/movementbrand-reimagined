@@ -63,25 +63,7 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
         throw new Error("User not found");
       }
 
-      const { data: existingProfile } = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', user.id)
-        .single();
-
-      if (!existingProfile) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: user.id,
-            email: user.email
-          });
-
-        if (profileError) {
-          throw profileError;
-        }
-      }
-
+      // Create the project
       const { data: project, error: projectError } = await supabase
         .from('projects')
         .insert({
@@ -99,6 +81,7 @@ export const ProjectForm = ({ onBack, onSubmit, selectedProjectType }: ProjectFo
         throw projectError;
       }
 
+      // Handle file upload if a file was selected
       if (file && project.id) {
         const fileExt = file.name.split('.').pop();
         const filePath = `${project.id}/${crypto.randomUUID()}.${fileExt}`;
