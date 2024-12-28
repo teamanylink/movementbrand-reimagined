@@ -54,8 +54,8 @@ const benefits = [
         </div>
       </div>
     ),
-    title: "Top-notch quality",
-    description: "Insane design quality at your fingertips whenever you need it."
+    title: "Content in your voice",
+    description: "Insane quality content at scale in your specified brand voice."
   },
   {
     icon: (
