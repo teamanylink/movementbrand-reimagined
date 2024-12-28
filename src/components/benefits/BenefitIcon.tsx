@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react";
+import { FileText, Repeat } from "lucide-react";
 
 interface BenefitIconProps {
   type: 'project' | 'automation' | 'pricing' | 'content' | 'flexibility' | 'unique';
@@ -58,8 +58,8 @@ export function BenefitIcon({ type }: BenefitIconProps) {
     case 'unique':
       return (
         <div className="w-24 h-24 bg-[#FFC0CB] rounded-full flex items-center justify-center">
-          <div className="w-16 h-16 border-4 border-black rounded-full relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJTNi40NzcgMjIgMTIgMjJTMjIgMTcuNTIzIDIyIDEyUzE3LjUyMyAyIDEyIDJaTTEyIDIwQzcuNTg5IDIwIDQgMTYuNDExIDQgMTJTNy41ODkgNCAxMiA0UzIwIDcuNTg5IDIwIDEyUzE2LjQxMSAyMCAxMiAyMFoiIGZpbGw9ImN1cnJlbnRDb2xvciIvPjwvc3ZnPg==')] bg-repeat"></div>
+          <div className="text-black">
+            <Repeat size={40} />
           </div>
         </div>
       );
