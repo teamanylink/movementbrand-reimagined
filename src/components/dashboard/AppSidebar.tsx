@@ -60,18 +60,15 @@ export function AppSidebar() {
 
   const handleSignOut = async () => {
     try {
-      // First clear any existing session
-      const session = await supabase.auth.getSession();
-      if (session.error) {
-        console.error('Session error:', session.error);
-      }
-
+      // First clear any cached data
+      localStorage.clear();
+      
       // Attempt to sign out
       const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      
-      // Clear any cached data
-      localStorage.clear();
+      if (error) {
+        console.error('Sign out error:', error);
+        throw error;
+      }
       
       toast({
         title: "Signed out successfully",
@@ -87,6 +84,9 @@ export function AppSidebar() {
         description: "Please try again later.",
         variant: "destructive"
       });
+      
+      // Force navigation on error
+      navigate("/", { replace: true });
     }
   };
 

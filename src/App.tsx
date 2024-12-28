@@ -26,28 +26,44 @@ const App = () => {
   useEffect(() => {
     let mounted = true;
 
-    // Check initial session
-    const checkSession = async () => {
+    const initializeAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error;
+        // Clear any potentially invalid session data
+        const currentSession = await supabase.auth.getSession();
+        if (currentSession.error) {
+          console.error('Session error:', currentSession.error);
+          if (mounted) {
+            setIsAuthenticated(false);
+            localStorage.clear();
+          }
+          return;
+        }
+
         if (mounted) {
-          setIsAuthenticated(!!session);
+          setIsAuthenticated(!!currentSession.data.session);
         }
       } catch (error) {
-        console.error('Session check error:', error);
+        console.error('Auth initialization error:', error);
         if (mounted) {
           setIsAuthenticated(false);
+          localStorage.clear();
         }
       }
     };
 
-    checkSession();
+    // Initialize auth state
+    initializeAuth();
 
     // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event, !!session);
       if (mounted) {
-        setIsAuthenticated(!!session);
+        if (event === 'SIGNED_OUT') {
+          localStorage.clear();
+          setIsAuthenticated(false);
+        } else {
+          setIsAuthenticated(!!session);
+        }
       }
     });
 
