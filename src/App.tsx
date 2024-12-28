@@ -8,9 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
+import Settings from "./pages/Settings";
 import Auth from "./components/Auth";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
-import { useToast } from "./components/ui/use-toast";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,118 +23,18 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const { toast } = useToast();
 
   useEffect(() => {
-    let mounted = true;
-
-    const initializeAuth = async () => {
-      try {
-        // Debug current session state
-        console.log('Initializing auth...');
-        
-        // Get current session
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          if (mounted) {
-            setIsAuthenticated(false);
-            localStorage.clear();
-            toast({
-              title: "Session Error",
-              description: "Please sign in again.",
-              variant: "destructive"
-            });
-          }
-          return;
-        }
-
-        // Debug session data
-        console.log('Current session:', session ? 'Valid' : 'None');
-        
-        if (session) {
-          try {
-            // Verify JWT is still valid
-            const { data: user, error: userError } = await supabase.auth.getUser();
-            
-            if (userError) {
-              console.error('User verification error:', userError);
-              if (mounted) {
-                setIsAuthenticated(false);
-                localStorage.clear();
-                await supabase.auth.signOut();
-                toast({
-                  title: "Session Expired",
-                  description: "Please sign in again.",
-                  variant: "destructive"
-                });
-              }
-              return;
-            }
-            
-            console.log('User verified:', !!user);
-            if (mounted) {
-              setIsAuthenticated(true);
-            }
-          } catch (verifyError) {
-            console.error('Verification error:', verifyError);
-            if (mounted) {
-              setIsAuthenticated(false);
-              localStorage.clear();
-              await supabase.auth.signOut();
-            }
-          }
-        } else {
-          if (mounted) {
-            setIsAuthenticated(false);
-          }
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-        if (mounted) {
-          setIsAuthenticated(false);
-          localStorage.clear();
-          toast({
-            title: "Authentication Error",
-            description: "Please try signing in again.",
-            variant: "destructive"
-          });
-        }
-      }
-    };
-
-    // Initialize auth state
-    initializeAuth();
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', event, !!session);
-      if (mounted) {
-        if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
-          localStorage.clear();
-          setIsAuthenticated(false);
-          toast({
-            title: "Signed Out",
-            description: "You have been logged out.",
-          });
-        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          setIsAuthenticated(!!session);
-          if (event === 'SIGNED_IN') {
-            toast({
-              title: "Signed In",
-              description: "Welcome back!",
-            });
-          }
-        }
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
     });
 
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, [toast]);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
@@ -155,6 +55,20 @@ const App = () => {
                 isAuthenticated ? (
                   <AuthenticatedLayout>
                     <Dashboard />
+                  </AuthenticatedLayout>
+                ) : (
+                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                    <Auth />
+                  </div>
+                )
+              } 
+            />
+            <Route 
+              path="/dashboard/settings" 
+              element={
+                isAuthenticated ? (
+                  <AuthenticatedLayout>
+                    <Settings />
                   </AuthenticatedLayout>
                 ) : (
                   <Navigate to="/" replace />

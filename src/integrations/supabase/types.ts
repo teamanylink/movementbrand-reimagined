@@ -56,7 +56,6 @@ export type Database = {
           email: string | null
           first_name: string | null
           id: string
-          is_superadmin: boolean | null
           last_name: string | null
           phone_number: string | null
           website_url: string | null
@@ -68,7 +67,6 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id: string
-          is_superadmin?: boolean | null
           last_name?: string | null
           phone_number?: string | null
           website_url?: string | null
@@ -80,7 +78,6 @@ export type Database = {
           email?: string | null
           first_name?: string | null
           id?: string
-          is_superadmin?: boolean | null
           last_name?: string | null
           phone_number?: string | null
           website_url?: string | null
