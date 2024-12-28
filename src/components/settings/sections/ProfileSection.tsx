@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { UserProfile } from "@/pages/Settings";
+import { UserProfile } from "@/types/user";
 
 interface ProfileSectionProps {
   profile: UserProfile | null;

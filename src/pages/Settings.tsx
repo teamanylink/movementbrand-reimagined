@@ -1,74 +1,82 @@
-import { Settings2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { SettingsLayout } from "@/components/settings/SettingsLayout";
+import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
+import { ProfileSection } from "@/components/settings/sections/ProfileSection";
+import { AccountSection } from "@/components/settings/sections/AccountSection";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { UserProfile } from "@/types/user";
 
 export default function Settings() {
-  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState("profile");
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
 
-  const settingsItems = [
-    {
-      title: "Profile",
-      description: "Manage your personal information",
-      icon: Settings2,
-      path: "/dashboard/settings/profile"
-    },
-    {
-      title: "Account",
-      description: "Update your account settings",
-      icon: Settings2,
-      path: "/dashboard/settings/account"
-    },
-    {
-      title: "Notifications",
-      description: "Configure your notification preferences",
-      icon: Settings2,
-      path: "/dashboard/settings/notifications"
-    },
-    {
-      title: "Billing",
-      description: "Manage your subscription and billing",
-      icon: Settings2,
-      path: "/dashboard/settings/billing"
-    },
-    {
-      title: "Security",
-      description: "Update your security settings",
-      icon: Settings2,
-      path: "/dashboard/settings/security"
-    },
-    {
-      title: "Integrations",
-      description: "Manage your connected services",
-      icon: Settings2,
-      path: "/dashboard/settings/integrations"
+  const handleProfileChange = (updates: Partial<UserProfile>) => {
+    if (profile) {
+      setProfile({ ...profile, ...updates });
     }
-  ];
+  };
+
+  const handleSaveProfile = async () => {
+    if (!profile) return;
+
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          company: profile.company,
+          website_url: profile.website_url,
+          phone_number: profile.phone_number
+        })
+        .eq('id', profile.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Your profile has been updated.",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to update profile.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
-    <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-gray-500">Manage your account settings and preferences</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {settingsItems.map((item) => (
-          <Card
-            key={item.title}
-            className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-white"
-            onClick={() => navigate(item.path)}
-          >
-            <div className="flex items-start space-x-4">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <item.icon className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="font-semibold">{item.title}</h3>
-                <p className="text-sm text-gray-500 mt-1">{item.description}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
+    <div className="flex min-h-screen bg-gray-50/50">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
+        </div>
+        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <aside className="-mx-4 lg:w-1/5">
+            <SettingsNavigation
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
+            />
+          </aside>
+          <div className="flex-1 lg:max-w-2xl">
+            {activeSection === "profile" && (
+              <ProfileSection
+                profile={profile}
+                onProfileChange={handleProfileChange}
+                onSave={handleSaveProfile}
+                isSaving={isSaving}
+              />
+            )}
+            {activeSection === "account" && <AccountSection />}
+          </div>
+        </div>
       </div>
     </div>
   );
