@@ -14,7 +14,7 @@ const benefits = [
         </div>
       </div>
     ),
-    title: "Design board",
+    title: "Project Portal",
     description: "Easily manage your design queue with a Trello board."
   },
   {
