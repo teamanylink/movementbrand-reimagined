@@ -64,7 +64,7 @@ const App = () => {
               } 
             />
             <Route 
-              path="/dashboard/settings" 
+              path="/dashboard/settings/*" 
               element={
                 isAuthenticated ? (
                   <AuthenticatedLayout>
