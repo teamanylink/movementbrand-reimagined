@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
@@ -82,10 +83,19 @@ const PricingSection = () => {
               Get started
             </Button>
             
-            <div className="border rounded-xl p-6">
-              <h4 className="text-lg font-semibold mb-4">Schedule a Call</h4>
-              <div className="tidycal-embed" data-path="denis5/15-minute-meeting"></div>
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">Schedule a Call</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px]">
+                <DialogHeader>
+                  <DialogTitle>Schedule a Call</DialogTitle>
+                </DialogHeader>
+                <div className="min-h-[600px]">
+                  <div className="tidycal-embed" data-path="denis5/15-minute-meeting"></div>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
