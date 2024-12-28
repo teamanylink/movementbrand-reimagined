@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
@@ -25,11 +26,19 @@ const queryClient = new QueryClient({
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          setIsAuthenticated(false);
+          return;
+        }
+
         setIsAuthenticated(!!session);
         if (session?.user) {
           await checkSuperAdmin(session.user.id);
@@ -37,12 +46,26 @@ const App = () => {
       } catch (error) {
         console.error('Error initializing auth:', error);
         setIsAuthenticated(false);
+        toast({
+          title: "Authentication Error",
+          description: "There was a problem with authentication. Please try logging in again.",
+          variant: "destructive",
+        });
       }
     };
 
     initializeAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event, !!session);
+      
+      if (event === 'SIGNED_OUT') {
+        setIsAuthenticated(false);
+        setIsSuperAdmin(false);
+        queryClient.clear();
+        return;
+      }
+
       setIsAuthenticated(!!session);
       if (session?.user) {
         await checkSuperAdmin(session.user.id);
@@ -52,7 +75,7 @@ const App = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [toast]);
 
   const checkSuperAdmin = async (userId: string) => {
     try {
@@ -64,12 +87,22 @@ const App = () => {
       
       if (error) {
         console.error('Error checking superadmin status:', error);
+        toast({
+          title: "Error",
+          description: "Failed to check admin privileges",
+          variant: "destructive",
+        });
         return;
       }
       
       setIsSuperAdmin(profile?.is_superadmin || false);
     } catch (error) {
       console.error('Error checking superadmin status:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred while checking admin status",
+        variant: "destructive",
+      });
     }
   };
 
