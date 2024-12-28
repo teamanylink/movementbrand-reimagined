@@ -27,17 +27,25 @@ const App = () => {
   const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-      if (session) {
-        checkSuperAdmin(session.user.id);
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setIsAuthenticated(!!session);
+        if (session?.user) {
+          await checkSuperAdmin(session.user.id);
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        setIsAuthenticated(false);
       }
-    });
+    };
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    initializeAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setIsAuthenticated(!!session);
-      if (session) {
-        checkSuperAdmin(session.user.id);
+      if (session?.user) {
+        await checkSuperAdmin(session.user.id);
       } else {
         setIsSuperAdmin(false);
       }
@@ -47,13 +55,22 @@ const App = () => {
   }, []);
 
   const checkSuperAdmin = async (userId: string) => {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('is_superadmin')
-      .eq('id', userId)
-      .single();
-    
-    setIsSuperAdmin(profile?.is_superadmin || false);
+    try {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('is_superadmin')
+        .eq('id', userId)
+        .maybeSingle();
+      
+      if (error) {
+        console.error('Error checking superadmin status:', error);
+        return;
+      }
+      
+      setIsSuperAdmin(profile?.is_superadmin || false);
+    } catch (error) {
+      console.error('Error checking superadmin status:', error);
+    }
   };
 
   if (isAuthenticated === null) {
