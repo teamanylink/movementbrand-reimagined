@@ -3,7 +3,6 @@ import {
   FolderKanban,
   Settings,
   LogOut,
-  HelpCircle,
   Plus
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
@@ -132,16 +131,6 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-1 space-y-0.5">
-        <SidebarMenuButton 
-          asChild
-          className="hover:bg-blue-50 h-8 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
-        >
-          <Link to="/help">
-            <HelpCircle className="h-5 w-5" />
-            <span>Help & Support</span>
-            <span className="ml-auto bg-green-100 text-green-800 px-2 py-0.5 text-xs rounded-full">8</span>
-          </Link>
-        </SidebarMenuButton>
         <SidebarMenuButton 
           asChild
           className="hover:bg-blue-50 h-8 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
