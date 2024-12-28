@@ -21,11 +21,6 @@ export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
 
   const handleNewProjectClick = () => {
     if (!subscriptionData?.subscribed) {
-      toast({
-        title: "Subscription Required",
-        description: "Please upgrade your account to create new projects.",
-        variant: "destructive",
-      });
       navigate('/dashboard/settings');
       return;
     }
@@ -52,7 +47,15 @@ export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
                   size="sm"
                   className="flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:opacity-90 transition-opacity"
                   onClick={handleNewProjectClick}
-                  disabled={!subscriptionData?.subscribed}
+                  onMouseEnter={() => {
+                    if (!subscriptionData?.subscribed) {
+                      toast({
+                        title: "Subscription Required",
+                        description: "Please upgrade your account to create new projects.",
+                        variant: "destructive",
+                      });
+                    }
+                  }}
                 >
                   <Plus className="h-4 w-4" />
                   New Project
