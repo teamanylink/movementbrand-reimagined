@@ -94,7 +94,7 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header with Greeting */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'}! {userEmail}</h1>
+        <h1 className="text-4xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'}, {userEmail} 👋</h1>
       </div>
 
       {/* Stats Cards */}
