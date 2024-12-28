@@ -1,15 +1,30 @@
 import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export const SubscriptionSection = () => {
   const { toast } = useToast();
 
   const handleManageSubscription = async () => {
-    toast({
-      title: "Coming Soon",
-      description: "Subscription management will be available soon",
-    });
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9' }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    }
   };
 
   return (
