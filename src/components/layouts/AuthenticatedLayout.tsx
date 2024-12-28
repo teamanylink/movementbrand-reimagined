@@ -75,7 +75,7 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                   </div>
                 </div>
 
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Avatar className="h-8 w-8 cursor-pointer">
@@ -96,7 +96,7 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </div>
+                </div> */}
               </div>
             </div>
           </nav>
