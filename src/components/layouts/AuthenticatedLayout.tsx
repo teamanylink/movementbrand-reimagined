@@ -21,23 +21,33 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('email')
-          .eq('id', user.id)
-          .single();
-        
-        if (profile && profile.email) {
-          const username = profile.email.split('@')[0];
-          setUserEmail(username);
-        }
+      // console.log("Fetching user...");
+  
+      // Fetch the authenticated user
+      const { data: userResponse, error: userError } = await supabase.auth.getUser();
+  
+      if (userError) {
+        console.error("Error fetching user:", userError.message);
+        return;
+      }
+  
+      const user = userResponse?.user;
+      // console.log("Fetched user:", user);
+  
+      if (user && user.email) {
+        // Directly set userEmail to user.email (before the '@' character)
+        const username = user.email.split("@")[0];
+        setUserEmail(username);
+        // console.log("Set userEmail:", username);
+      } else {
+        console.warn("No user or email found.");
       }
     };
-
+  
     fetchUserProfile();
   }, []);
+  
+  
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
