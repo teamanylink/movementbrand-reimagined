@@ -55,11 +55,7 @@ const PricingSection = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        navigate("/dashboard");
-        toast({
-          title: "Create an account",
-          description: "Please create an account to continue with your subscription.",
-        });
+        navigate("/signup");
         return;
       }
 
