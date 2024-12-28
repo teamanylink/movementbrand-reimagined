@@ -35,9 +35,35 @@ const App = () => {
         if (error) {
           console.error("Session check error:", error);
           setIsAuthenticated(false);
+          toast({
+            variant: "destructive",
+            title: "Authentication Error",
+            description: "Please sign in again.",
+          });
           return;
         }
-        setIsAuthenticated(!!session);
+        
+        if (!session) {
+          setIsAuthenticated(false);
+          return;
+        }
+
+        // Verify the session is still valid
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+          console.error("User verification error:", userError);
+          setIsAuthenticated(false);
+          // Clear the invalid session
+          await supabase.auth.signOut();
+          toast({
+            variant: "destructive",
+            title: "Session Expired",
+            description: "Your session has expired. Please sign in again.",
+          });
+          return;
+        }
+
+        setIsAuthenticated(true);
       } catch (error) {
         console.error("Session check error:", error);
         setIsAuthenticated(false);
@@ -56,6 +82,10 @@ const App = () => {
         // Clear any application cache/state
         queryClient.clear();
         setIsAuthenticated(false);
+        toast({
+          title: "Signed out",
+          description: "You have been successfully signed out.",
+        });
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsAuthenticated(true);
       }
@@ -66,7 +96,7 @@ const App = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   if (isLoading) {
     return (
