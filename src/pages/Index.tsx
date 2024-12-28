@@ -87,7 +87,7 @@ const Index = () => {
                 </Avatar>
               </div>
               <p className="text-sm text-gray-600">
-                <span className="font-semibold">250+</span> creators joined this month
+                <span className="font-semibold">Join</span> the movement!
               </p>
             </div>
 
