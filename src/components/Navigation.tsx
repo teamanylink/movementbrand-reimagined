@@ -27,7 +27,12 @@ const Navigation = () => {
             >
               How it works
             </button>
-            <a href="#benefits" className="text-gray-600 hover:text-gray-900">Benefits</a>
+            <button 
+              onClick={() => scrollToSection('benefits')} 
+              className="text-gray-600 hover:text-gray-900"
+            >
+              Benefits
+            </button>
             <a href="#services" className="text-gray-600 hover:text-gray-900">Services</a>
             <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
             <a href="#faqs" className="text-gray-600 hover:text-gray-900">FAQs</a>

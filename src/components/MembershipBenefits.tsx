@@ -86,7 +86,7 @@ export function MembershipBenefits() {
   const isInView = useInView(ref, { once: true });
 
   return (
-    <section ref={ref} className="w-full py-24 bg-white relative overflow-hidden">
+    <section ref={ref} id="benefits" className="w-full py-24 bg-white relative overflow-hidden">
       {/* Decorative shape */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-[#FFD700] rounded-bl-full opacity-20"></div>
       
