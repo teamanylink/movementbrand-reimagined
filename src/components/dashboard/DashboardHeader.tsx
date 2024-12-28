@@ -1,14 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Plus, Share2 } from "lucide-react";
 import { useSubscription } from "@/hooks/use-subscription";
-import { useToast } from "@/hooks/use-toast";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useNavigate } from "react-router-dom";
 
 interface DashboardHeaderProps {
   onNewProject: () => void;
@@ -16,15 +14,11 @@ interface DashboardHeaderProps {
 
 export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
   const { data: subscriptionData } = useSubscription();
-  const { toast } = useToast();
-  const navigate = useNavigate();
 
   const handleNewProjectClick = () => {
-    if (!subscriptionData?.subscribed) {
-      navigate('/dashboard/settings');
-      return;
+    if (subscriptionData?.subscribed) {
+      onNewProject();
     }
-    onNewProject();
   };
 
   return (
@@ -38,7 +32,7 @@ export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
           <Share2 className="h-4 w-4" />
           Share
         </Button>
-        <TooltipProvider>
+        <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
               <span>
