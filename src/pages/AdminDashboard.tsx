@@ -31,15 +31,9 @@ const AdminDashboard = () => {
   const { data: projects } = useQuery({
     queryKey: ['admin-projects'],
     queryFn: async () => {
-      // Updated query to properly join with profiles table
       const { data, error } = await supabase
         .from('projects')
-        .select(`
-          *,
-          profiles:user_id (
-            email
-          )
-        `)
+        .select('*, profiles(email)')
         .order('created_at', { ascending: false });
       
       if (error) throw error;
