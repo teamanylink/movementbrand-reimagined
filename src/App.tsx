@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import Auth from "./components/Auth";
+import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,7 +52,9 @@ const App = () => {
               path="/dashboard" 
               element={
                 isAuthenticated ? (
-                  <Dashboard />
+                  <AuthenticatedLayout>
+                    <Dashboard />
+                  </AuthenticatedLayout>
                 ) : (
                   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                     <Auth />
@@ -63,7 +66,9 @@ const App = () => {
               path="/project/:projectId" 
               element={
                 isAuthenticated ? (
-                  <ProjectDashboard />
+                  <AuthenticatedLayout>
+                    <ProjectDashboard />
+                  </AuthenticatedLayout>
                 ) : (
                   <Navigate to="/" replace />
                 )
