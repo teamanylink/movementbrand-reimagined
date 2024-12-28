@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
+import Settings from "./pages/Settings";
 import Auth from "./components/Auth";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
 
@@ -59,6 +60,18 @@ const App = () => {
                   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                     <Auth />
                   </div>
+                )
+              } 
+            />
+            <Route 
+              path="/dashboard/settings" 
+              element={
+                isAuthenticated ? (
+                  <AuthenticatedLayout>
+                    <Settings />
+                  </AuthenticatedLayout>
+                ) : (
+                  <Navigate to="/" replace />
                 )
               } 
             />
