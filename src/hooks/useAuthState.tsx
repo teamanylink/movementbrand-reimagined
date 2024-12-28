@@ -6,7 +6,7 @@ export const useAuthState = () => {
   const [userProfile, setUserProfile] = useState<any>(null);
 
   useEffect(() => {
-    const checkSession = async () => {
+    const fetchInitialState = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
 
@@ -15,23 +15,24 @@ export const useAuthState = () => {
           .from('profiles')
           .select('*')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
         
         setUserProfile(profile);
       }
     };
 
-    checkSession();
+    fetchInitialState();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setIsAuthenticated(!!session);
+      const isAuthed = !!session;
+      setIsAuthenticated(isAuthed);
       
       if (session) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
         
         setUserProfile(profile);
       } else {
@@ -39,7 +40,9 @@ export const useAuthState = () => {
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { isAuthenticated, userProfile };

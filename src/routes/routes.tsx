@@ -18,12 +18,14 @@ export const createRoutes = (isAuthenticated: boolean | null, userProfile: any) 
   },
   {
     path: "/dashboard",
-    element: isAuthenticated && userProfile ? (
-      <AuthenticatedLayout>
-        <Dashboard />
-      </AuthenticatedLayout>
-    ) : isAuthenticated ? (
-      <Navigate to="/signup" replace />
+    element: isAuthenticated ? (
+      userProfile ? (
+        <AuthenticatedLayout>
+          <Dashboard />
+        </AuthenticatedLayout>
+      ) : (
+        <Navigate to="/signup" replace />
+      )
     ) : (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Auth />
@@ -32,36 +34,42 @@ export const createRoutes = (isAuthenticated: boolean | null, userProfile: any) 
   },
   {
     path: "/settings",
-    element: isAuthenticated && userProfile ? (
-      <AuthenticatedLayout>
-        <Settings />
-      </AuthenticatedLayout>
-    ) : isAuthenticated ? (
-      <Navigate to="/signup" replace />
+    element: isAuthenticated ? (
+      userProfile ? (
+        <AuthenticatedLayout>
+          <Settings />
+        </AuthenticatedLayout>
+      ) : (
+        <Navigate to="/signup" replace />
+      )
     ) : (
       <Navigate to="/" replace />
     )
   },
   {
     path: "/project",
-    element: isAuthenticated && userProfile ? (
-      <AuthenticatedLayout>
-        <ProjectDashboard />
-      </AuthenticatedLayout>
-    ) : isAuthenticated ? (
-      <Navigate to="/signup" replace />
+    element: isAuthenticated ? (
+      userProfile ? (
+        <AuthenticatedLayout>
+          <ProjectDashboard />
+        </AuthenticatedLayout>
+      ) : (
+        <Navigate to="/signup" replace />
+      )
     ) : (
       <Navigate to="/" replace />
     )
   },
   {
     path: "/project/:projectId",
-    element: isAuthenticated && userProfile ? (
-      <AuthenticatedLayout>
-        <ProjectDashboard />
-      </AuthenticatedLayout>
-    ) : isAuthenticated ? (
-      <Navigate to="/signup" replace />
+    element: isAuthenticated ? (
+      userProfile ? (
+        <AuthenticatedLayout>
+          <ProjectDashboard />
+        </AuthenticatedLayout>
+      ) : (
+        <Navigate to="/signup" replace />
+      )
     ) : (
       <Navigate to="/" replace />
     )
