@@ -21,23 +21,51 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('email')
-          .eq('id', user.id)
-          .single();
-        
-        if (profile && profile.email) {
-          const username = profile.email.split('@')[0];
-          setUserEmail(username);
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          // First try to get the existing profile
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('email')
+            .eq('id', user.id)
+            .maybeSingle();
+          
+          if (!profile) {
+            // If profile doesn't exist, create it
+            const { error: insertError } = await supabase
+              .from('profiles')
+              .insert({
+                id: user.id,
+                email: user.email
+              });
+
+            if (insertError) {
+              console.error('Error creating profile:', insertError);
+              return;
+            }
+            
+            if (user.email) {
+              const username = user.email.split('@')[0];
+              setUserEmail(username);
+            }
+          } else if (profile.email) {
+            const username = profile.email.split('@')[0];
+            setUserEmail(username);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to load user profile",
+        });
       }
     };
 
     fetchUserProfile();
-  }, []);
+  }, [toast]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
