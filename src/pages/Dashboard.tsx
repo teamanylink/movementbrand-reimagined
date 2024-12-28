@@ -131,7 +131,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px] relative">
+      <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px]">
         <DashboardHeader onNewProject={() => setIsProjectOptionsOpen(true)} />
         {!hasProjects ? <EmptyStateMessage /> : <KanbanBoard />}
       </div>
