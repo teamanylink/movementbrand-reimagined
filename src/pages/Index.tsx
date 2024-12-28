@@ -13,6 +13,7 @@ import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import CalendlyBadge from "@/components/CalendlyBadge";
 
 const Index = () => {
   const heroRef = useRef(null);
@@ -159,6 +160,8 @@ const Index = () => {
       <PricingSection />
 
       <FAQs />
+      
+      <CalendlyBadge />
     </div>
   );
 };
