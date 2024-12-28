@@ -33,7 +33,6 @@ const Navigation = () => {
             >
               Benefits
             </button>
-            <a href="#services" className="text-gray-600 hover:text-gray-900">Services</a>
             <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
             <a href="#faqs" className="text-gray-600 hover:text-gray-900">FAQs</a>
             <Button variant="default" onClick={handleLogin}>Login</Button>
