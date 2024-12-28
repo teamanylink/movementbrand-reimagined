@@ -24,77 +24,15 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-
-    const initializeAuth = async () => {
-      try {
-        // Debug current session state
-        console.log('Initializing auth...');
-        
-        // Clear any potentially invalid session data
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          if (mounted) {
-            setIsAuthenticated(false);
-            localStorage.clear();
-          }
-          return;
-        }
-
-        // Debug session data
-        console.log('Current session:', session ? 'Valid' : 'None');
-        
-        if (session) {
-          // Verify JWT is still valid
-          const { data, error: userError } = await supabase.auth.getUser();
-          
-          if (userError) {
-            console.error('User verification error:', userError);
-            if (mounted) {
-              setIsAuthenticated(false);
-              localStorage.clear();
-              await supabase.auth.signOut();
-            }
-            return;
-          }
-          
-          console.log('User verified:', !!data.user);
-        }
-
-        if (mounted) {
-          setIsAuthenticated(!!session);
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
-        if (mounted) {
-          setIsAuthenticated(false);
-          localStorage.clear();
-        }
-      }
-    };
-
-    // Initialize auth state
-    initializeAuth();
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('Auth state changed:', event, !!session);
-      if (mounted) {
-        if (event === 'SIGNED_OUT') {
-          localStorage.clear();
-          setIsAuthenticated(false);
-        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-          setIsAuthenticated(!!session);
-        }
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
     });
 
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   if (isAuthenticated === null) {
@@ -118,7 +56,9 @@ const App = () => {
                     <Dashboard />
                   </AuthenticatedLayout>
                 ) : (
-                  <Navigate to="/" replace />
+                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                    <Auth />
+                  </div>
                 )
               } 
             />

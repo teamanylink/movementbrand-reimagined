@@ -39,3 +39,23 @@
 .blur-3xl {
   filter: blur(64px);
 }
+
+/* Calendly Custom Styles */
+.calendly-overlay {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.calendly-popup {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  width: 90% !important;
+  max-width: 1200px !important;
+  height: 85vh !important;
+  max-height: 750px !important;
+}
+
+.calendly-popup iframe {
+  border-radius: 20px !important;
+}
