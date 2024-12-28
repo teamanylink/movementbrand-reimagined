@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,10 @@ export const SignupForm = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  const planType = location.state?.planType || 'standard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,15 +47,24 @@ export const SignupForm = () => {
 
         if (profileError) throw profileError;
 
-        toast({
-          title: "Success",
-          description: "Account created successfully! Redirecting to checkout...",
+        // Create checkout session with the selected plan type
+        const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke('create-checkout', {
+          body: { 
+            priceId: planType === 'pro' ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9'
+          }
         });
 
-        // Redirect to checkout after a short delay
-        setTimeout(() => {
-          navigate("/checkout");
-        }, 1500);
+        if (checkoutError) throw checkoutError;
+
+        if (checkoutData?.url) {
+          toast({
+            title: "Success",
+            description: "Account created successfully! Redirecting to checkout...",
+          });
+          window.location.href = checkoutData.url;
+        } else {
+          throw new Error('No checkout URL received');
+        }
       }
     } catch (error: any) {
       toast({

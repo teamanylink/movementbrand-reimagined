@@ -55,10 +55,12 @@ const PricingSection = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        navigate("/signup");
+        // Redirect to signup page with the selected plan type
+        navigate("/signup", { state: { planType: isPro ? 'pro' : 'standard' } });
         return;
       }
 
+      // If user is already authenticated, proceed with checkout
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9' }
       });
