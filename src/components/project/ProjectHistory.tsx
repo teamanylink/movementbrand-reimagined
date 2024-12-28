@@ -123,20 +123,20 @@ export const ProjectHistory = ({ projectId }: { projectId: string }) => {
         <h2 className="text-lg font-semibold">Project History</h2>
       </div>
 
-      <ScrollArea className="h-[300px]">
+      <ScrollArea className="h-[300px] pr-4">
         <div className="space-y-4">
           {history?.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-4 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center gap-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <div className="w-6 flex-shrink-0 text-center">
+              <div className="w-5 flex-shrink-0 text-center">
                 <Circle 
                   className="stroke-[#ebebeb] fill-white" 
-                  size={20}
+                  size={18}
                 />
               </div>
-              <div className="w-36 flex-shrink-0 text-xs">
+              <div className="w-32 flex-shrink-0 text-xs">
                 {formatDate(item.created_at)}
               </div>
               <div className="flex-1">
