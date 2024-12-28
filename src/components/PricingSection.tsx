@@ -81,17 +81,6 @@ const PricingSection = () => {
             <Button size="lg" className="px-8 py-6 text-lg rounded-xl w-full">
               Get started
             </Button>
-            
-            <div className="tidycal-embed" 
-              data-path="denis5/15-minute-meeting"
-              style={{ 
-                minHeight: '600px',
-                overflow: 'hidden',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            ></div>
           </div>
         </div>
       </div>
