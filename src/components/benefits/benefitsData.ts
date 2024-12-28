@@ -12,7 +12,7 @@ export const benefits = [
   {
     type: 'pricing' as const,
     title: "Fixed monthly rate",
-    description: "No surprises here! Pay the same fixed price each month."
+    description: "Pay the same fixed price each month."
   },
   {
     type: 'content' as const,
