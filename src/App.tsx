@@ -1,150 +1,25 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import Index from "./pages/Index";
-import Dashboard from "./pages/Dashboard";
-import ProjectDashboard from "./pages/ProjectDashboard";
-import Settings from "./pages/Settings";
-import Auth from "./components/Auth";
-import { SignupForm } from "./components/SignupForm";
-import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+import { Routes, Route } from "react-router-dom";
+import { useAuthState } from "@/hooks/useAuthState";
+import { AppProviders } from "@/components/providers/AppProviders";
+import { createRoutes } from "@/routes/routes";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [userProfile, setUserProfile] = useState<any>(null);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-
-      if (session) {
-        // Check if user has a profile
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        
-        setUserProfile(profile);
-      }
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setIsAuthenticated(!!session);
-      
-      if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        
-        setUserProfile(profile);
-      } else {
-        setUserProfile(null);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const { isAuthenticated, userProfile } = useAuthState();
 
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
   }
 
+  const routes = createRoutes(isAuthenticated, userProfile);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route 
-              path="/" 
-              element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Index />} 
-            />
-            <Route 
-              path="/signup" 
-              element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <SignupForm />} 
-            />
-            <Route 
-              path="/dashboard" 
-              element={
-                isAuthenticated && userProfile ? (
-                  <AuthenticatedLayout>
-                    <Dashboard />
-                  </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
-                ) : (
-                  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                    <Auth />
-                  </div>
-                )
-              } 
-            />
-            <Route 
-              path="/settings" 
-              element={
-                isAuthenticated && userProfile ? (
-                  <AuthenticatedLayout>
-                    <Settings />
-                  </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
-                ) : (
-                  <Navigate to="/" replace />
-                )
-              } 
-            />
-            <Route 
-              path="/project" 
-              element={
-                isAuthenticated && userProfile ? (
-                  <AuthenticatedLayout>
-                    <ProjectDashboard />
-                  </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
-                ) : (
-                  <Navigate to="/" replace />
-                )
-              } 
-            />
-            <Route 
-              path="/project/:projectId" 
-              element={
-                isAuthenticated && userProfile ? (
-                  <AuthenticatedLayout>
-                    <ProjectDashboard />
-                  </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
-                ) : (
-                  <Navigate to="/" replace />
-                )
-              } 
-            />
-          </Routes>
-          <Toaster />
-          <Sonner />
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <AppProviders>
+      <Routes>
+        {routes.map((route, index) => (
+          <Route key={index} {...route} />
+        ))}
+      </Routes>
+    </AppProviders>
   );
 };
 
