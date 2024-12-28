@@ -60,23 +60,35 @@ export function AppSidebar() {
 
   const handleSignOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
+      // First clear any existing session
+      const session = await supabase.auth.getSession();
+      if (session.error) {
+        console.error('Session error:', session.error);
+      }
+
+      // Attempt to sign out
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      // Clear any cached data
+      localStorage.clear();
       
       toast({
         title: "Signed out successfully",
         description: "You have been logged out of your account.",
-      })
-      navigate("/")
+      });
+
+      // Navigate after successful sign out
+      navigate("/", { replace: true });
     } catch (error) {
-      console.error('Sign out error:', error)
+      console.error('Sign out error:', error);
       toast({
         title: "Error signing out",
         description: "Please try again later.",
         variant: "destructive"
-      })
+      });
     }
-  }
+  };
 
   const getProjectColor = (index: number) => {
     const colors = ['bg-purple-100', 'bg-green-100', 'bg-blue-100', 'bg-yellow-100', 'bg-red-100']
