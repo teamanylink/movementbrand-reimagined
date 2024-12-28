@@ -38,15 +38,25 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
     <Routes>
       <Route 
         path="/" 
-        element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Index />} 
+        element={
+          isAuthenticated ? (
+            <Navigate to={isSuperAdmin ? "/admin" : "/dashboard"} replace />
+          ) : (
+            <Index />
+          )
+        } 
       />
       <Route 
         path="/dashboard" 
         element={
           isAuthenticated ? (
-            <AuthenticatedLayout>
-              <Dashboard />
-            </AuthenticatedLayout>
+            isSuperAdmin ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <AuthenticatedLayout>
+                <Dashboard />
+              </AuthenticatedLayout>
+            )
           ) : (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
               <Auth />
@@ -70,9 +80,13 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
         path="/project" 
         element={
           isAuthenticated ? (
-            <AuthenticatedLayout>
-              <ProjectDashboard />
-            </AuthenticatedLayout>
+            isSuperAdmin ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <AuthenticatedLayout>
+                <ProjectDashboard />
+              </AuthenticatedLayout>
+            )
           ) : (
             <Navigate to="/" replace />
           )
