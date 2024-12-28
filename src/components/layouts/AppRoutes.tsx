@@ -5,7 +5,6 @@ import Dashboard from "@/pages/Dashboard";
 import ProjectDashboard from "@/pages/ProjectDashboard";
 import Settings from "@/pages/Settings";
 import AdminDashboard from "@/pages/AdminDashboard";
-import Chat from "@/pages/Chat";
 import Auth from "@/components/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -116,18 +115,6 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
             <Navigate to="/" replace />
           )
         }
-      />
-      <Route 
-        path="/chat" 
-        element={
-          isAuthenticated ? (
-            <AuthenticatedLayout>
-              <Chat />
-            </AuthenticatedLayout>
-          ) : (
-            <Navigate to="/" replace />
-          )
-        } 
       />
     </Routes>
   );
