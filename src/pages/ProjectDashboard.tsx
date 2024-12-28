@@ -1,12 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
-import { useState } from "react";
 
 const ProjectDashboard = () => {
-  const navigate = useNavigate();
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
 
   const projectTypes = [
