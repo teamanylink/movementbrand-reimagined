@@ -3,8 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Circle, Trash2 } from "lucide-react";
+import { Plus, Circle, Trash2, MoreVertical, Pencil } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Task {
   id: string;
@@ -96,6 +102,11 @@ export const ProjectTasks = ({ projectId }: { projectId: string }) => {
     refetch();
   };
 
+  const handleEditTask = (taskId: string) => {
+    // TODO: Implement edit functionality
+    console.log("Edit task:", taskId);
+  };
+
   return (
     <div>
       <h2 className="text-lg font-semibold mb-4">Tasks</h2>
@@ -137,14 +148,27 @@ export const ProjectTasks = ({ projectId }: { projectId: string }) => {
                 {task.title}
               </span>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => handleDeleteTask(task.id)}
-              className="text-red-500 hover:text-red-600"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-32">
+                <DropdownMenuItem onClick={() => handleEditTask(task.id)} className="gap-2">
+                  <Pencil className="h-4 w-4" />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleDeleteTask(task.id)} className="gap-2 text-red-500 focus:text-red-500">
+                  <Trash2 className="h-4 w-4" />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         ))}
       </div>
