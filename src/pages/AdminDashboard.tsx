@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/table";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const { data: profiles } = useQuery({
     queryKey: ['admin-profiles'],
     queryFn: async () => {
@@ -41,6 +43,10 @@ const AdminDashboard = () => {
       return data;
     },
   });
+
+  const handleProjectClick = (projectId: string) => {
+    navigate(`/project/${projectId}`);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -118,8 +124,14 @@ const AdminDashboard = () => {
             </TableHeader>
             <TableBody>
               {projects?.map((project) => (
-                <TableRow key={project.id}>
-                  <TableCell>{project.name}</TableCell>
+                <TableRow 
+                  key={project.id}
+                  className="cursor-pointer hover:bg-gray-50"
+                  onClick={() => handleProjectClick(project.id)}
+                >
+                  <TableCell className="font-medium text-blue-600 hover:text-blue-800">
+                    {project.name}
+                  </TableCell>
                   <TableCell>{project.project_type}</TableCell>
                   <TableCell>
                     <span className={`px-2 py-1 rounded-full text-xs ${
