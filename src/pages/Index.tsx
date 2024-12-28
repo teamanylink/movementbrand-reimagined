@@ -123,6 +123,7 @@ const Index = () => {
       <ProjectCarousel />
 
       <section 
+        id="how-it-works"
         ref={featuresRef}
         className="py-24 px-4 bg-white relative overflow-hidden"
         style={{
