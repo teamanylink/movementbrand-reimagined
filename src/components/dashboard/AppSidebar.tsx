@@ -52,7 +52,6 @@ export function AppSidebar() {
     <Sidebar className="border-r border-gray-200 bg-white">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
-          <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500"></div>
           <h2 className="text-lg font-semibold">MovementBrand</h2>
         </div>
         <div className="px-2 mt-4">
