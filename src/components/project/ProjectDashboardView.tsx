@@ -1,5 +1,6 @@
 import { ProjectTasks } from "./ProjectTasks";
 import { ProjectHistory } from "./ProjectHistory";
+import { ProjectDetails } from "./ProjectDetails";
 
 export const ProjectDashboardView = ({ projectId }: { projectId: string }) => {
   return (
