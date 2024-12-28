@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -56,30 +58,34 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
-        <div className="hidden md:block">
-          <AppSidebar />
-        </div>
+        {/* Show AppSidebar directly on desktop */}
+        {!isMobile && (
+          <div className="hidden md:block">
+            <AppSidebar />
+          </div>
+        )}
+        
         <div className="flex-1">
           <nav className="bg-white border-gray-800 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
-                  <Sheet>
-                    <SheetTrigger asChild className="md:hidden">
-                      <Button variant="ghost" size="icon">
-                        <Menu className="h-5 w-5" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent 
-                      side="left" 
-                      className="p-0 w-72 block"
-                      style={{ position: 'fixed', top: 0, bottom: 0, left: 0 }}
-                    >
-                      <div className="h-full overflow-y-auto bg-white">
+                  {/* Show Sheet with AppSidebar on mobile */}
+                  {isMobile && (
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <Menu className="h-5 w-5" />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent 
+                        side="left" 
+                        className="p-0 w-72"
+                      >
                         <AppSidebar />
-                      </div>
-                    </SheetContent>
-                  </Sheet>
+                      </SheetContent>
+                    </Sheet>
+                  )}
                   <div className="flex items-center">
                     <span className="text-black font-semibold">MovementBrand</span>
                     <span className="text-gray-400 mx-2">/</span>
