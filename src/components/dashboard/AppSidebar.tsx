@@ -3,12 +3,14 @@ import {
   FolderKanban,
   Settings,
   LogOut,
-  Plus
+  Plus,
+  Users
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@tanstack/react-query"
+import { useEffect, useState } from "react"
 
 import {
   Sidebar,
@@ -52,10 +54,28 @@ const fetchUserProjects = async () => {
 export function AppSidebar() {
   const navigate = useNavigate()
   const { toast } = useToast()
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const { data: projects } = useQuery({
     queryKey: ['projects'],
     queryFn: fetchUserProjects
   })
+
+  useEffect(() => {
+    const checkSuperAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('is_superadmin')
+          .eq('id', user.id)
+          .single()
+        
+        setIsSuperAdmin(profile?.is_superadmin || false)
+      }
+    }
+
+    checkSuperAdmin()
+  }, [])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -93,6 +113,19 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {isSuperAdmin && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    asChild
+                    className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+                  >
+                    <Link to="/dashboard/admin">
+                      <Users className="h-5 w-5" />
+                      <span>Admin</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
 import Settings from "./pages/Settings";
+import AdminDashboard from "./pages/AdminDashboard";
 import Auth from "./components/Auth";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
 
@@ -23,18 +24,37 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+      if (session) {
+        checkSuperAdmin(session.user.id);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setIsAuthenticated(!!session);
+      if (session) {
+        checkSuperAdmin(session.user.id);
+      } else {
+        setIsSuperAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkSuperAdmin = async (userId: string) => {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_superadmin')
+      .eq('id', userId)
+      .single();
+    
+    setIsSuperAdmin(profile?.is_superadmin || false);
+  };
 
   if (isAuthenticated === null) {
     return <div>Loading...</div>;
@@ -72,6 +92,18 @@ const App = () => {
                   </AuthenticatedLayout>
                 ) : (
                   <Navigate to="/" replace />
+                )
+              } 
+            />
+            <Route 
+              path="/dashboard/admin" 
+              element={
+                isAuthenticated && isSuperAdmin ? (
+                  <AuthenticatedLayout>
+                    <AdminDashboard />
+                  </AuthenticatedLayout>
+                ) : (
+                  <Navigate to="/dashboard" replace />
                 )
               } 
             />
