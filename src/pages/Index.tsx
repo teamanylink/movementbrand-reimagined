@@ -12,6 +12,7 @@ import FAQs from "@/components/FAQs";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Index = () => {
   const heroRef = useRef(null);
@@ -61,23 +62,33 @@ const Index = () => {
             <div className="flex items-center justify-center mt-8 space-x-4">
               <div className="flex -space-x-4">
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="/lovable-uploads/a1be2f05-b555-4a80-9069-6879bf37dfc7.png" />
+                  <AspectRatio ratio={1}>
+                    <AvatarImage src="/lovable-uploads/a1be2f05-b555-4a80-9069-6879bf37dfc7.png" className="object-cover" />
+                  </AspectRatio>
                   <AvatarFallback>JS</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="/lovable-uploads/908e32d5-00a6-4606-bf80-e43e4f31358b.png" />
+                  <AspectRatio ratio={1}>
+                    <AvatarImage src="/lovable-uploads/908e32d5-00a6-4606-bf80-e43e4f31358b.png" className="object-cover" />
+                  </AspectRatio>
                   <AvatarFallback>MK</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" />
+                  <AspectRatio ratio={1}>
+                    <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" className="object-cover" />
+                  </AspectRatio>
                   <AvatarFallback>RW</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="/lovable-uploads/2f9ed181-c0a8-4425-98bf-b47385724cf2.png" />
+                  <AspectRatio ratio={1}>
+                    <AvatarImage src="/lovable-uploads/2f9ed181-c0a8-4425-98bf-b47385724cf2.png" className="object-cover" />
+                  </AspectRatio>
                   <AvatarFallback>AL</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" />
+                  <AspectRatio ratio={1}>
+                    <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" className="object-cover" />
+                  </AspectRatio>
                   <AvatarFallback>TG</AvatarFallback>
                 </Avatar>
               </div>
