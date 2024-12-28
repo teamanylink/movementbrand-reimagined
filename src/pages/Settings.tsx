@@ -54,12 +54,12 @@ export default function Settings() {
 
   return (
     <div className="flex min-h-screen bg-gray-50/50">
-      <div className="flex-1 space-y-4 p-48 pt-6">
-        <div className="flex items-center justify-between space-y-2">
+      <div className="flex-1 space-y-4 p-8">
+        <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
         </div>
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
+          <aside className="sticky top-8 h-fit lg:w-1/5">
             <SettingsNavigation
               activeSection={activeSection}
               onSectionChange={setActiveSection}
