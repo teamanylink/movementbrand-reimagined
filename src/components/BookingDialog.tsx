@@ -6,23 +6,28 @@ import {
   DialogDescription,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface BookingDialogProps {
   children: React.ReactNode;
 }
 
 const BookingDialog = ({ children }: BookingDialogProps) => {
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
+
   useEffect(() => {
-    // Load TidyCal script when component mounts
+    // Create and load TidyCal script
     const script = document.createElement("script");
     script.src = "https://asset-tidycal.b-cdn.net/js/embed.js";
     script.async = true;
     document.body.appendChild(script);
+    scriptRef.current = script;
 
     return () => {
       // Cleanup script when component unmounts
-      document.body.removeChild(script);
+      if (scriptRef.current) {
+        document.body.removeChild(scriptRef.current);
+      }
     };
   }, []);
 
