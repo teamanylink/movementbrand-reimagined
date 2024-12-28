@@ -49,11 +49,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
     navigate("/");
   };
 
-  const getUserInitials = (email: string | null) => {
-    if (!email) return '';
-    return email.charAt(0).toUpperCase();
-  };
-
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
@@ -80,19 +75,12 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="text-gray-400 hover:bg-gray-800 hover:text-white"
-                  >
-                    <Globe className="h-5 w-5" />
-                  </Button>
+                <div className="flex items-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Avatar className="h-8 w-8 cursor-pointer">
                         <AvatarFallback className="bg-accent text-accent-foreground">
-                          {getUserInitials(userEmail)}
+                          {userEmail?.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </DropdownMenuTrigger>
