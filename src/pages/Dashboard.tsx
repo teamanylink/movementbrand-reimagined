@@ -7,7 +7,6 @@ import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
 import { Card } from "@/components/ui/card";
-import { format } from "date-fns";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -88,10 +87,9 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header with Date and Greeting */}
+      {/* Header with Greeting */}
       <div className="mb-8">
-        <div className="text-gray-500 mb-2">{format(new Date(), 'EEEE, do MMMM')}</div>
-        <h1 className="text-4xl font-bold">Good {format(new Date(), 'a') === 'am' ? 'Morning' : 'Evening'}! {userEmail}</h1>
+        <h1 className="text-4xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'}! {userEmail}</h1>
       </div>
 
       {/* Stats Cards */}
