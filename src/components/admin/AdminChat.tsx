@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Send, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 
 interface Message {
@@ -22,13 +22,30 @@ interface AdminChatProps {
 export const AdminChat = ({ selectedUserId, selectedUserEmail }: AdminChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const { toast } = useToast();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setCurrentUserId(user.id);
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   useEffect(() => {
     if (selectedUserId) {
       fetchMessages();
+      subscribeToMessages();
     }
   }, [selectedUserId]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const fetchMessages = async () => {
     const { data, error } = await supabase
@@ -47,21 +64,61 @@ export const AdminChat = ({ selectedUserId, selectedUserEmail }: AdminChatProps)
     }
 
     setMessages(data || []);
+    setTimeout(scrollToBottom, 100);
+  };
+
+  const subscribeToMessages = () => {
+    const channel = supabase
+      .channel('admin-chat')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'admin_chat_messages',
+          filter: `user_id=eq.${selectedUserId}`,
+        },
+        (payload) => {
+          setMessages(current => [...current, payload.new as Message]);
+          scrollToBottom();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !selectedUserId) return;
+    if (!newMessage.trim() || !selectedUserId || !currentUserId) return;
+
+    // Create optimistic message
+    const optimisticMessage: Message = {
+      id: crypto.randomUUID(),
+      message: newMessage,
+      admin_id: currentUserId,
+      user_id: selectedUserId,
+      created_at: new Date().toISOString(),
+    };
+
+    // Add optimistic message to state
+    setMessages(current => [...current, optimisticMessage]);
+    setNewMessage("");
+    scrollToBottom();
 
     const { error } = await supabase
       .from('admin_chat_messages')
       .insert([{
         message: newMessage,
         user_id: selectedUserId,
-        admin_id: (await supabase.auth.getUser()).data.user?.id
+        admin_id: currentUserId
       }]);
 
     if (error) {
+      // Remove optimistic message on error
+      setMessages(current => current.filter(msg => msg.id !== optimisticMessage.id));
       toast({
         title: "Error",
         description: "Failed to send message",
@@ -69,9 +126,6 @@ export const AdminChat = ({ selectedUserId, selectedUserEmail }: AdminChatProps)
       });
       return;
     }
-
-    setNewMessage("");
-    fetchMessages();
   };
 
   if (!selectedUserId) {
@@ -89,18 +143,32 @@ export const AdminChat = ({ selectedUserId, selectedUserEmail }: AdminChatProps)
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div key={message.id} className="flex items-start gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback>
-                <UserRound className="h-4 w-4" />
-              </AvatarFallback>
-            </Avatar>
-            <div className="bg-gray-100 rounded-lg p-2 max-w-[80%]">
-              <p className="text-sm">{message.message}</p>
+        {messages.map((message) => {
+          const isCurrentUser = message.admin_id === currentUserId;
+          
+          return (
+            <div 
+              key={message.id} 
+              className={`flex items-start gap-3 ${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}
+            >
+              <Avatar className="h-8 w-8">
+                <AvatarFallback className={`${isCurrentUser ? 'bg-purple-100 text-purple-600' : 'bg-blue-100 text-blue-600'}`}>
+                  <UserRound className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+              <div 
+                className={`rounded-2xl p-3 ${
+                  isCurrentUser 
+                    ? 'bg-purple-500 text-white' 
+                    : 'bg-gray-100 text-gray-900'
+                }`}
+              >
+                <p className="text-sm">{message.message}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="border-t p-4">
@@ -110,9 +178,13 @@ export const AdminChat = ({ selectedUserId, selectedUserEmail }: AdminChatProps)
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
-          <Button type="submit" size="icon">
+          <Button 
+            type="submit" 
+            size="icon"
+            className="rounded-full bg-purple-500 hover:bg-purple-600"
+          >
             <Send className="h-4 w-4" />
           </Button>
         </form>
