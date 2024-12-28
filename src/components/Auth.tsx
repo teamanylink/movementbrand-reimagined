@@ -158,7 +158,7 @@ const Auth = () => {
           onClick={() => setIsSignUp(true)}
           className="text-sm text-blue-600 hover:underline"
         >
-          Don't have an account? Sign up
+          <span className="text-black">Don't have an account?</span> Sign up
         </button>
       </div>
     </div>
