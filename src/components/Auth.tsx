@@ -133,7 +133,6 @@ const Auth = () => {
         }}
         providers={[]}
         redirectTo={window.location.origin}
-        onlyThirdPartyProviders={false}
         view="sign_in"
         localization={{
           variables: {
@@ -142,8 +141,6 @@ const Auth = () => {
             },
           },
         }}
-        afterSignUpView="sign_in"
-        afterSignInView="sign_in"
         onViewChange={(view) => {
           if (view === "sign_up") {
             setIsSignUp(true);
