@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Switch } from "@/components/ui/switch";
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 
@@ -23,6 +22,18 @@ const PricingSection = () => {
     "Landing pages",
     "2 hours of Consults"
   ];
+
+  useEffect(() => {
+    // Load TidyCal script
+    const script = document.createElement('script');
+    script.src = 'https://asset-tidycal.b-cdn.net/js/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <section id="pricing" className="py-24 px-4 bg-white relative overflow-hidden">
@@ -66,10 +77,15 @@ const PricingSection = () => {
             </div>
           </div>
 
-          <div>
-            <Button size="lg" className="px-8 py-6 text-lg rounded-xl">
+          <div className="space-y-6">
+            <Button size="lg" className="px-8 py-6 text-lg rounded-xl w-full">
               Get started
             </Button>
+            
+            <div className="border rounded-xl p-6">
+              <h4 className="text-lg font-semibold mb-4">Schedule a Call</h4>
+              <div className="tidycal-embed" data-path="denis5/15-minute-meeting"></div>
+            </div>
           </div>
         </div>
       </div>
