@@ -1,9 +1,15 @@
-import { Files, Paperclip, Trash2, FileIcon } from "lucide-react";
+import { Files, Paperclip, Trash2, FileIcon, Image as ImageIcon, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useRef } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface ProjectFilesViewProps {
   projectId: string;
@@ -12,6 +18,7 @@ interface ProjectFilesViewProps {
 export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<{ url: string; type: string; name: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: files, refetch: refetchFiles } = useQuery({
@@ -119,16 +126,34 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
     }
   };
 
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
+  const handleFileClick = async (filePath: string, fileName: string) => {
+    try {
+      const { data } = await supabase.storage
+        .from('project-files')
+        .createSignedUrl(filePath, 3600); // URL valid for 1 hour
+
+      if (data?.signedUrl) {
+        const fileType = fileName.split('.').pop()?.toLowerCase();
+        const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileType || '');
+        
+        setSelectedFile({
+          url: data.signedUrl,
+          type: isImage ? 'image' : 'other',
+          name: fileName
+        });
+      }
+    } catch (error) {
+      console.error("Error getting file URL:", error);
+      toast({
+        title: "Error",
+        description: "Failed to preview file. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const formatFileSize = (bytes: number) => {
-    if (!bytes) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
@@ -160,30 +185,43 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
       {/* Files List */}
       {files && files.length > 0 ? (
         <div className="space-y-3">
-          {files.map((file) => (
-            <div
-              key={file.id}
-              className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-            >
-              <div className="flex items-center space-x-3">
-                <FileIcon className="h-5 w-5 text-gray-400" />
-                <div>
-                  <p className="text-sm font-medium text-gray-700">{file.file_name}</p>
-                  <p className="text-xs text-gray-500">
-                    {new Date(file.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => handleDelete(file.file_path, file.id)}
-                className="text-red-500 hover:text-red-700"
+          {files.map((file) => {
+            const fileType = file.file_name.split('.').pop()?.toLowerCase();
+            const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileType || '');
+            
+            return (
+              <div
+                key={file.id}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                onClick={() => handleFileClick(file.file_path, file.file_name)}
               >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
+                <div className="flex items-center space-x-3">
+                  {isImage ? (
+                    <ImageIcon className="h-5 w-5 text-blue-500" />
+                  ) : (
+                    <FileText className="h-5 w-5 text-gray-400" />
+                  )}
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">{file.file_name}</p>
+                    <p className="text-xs text-gray-500">
+                      {new Date(file.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(file.file_path, file.id);
+                  }}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className="text-center text-gray-500 py-8">
@@ -191,6 +229,34 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
           <p>No files uploaded yet</p>
         </div>
       )}
+
+      {/* File Preview Dialog */}
+      <Dialog open={!!selectedFile} onOpenChange={() => setSelectedFile(null)}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>{selectedFile?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="mt-4">
+            {selectedFile?.type === 'image' ? (
+              <img 
+                src={selectedFile.url} 
+                alt={selectedFile.name}
+                className="max-w-full rounded-lg"
+              />
+            ) : (
+              <div className="text-center p-8">
+                <FileIcon className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <p className="mb-4">This file type cannot be previewed</p>
+                <Button asChild>
+                  <a href={selectedFile?.url} download target="_blank" rel="noopener noreferrer">
+                    Download File
+                  </a>
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
