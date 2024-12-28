@@ -8,7 +8,7 @@ import {
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { useQuery } from "@tanstack/react-query"
 
 import {
@@ -41,6 +41,9 @@ const mainMenuItems = [
 ]
 
 const fetchUserProjects = async () => {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session) throw new Error('No session')
+  
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -55,13 +58,30 @@ export function AppSidebar() {
   const { toast } = useToast()
   const { data: projects } = useQuery({
     queryKey: ['projects'],
-    queryFn: fetchUserProjects
+    queryFn: fetchUserProjects,
+    retry: false
   })
 
   const handleSignOut = async () => {
     try {
+      // First check if we have a valid session
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        // If no session, just redirect to home
+        navigate("/")
+        return
+      }
+
       const { error } = await supabase.auth.signOut()
-      if (error) throw error
+      if (error) {
+        console.error('Sign out error:', error)
+        // If it's a session not found error, just redirect
+        if (error.message.includes('session_not_found')) {
+          navigate("/")
+          return
+        }
+        throw error
+      }
 
       toast({
         title: "Signed out successfully",
