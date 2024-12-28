@@ -61,23 +61,23 @@ const Index = () => {
             <div className="flex items-center justify-center mt-8 space-x-4">
               <div className="flex -space-x-4">
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop" />
+                  <AvatarImage src="/lovable-uploads/a1be2f05-b555-4a80-9069-6879bf37dfc7.png" />
                   <AvatarFallback>JS</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop" />
+                  <AvatarImage src="/lovable-uploads/908e32d5-00a6-4606-bf80-e43e4f31358b.png" />
                   <AvatarFallback>MK</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=100&h=100&fit=crop" />
+                  <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" />
                   <AvatarFallback>RW</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=100&h=100&fit=crop" />
+                  <AvatarImage src="/lovable-uploads/2f9ed181-c0a8-4425-98bf-b47385724cf2.png" />
                   <AvatarFallback>AL</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-10 h-10 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop" />
+                  <AvatarImage src="/lovable-uploads/c92cf53a-829b-48b9-8100-b91a7655b3e7.png" />
                   <AvatarFallback>TG</AvatarFallback>
                 </Avatar>
               </div>
