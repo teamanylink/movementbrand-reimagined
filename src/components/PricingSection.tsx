@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { SignupForm, SignupFormData } from './SignupForm';
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSignupForm, setShowSignupForm] = useState(false);
   const { toast } = useToast();
   
   const price = isPro ? 8200 : 5280;
@@ -49,23 +51,25 @@ const PricingSection = () => {
     }
   };
 
-  const handleGetStarted = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      // If not logged in, show Calendly
-      // @ts-ignore
-      if (window.Calendly) {
-        // @ts-ignore
-        window.Calendly.initPopupWidget({
-          url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
-        });
-      }
-      return;
-    }
-
+  const handleSignupSubmit = async (formData: SignupFormData) => {
     setIsLoading(true);
     try {
+      // Update the user's profile with the form data
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          company: formData.company,
+          website_url: formData.websiteUrl,
+          phone_number: formData.phoneNumber,
+          email: formData.email
+        })
+        .eq('id', (await supabase.auth.getUser()).data.user?.id);
+
+      if (updateError) throw updateError;
+
+      // Create Stripe checkout session
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { 
           priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9',
@@ -88,6 +92,24 @@ const PricingSection = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGetStarted = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      // If not logged in, show Calendly
+      // @ts-ignore
+      if (window.Calendly) {
+        // @ts-ignore
+        window.Calendly.initPopupWidget({
+          url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
+        });
+      }
+      return;
+    }
+
+    setShowSignupForm(true);
   };
 
   return (
@@ -150,6 +172,13 @@ const PricingSection = () => {
           </div>
         </div>
       </div>
+
+      <SignupForm
+        open={showSignupForm}
+        onOpenChange={setShowSignupForm}
+        onSubmit={handleSignupSubmit}
+        isLoading={isLoading}
+      />
     </section>
   );
 };
