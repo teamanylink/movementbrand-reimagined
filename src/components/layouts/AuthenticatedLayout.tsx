@@ -3,6 +3,7 @@ import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Globe, LogOut, Settings, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +15,13 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const AuthenticatedLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const { toggleSidebar } = useSidebar();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -57,21 +58,32 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
-        <AppSidebar />
+        {/* Desktop sidebar */}
+        <div className="hidden md:block">
+          <AppSidebar />
+        </div>
         
         <div className="flex-1">
           <nav className="bg-white border-gray-800 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
-                  <Button 
-                    variant="ghost" 
-                    size="icon"
-                    onClick={toggleSidebar}
-                    className="md:hidden"
-                  >
-                    <Menu className="h-5 w-5" />
-                  </Button>
+                  {/* Mobile sidebar trigger */}
+                  <Sheet>
+                    <SheetTrigger asChild className="md:hidden">
+                      <Button variant="ghost" size="icon">
+                        <Menu className="h-5 w-5" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent 
+                      side="left" 
+                      className="p-0 w-72"
+                    >
+                      <div className="h-full overflow-y-auto">
+                        <AppSidebar />
+                      </div>
+                    </SheetContent>
+                  </Sheet>
                   <div className="flex items-center">
                     <span className="text-black font-semibold">MovementBrand</span>
                     <span className="text-gray-400 mx-2">/</span>

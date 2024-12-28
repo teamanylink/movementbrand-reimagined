@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
-import { useSidebar } from "@/components/ui/sidebar";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { AppSidebar } from "./dashboard/AppSidebar";
 
 const Navigation = () => {
   const navigate = useNavigate();
-  const { toggleSidebar } = useSidebar();
 
   const handleLogin = () => {
     navigate("/dashboard");
@@ -23,14 +23,16 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleSidebar}
-              className="md:hidden"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0 w-72">
+                <AppSidebar />
+              </SheetContent>
+            </Sheet>
             <div className="text-xl font-bold">MovementBrand</div>
           </div>
           <div className="hidden md:flex items-center space-x-8">

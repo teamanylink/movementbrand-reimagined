@@ -9,7 +9,6 @@ import Auth from "@/components/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import Chat from "@/pages/Chat";
-import { SidebarProvider } from "@/components/ui/sidebar";
 
 interface AppRoutesProps {
   isAuthenticated: boolean;
@@ -44,9 +43,7 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
           isAuthenticated ? (
             <Navigate to={isSuperAdmin ? "/admin" : "/dashboard"} replace />
           ) : (
-            <SidebarProvider>
-              <Index />
-            </SidebarProvider>
+            <Index />
           )
         } 
       />
