@@ -21,6 +21,13 @@ const Index = () => {
   const isHeroInView = useInView(heroRef, { once: true });
   const isFeaturesInView = useInView(featuresRef, { once: true });
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       <Navigation />
@@ -53,12 +60,15 @@ const Index = () => {
               Automations, Micro-saas, Blogs, and more.
             </p>
 
-            <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+            <Button 
+              size="lg" 
+              className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => scrollToSection('pricing')}
+            >
               See plans
             </Button>
             <div className="mt-6 text-sm text-gray-500 animate-pulse">Pause or cancel anytime</div>
 
-            {/* Social Proof Section */}
             <div className="flex items-center justify-center mt-8 space-x-4">
               <div className="flex -space-x-4">
                 <Avatar className="w-10 h-10 border-2 border-white">
@@ -91,27 +101,12 @@ const Index = () => {
               </p>
             </div>
 
-            {/* Five Star Rating */}
             <div className="flex items-center justify-center mt-4 space-x-1">
               {[...Array(5)].map((_, index) => (
                 <Star key={index} className="w-5 h-5 text-yellow-400 fill-current" />
               ))}
             </div>
 
-          </div>
-          
-          <MacbookScrollDemo />
-
-          {/* Remaining sections */}
-          <div className="flex flex-col items-center gap-6 mt-12 pb-12">
-            <h1 className="text-6xl md:text-7xl font-bold tracking-tight">
-              we do the most
-              <br />
-              so you can
-            </h1>
-            <div className="transform -rotate-6 bg-black text-white px-6 py-3 text-3xl md:text-4xl font-bold rounded-lg shadow-lg hover:rotate-0 transition-transform duration-300">
-              do the thing
-            </div>
           </div>
         </div>
       </section>
