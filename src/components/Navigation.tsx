@@ -1,11 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 const Navigation = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleLogin = () => {
     navigate("/dashboard");
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: "Signed out successfully",
+      description: "You have been logged out of your account.",
+    });
+    navigate("/");
   };
 
   const scrollToSection = (id: string) => {
@@ -46,6 +58,7 @@ const Navigation = () => {
               FAQs
             </button>
             <Button variant="default" onClick={handleLogin}>Login</Button>
+            <Button variant="destructive" onClick={handleLogout}>Logout</Button>
           </div>
         </div>
       </div>
