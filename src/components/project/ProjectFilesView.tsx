@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface ProjectFilesViewProps {
   projectId: string;
@@ -12,6 +12,7 @@ interface ProjectFilesViewProps {
 export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: files, refetch: refetchFiles } = useQuery({
     queryKey: ['project-files', projectId],
@@ -79,7 +80,9 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
     } finally {
       setIsUploading(false);
       // Reset the input
-      e.target.value = '';
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -116,6 +119,10 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
     }
   };
 
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const formatFileSize = (bytes: number) => {
     if (!bytes) return '0 Bytes';
     const k = 1024;
@@ -133,24 +140,20 @@ export const ProjectFilesView = ({ projectId }: ProjectFilesViewProps) => {
         <div className="text-center">
           <input
             type="file"
-            id="file-upload"
+            ref={fileInputRef}
             className="hidden"
             onChange={handleFileUpload}
             disabled={isUploading}
           />
-          <label
-            htmlFor="file-upload"
-            className="cursor-pointer inline-flex items-center justify-center"
+          <Button 
+            variant="outline" 
+            className="gap-2 rounded-xl hover:bg-[#F1F0FB]"
+            disabled={isUploading}
+            onClick={handleUploadClick}
           >
-            <Button 
-              variant="outline" 
-              className="gap-2 rounded-xl hover:bg-[#F1F0FB]"
-              disabled={isUploading}
-            >
-              <Paperclip className="h-4 w-4" />
-              {isUploading ? "Uploading..." : "Upload Files"}
-            </Button>
-          </label>
+            <Paperclip className="h-4 w-4" />
+            {isUploading ? "Uploading..." : "Upload Files"}
+          </Button>
         </div>
       </div>
 
