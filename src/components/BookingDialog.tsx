@@ -15,10 +15,11 @@ interface BookingDialogProps {
 const BookingDialog = ({ children }: BookingDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const scriptRef = useRef<HTMLScriptElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isOpen && !scriptRef.current) {
-      // Remove any existing TidyCal scripts first
+    if (isOpen) {
+      // Clean up any existing TidyCal elements
       const existingScript = document.querySelector('script[src*="tidycal"]');
       if (existingScript) {
         existingScript.remove();
@@ -30,22 +31,22 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
       script.async = true;
       script.crossOrigin = "anonymous";
       
-      // Add error handling
-      script.onerror = (error) => {
-        console.error("Error loading TidyCal script:", error);
-      };
-
-      // Initialize TidyCal after a short delay to ensure proper loading
       script.onload = () => {
         setTimeout(() => {
-          if (window.TidyCal) {
+          if (window.TidyCal && containerRef.current) {
             try {
-              window.TidyCal.init();
+              window.TidyCal.init({
+                baseUrl: "https://tidycal.com",
+              });
             } catch (error) {
               console.error("Error initializing TidyCal:", error);
             }
           }
-        }, 100);
+        }, 500);
+      };
+
+      script.onerror = (error) => {
+        console.error("Error loading TidyCal script:", error);
       };
 
       document.body.appendChild(script);
@@ -54,7 +55,7 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
 
     return () => {
       if (scriptRef.current) {
-        document.body.removeChild(scriptRef.current);
+        scriptRef.current.remove();
         scriptRef.current = null;
       }
     };
@@ -65,7 +66,7 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Schedule a Meeting</DialogTitle>
           <DialogDescription>
@@ -73,7 +74,8 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
           </DialogDescription>
         </DialogHeader>
         <div 
-          className="tidycal-embed h-[600px] w-full" 
+          ref={containerRef}
+          className="tidycal-embed w-full min-h-[600px]"
           data-path="denis5/15-minute-meeting"
         />
       </DialogContent>
@@ -85,7 +87,7 @@ const BookingDialog = ({ children }: BookingDialogProps) => {
 declare global {
   interface Window {
     TidyCal?: {
-      init: () => void;
+      init: (config?: { baseUrl?: string }) => void;
     };
   }
 }
