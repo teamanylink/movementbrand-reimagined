@@ -48,7 +48,7 @@ const App = () => {
         
         if (session) {
           // Verify JWT is still valid
-          const { user, error: userError } = await supabase.auth.getUser();
+          const { data, error: userError } = await supabase.auth.getUser();
           
           if (userError) {
             console.error('User verification error:', userError);
@@ -60,7 +60,7 @@ const App = () => {
             return;
           }
           
-          console.log('User verified:', !!user);
+          console.log('User verified:', !!data.user);
         }
 
         if (mounted) {
@@ -82,7 +82,7 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('Auth state changed:', event, !!session);
       if (mounted) {
-        if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        if (event === 'SIGNED_OUT') {
           localStorage.clear();
           setIsAuthenticated(false);
         } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
