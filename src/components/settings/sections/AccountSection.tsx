@@ -134,10 +134,12 @@ export function AccountSection() {
         </div>
         
         <div className="space-y-2">
-          <Label>Password</Label>
-          <Button variant="secondary" className="w-auto">
-            Change password
-          </Button>
+          <div className="flex items-center gap-4">
+            <Label>Password</Label>
+            <Button variant="secondary" className="w-auto">
+              Change password
+            </Button>
+          </div>
         </div>
 
         <div className="space-y-4">
