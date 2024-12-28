@@ -94,18 +94,19 @@ const ComparisonSection = () => {
               <h3 className="text-sm font-semibold mb-2">THE BETTER WAY</h3>
               <h4 className="text-3xl font-bold mb-6">Movement Brand</h4>
               <p className="mb-6 text-lg">
-                Movement Brand is the only{" "}
-                <span className="font-semibold">subscription-based service</span>{" "}
-                enabled by technology that adapts and evolves as both the market and your priorities change.
+                No other subscription on the market gives you the ability to request{" "}
+                <span className="font-semibold">AI automations</span>,{" "}
+                <span className="font-semibold">landing pages</span>, or{" "}
+                <span className="font-semibold">microSaaS solutions</span>—all under one plan.
+              </p>
+              <p className="mb-6 text-lg">
+                Building an internal team or hiring a large agency can easily cost{" "}
+                <span className="font-semibold">six figures a year</span>, not to mention benefits and overhead.
               </p>
               <p className="text-lg">
-                Whether you need a{" "}
-                <span className="font-semibold">landing page for your new offer</span>,
-                a{" "}
-                <span className="font-semibold">micro-SaaS solution to attract more customers</span>,
-                or an{" "}
-                <span className="font-semibold">automated workflow to streamline your business</span>,
-                you choose the task—and we'll get it done!
+                And in today's rapidly changing business landscape, you need{" "}
+                <span className="font-semibold">flexibility</span>. That's where Movement Brand steps in: a simple subscription you can{" "}
+                <span className="font-semibold">pause or resume whenever you like</span>. Pay only for what you need, exactly when you need it—no wasted resources, no rigid contracts.
               </p>
             </div>
           </div>
