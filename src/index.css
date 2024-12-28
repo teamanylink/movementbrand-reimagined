@@ -50,6 +50,10 @@
 .calendly-popup {
   border-radius: 20px !important;
   overflow: hidden !important;
+  width: 90% !important;
+  max-width: 1200px !important;
+  height: 85vh !important;
+  max-height: 750px !important;
 }
 
 .calendly-popup iframe {
