@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   
   const price = isPro ? 8200 : 5280;
@@ -63,9 +64,13 @@ const PricingSection = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9' }
+        body: { 
+          priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9',
+          mode: 'subscription'
+        }
       });
 
       if (error) throw error;
@@ -73,13 +78,15 @@ const PricingSection = () => {
       if (data?.url) {
         window.location.href = data.url;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         variant: "destructive",
         title: "Error",
         description: error.message || "Something went wrong. Please try again.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -130,8 +137,9 @@ const PricingSection = () => {
               size="lg" 
               className="px-8 py-6 text-lg rounded-xl"
               onClick={handleGetStarted}
+              disabled={isLoading}
             >
-              {isSubscribed ? "Manage Subscription" : "Get started"}
+              {isLoading ? "Loading..." : isSubscribed ? "Manage Subscription" : "Get started"}
             </Button>
             <button 
               onClick={handleGetStarted}
