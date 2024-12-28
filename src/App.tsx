@@ -8,7 +8,6 @@ import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import ProjectDashboard from "./pages/ProjectDashboard";
-import Settings from "./pages/Settings";
 import Auth from "./components/Auth";
 import { SignupForm } from "./components/SignupForm";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
@@ -24,41 +23,14 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [userProfile, setUserProfile] = useState<any>(null);
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+    });
 
-      if (session) {
-        // Check if user has a profile
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        
-        setUserProfile(profile);
-      }
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setIsAuthenticated(!!session);
-      
-      if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        
-        setUserProfile(profile);
-      } else {
-        setUserProfile(null);
-      }
     });
 
     return () => subscription.unsubscribe();
@@ -84,12 +56,10 @@ const App = () => {
             <Route 
               path="/dashboard" 
               element={
-                isAuthenticated && userProfile ? (
+                isAuthenticated ? (
                   <AuthenticatedLayout>
                     <Dashboard />
                   </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
                 ) : (
                   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                     <Auth />
@@ -98,28 +68,12 @@ const App = () => {
               } 
             />
             <Route 
-              path="/settings" 
-              element={
-                isAuthenticated && userProfile ? (
-                  <AuthenticatedLayout>
-                    <Settings />
-                  </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
-                ) : (
-                  <Navigate to="/" replace />
-                )
-              } 
-            />
-            <Route 
               path="/project" 
               element={
-                isAuthenticated && userProfile ? (
+                isAuthenticated ? (
                   <AuthenticatedLayout>
                     <ProjectDashboard />
                   </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
                 ) : (
                   <Navigate to="/" replace />
                 )
@@ -128,12 +82,10 @@ const App = () => {
             <Route 
               path="/project/:projectId" 
               element={
-                isAuthenticated && userProfile ? (
+                isAuthenticated ? (
                   <AuthenticatedLayout>
                     <ProjectDashboard />
                   </AuthenticatedLayout>
-                ) : isAuthenticated ? (
-                  <Navigate to="/signup" replace />
                 ) : (
                   <Navigate to="/" replace />
                 )
