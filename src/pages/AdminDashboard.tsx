@@ -21,6 +21,7 @@ const AdminDashboard = () => {
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
+        .eq('is_superadmin', false)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
