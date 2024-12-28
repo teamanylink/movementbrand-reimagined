@@ -51,6 +51,7 @@ export type Database = {
       chat_messages: {
         Row: {
           created_at: string
+          file_id: string | null
           id: string
           message: string
           project_id: string | null
@@ -58,6 +59,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          file_id?: string | null
           id?: string
           message: string
           project_id?: string | null
@@ -65,12 +67,20 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          file_id?: string | null
           id?: string
           message?: string
           project_id?: string | null
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "chat_messages_file_id_fkey"
+            columns: ["file_id"]
+            isOneToOne: false
+            referencedRelation: "project_files"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "chat_messages_project_id_fkey"
             columns: ["project_id"]

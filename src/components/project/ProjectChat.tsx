@@ -1,23 +1,25 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Send, UserRound, Paperclip } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface Message {
   id: string;
   message: string;
   user_id: string | null;
   created_at: string;
+  file_id?: string | null;
 }
 
 export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -32,7 +34,7 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const fetchMessages = async () => {
     const { data, error } = await supabase
       .from('chat_messages')
-      .select('*, profiles(email)')
+      .select('*, profiles(email), project_files(file_name, file_path)')
       .eq('project_id', projectId)
       .order('created_at', { ascending: true });
 
@@ -77,11 +79,94 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
     fetchMessages();
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files[0]) return;
+    
+    const file = e.target.files[0];
+    setIsUploading(true);
+
+    try {
+      // Upload file to storage
+      const fileExt = file.name.split('.').pop();
+      const filePath = `${projectId}/${crypto.randomUUID()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('project-files')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Create file record in database
+      const { data: fileData, error: fileError } = await supabase
+        .from('project_files')
+        .insert({
+          project_id: projectId,
+          file_path: filePath,
+          file_name: file.name
+        })
+        .select()
+        .single();
+
+      if (fileError) throw fileError;
+
+      // Create chat message with file reference
+      const { error: messageError } = await supabase
+        .from('chat_messages')
+        .insert({
+          message: `Shared file: ${file.name}`,
+          project_id: projectId,
+          user_id: currentUserId,
+          file_id: fileData.id
+        });
+
+      if (messageError) throw messageError;
+
+      toast({
+        title: "Success",
+        description: "File uploaded successfully",
+      });
+      
+      fetchMessages();
+    } catch (error: any) {
+      console.error("Error uploading file:", error);
+      toast({
+        title: "Error",
+        description: "Failed to upload file. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset the input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
   const formatTime = (date: string) => {
     return new Date(date).toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
     });
+  };
+
+  const handleFileClick = async (filePath: string, fileName: string) => {
+    try {
+      const { data } = await supabase.storage
+        .from('project-files')
+        .createSignedUrl(filePath, 3600); // URL valid for 1 hour
+
+      if (data?.signedUrl) {
+        window.open(data.signedUrl, '_blank');
+      }
+    } catch (error) {
+      console.error("Error getting file URL:", error);
+      toast({
+        title: "Error",
+        description: "Failed to open file. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -93,6 +178,8 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {messages.map((message) => {
           const isCurrentUser = message.user_id === currentUserId;
+          const fileInfo = (message as any).project_files;
+          
           return (
             <div 
               key={message.id} 
@@ -116,6 +203,17 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>
+                  {fileInfo && (
+                    <button
+                      onClick={() => handleFileClick(fileInfo.file_path, fileInfo.file_name)}
+                      className={`mt-2 text-sm flex items-center gap-2 ${
+                        isCurrentUser ? 'text-purple-100' : 'text-purple-500'
+                      }`}
+                    >
+                      <Paperclip className="h-4 w-4" />
+                      {fileInfo.file_name}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -133,11 +231,19 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
               placeholder="Type a message..."
               className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileUpload}
+            />
             <Button 
               type="button" 
               size="icon" 
               variant="outline"
               className="rounded-full hover:bg-purple-50 hover:text-purple-500"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
             >
               <Paperclip className="h-4 w-4" />
             </Button>
