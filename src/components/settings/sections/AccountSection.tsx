@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Zap } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export function AccountSection() {
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null);
@@ -14,9 +15,30 @@ export function AccountSection() {
   const [isUpgrading, setIsUpgrading] = useState(false);
   const { toast } = useToast();
 
+  const { data: profile } = useQuery({
+    queryKey: ['current-profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const isSuperAdmin = profile?.is_superadmin;
+
   useEffect(() => {
-    checkSubscription();
-  }, []);
+    if (!isSuperAdmin) {
+      checkSubscription();
+    }
+  }, [isSuperAdmin]);
 
   const checkSubscription = async () => {
     try {
@@ -69,42 +91,46 @@ export function AccountSection() {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Account Settings</h2>
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Badge variant={isSubscribed ? "default" : "secondary"}>
-              {isSubscribed ? "Active Subscription" : "No Active Subscription"}
-            </Badge>
+          {!isSuperAdmin && (
+            isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Badge variant={isSubscribed ? "default" : "secondary"}>
+                {isSubscribed ? "Active Subscription" : "No Active Subscription"}
+              </Badge>
+            )
           )}
         </div>
 
         <div className="space-y-4">
-          <div className="p-4 bg-gray-50 rounded-lg space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium">Subscription</h3>
-                <p className="text-sm text-muted-foreground">
-                  {isSubscribed 
-                    ? "You have an active subscription" 
-                    : "Upgrade to create unlimited projects"}
-                </p>
+          {!isSuperAdmin && (
+            <div className="p-4 bg-gray-50 rounded-lg space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-medium">Subscription</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {isSubscribed 
+                      ? "You have an active subscription" 
+                      : "Upgrade to create unlimited projects"}
+                  </p>
+                </div>
+                <Button
+                  onClick={handleUpgradeClick}
+                  disabled={isUpgrading || isSubscribed}
+                  className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+                >
+                  {isUpgrading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Zap className="h-4 w-4 mr-2" />
+                      {isSubscribed ? "Already Subscribed" : "Upgrade Now"}
+                    </>
+                  )}
+                </Button>
               </div>
-              <Button
-                onClick={handleUpgradeClick}
-                disabled={isUpgrading || isSubscribed}
-                className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
-              >
-                {isUpgrading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <Zap className="h-4 w-4 mr-2" />
-                    {isSubscribed ? "Already Subscribed" : "Upgrade Now"}
-                  </>
-                )}
-              </Button>
             </div>
-          </div>
+          )}
         </div>
         
         <div className="space-y-2">
