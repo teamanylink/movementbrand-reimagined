@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Clock, CheckCircle, Loader2 } from "lucide-react";
+import { Clock, CheckCircle, Loader2, ListTodo } from "lucide-react";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
@@ -14,9 +14,9 @@ const Dashboard = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
   const [projectStats, setProjectStats] = useState({
+    todos: 0,
     completed: 0,
     inProgress: 0,
-    timesSaved: 12,
   });
 
   useEffect(() => {
@@ -37,6 +37,11 @@ const Dashboard = () => {
     };
 
     const fetchProjectStats = async () => {
+      const { data: todoProjects } = await supabase
+        .from('projects')
+        .select('id')
+        .eq('status', 'todo');
+
       const { data: completedProjects } = await supabase
         .from('projects')
         .select('id')
@@ -48,9 +53,9 @@ const Dashboard = () => {
         .eq('status', 'in_progress');
 
       setProjectStats({
+        todos: todoProjects?.length || 0,
         completed: completedProjects?.length || 0,
         inProgress: inProgressProjects?.length || 0,
-        timesSaved: 12,
       });
     };
 
@@ -96,11 +101,11 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card className="p-6 flex items-center space-x-4">
           <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-            <Clock className="h-6 w-6 text-blue-600" />
+            <ListTodo className="h-6 w-6 text-blue-600" />
           </div>
           <div>
-            <div className="text-2xl font-bold">{projectStats.timesSaved}hrs</div>
-            <div className="text-gray-500">Time Saved</div>
+            <div className="text-2xl font-bold">{projectStats.todos}</div>
+            <div className="text-gray-500">To Do</div>
           </div>
         </Card>
         
