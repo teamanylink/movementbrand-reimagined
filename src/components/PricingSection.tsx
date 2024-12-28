@@ -9,17 +9,17 @@ const PricingSection = () => {
   const price = isPro ? 8200 : 5280;
   const features = isPro ? [
     "Two projects at a time",
-    "Design & messaging",
+    "Unlimited Mirco-Saas",
     "Unlimited brands",
-    "Unlimited stock photos",
+    "AI automations",
     "Landing pages",
     "4 hours of Consults",
     "Priority support"
   ] : [
     "One request at a time",
-    "Design & messaging",
+    "Unlimited Mirco-Saas",
     "Unlimited brands",
-    "Unlimited stock photos",
+    "AI automations",
     "Landing pages",
     "2 hours of Consults"
   ];
