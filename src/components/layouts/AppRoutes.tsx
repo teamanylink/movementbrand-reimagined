@@ -4,13 +4,36 @@ import Index from "@/pages/Index";
 import Dashboard from "@/pages/Dashboard";
 import ProjectDashboard from "@/pages/ProjectDashboard";
 import Settings from "@/pages/Settings";
+import AdminDashboard from "@/pages/AdminDashboard";
 import Auth from "@/components/Auth";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AppRoutesProps {
   isAuthenticated: boolean;
 }
 
 export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
+  const { data: profile } = useQuery({
+    queryKey: ['current-profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    enabled: isAuthenticated,
+  });
+
+  const isSuperAdmin = profile?.is_superadmin;
+
   return (
     <Routes>
       <Route 
@@ -66,6 +89,18 @@ export const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
             <Navigate to="/" replace />
           )
         } 
+      />
+      <Route
+        path="/admin"
+        element={
+          isAuthenticated && isSuperAdmin ? (
+            <AuthenticatedLayout>
+              <AdminDashboard />
+            </AuthenticatedLayout>
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
       />
     </Routes>
   );

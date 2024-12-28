@@ -2,7 +2,8 @@ import {
   LayoutDashboard, 
   FolderKanban,
   LogOut,
-  Plus
+  Plus,
+  Users
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
@@ -56,6 +57,23 @@ export function AppSidebar() {
     queryFn: fetchUserProjects
   })
 
+  const { data: profile } = useQuery({
+    queryKey: ['current-profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const handleSignOut = async () => {
     await supabase.auth.signOut()
     toast({
@@ -92,6 +110,19 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {profile?.is_superadmin && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    asChild
+                    className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+                  >
+                    <Link to="/admin">
+                      <Users className="h-5 w-5" />
+                      <span>Admin</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
