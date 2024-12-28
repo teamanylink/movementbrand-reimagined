@@ -21,7 +21,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
   const { toast } = useToast();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const isMobile = useIsMobile();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -55,41 +54,20 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
     return email.charAt(0).toUpperCase();
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  // Update sidebar state when screen size changes
-  useEffect(() => {
-    setIsSidebarOpen(!isMobile);
-  }, [isMobile]);
-
   return (
-    <SidebarProvider defaultOpen={!isMobile}>
+    <SidebarProvider>
       <div className="flex min-h-screen w-full bg-white">
-        {/* Sidebar */}
-        <div 
-          className={`
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
-            transform transition-transform duration-300 ease-in-out
-            fixed md:relative md:translate-x-0 z-[60] h-full bg-white
-          `}
-        >
+        {/* Desktop sidebar */}
+        <div className="hidden md:block">
           <AppSidebar />
         </div>
         
-        {/* Main content */}
         <div className="flex-1">
           <nav className="bg-white border-b border-gray-200 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
                 <div className="flex items-center gap-4">
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="md:hidden"
-                    onClick={toggleSidebar}
-                  >
+                  <Button variant="ghost" size="icon" className="md:hidden">
                     <Menu className="h-5 w-5" />
                   </Button>
                   <div className="flex items-center">
@@ -135,14 +113,6 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
             {children}
           </main>
         </div>
-
-        {/* Overlay for mobile */}
-        {isSidebarOpen && isMobile && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden"
-            onClick={toggleSidebar}
-          />
-        )}
       </div>
     </SidebarProvider>
   );
