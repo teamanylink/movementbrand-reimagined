@@ -25,26 +25,26 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
   const [newMessage, setNewMessage] = useState("");
   const { toast } = useToast();
 
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from('chat_messages')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load messages",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setMessages(data || []);
+  };
+
   useEffect(() => {
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from('messages')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load messages",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      setMessages(data);
-    };
-
     fetchMessages();
   }, [projectId, toast]);
 
@@ -53,7 +53,7 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
     if (!newMessage.trim()) return;
 
     const { error } = await supabase
-      .from('messages')
+      .from('chat_messages')
       .insert([{ message: newMessage, project_id: projectId }]);
 
     if (error) {
