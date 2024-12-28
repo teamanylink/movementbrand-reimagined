@@ -3,14 +3,13 @@ import {
   FolderKanban,
   Settings,
   LogOut,
-  Plus,
-  Users
+  HelpCircle,
+  Plus
 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "@/integrations/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
 
 import {
   Sidebar,
@@ -54,37 +53,42 @@ const fetchUserProjects = async () => {
 export function AppSidebar() {
   const navigate = useNavigate()
   const { toast } = useToast()
-  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
   const { data: projects } = useQuery({
     queryKey: ['projects'],
     queryFn: fetchUserProjects
   })
 
-  useEffect(() => {
-    const checkSuperAdmin = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_superadmin')
-          .eq('id', user.id)
-          .single()
-        
-        setIsSuperAdmin(profile?.is_superadmin || false)
-      }
-    }
-
-    checkSuperAdmin()
-  }, [])
-
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    toast({
-      title: "Signed out successfully",
-      description: "You have been logged out of your account.",
-    })
-    navigate("/")
-  }
+    try {
+      // First clear any cached data
+      localStorage.clear();
+      
+      // Attempt to sign out
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Sign out error:', error);
+        throw error;
+      }
+      
+      toast({
+        title: "Signed out successfully",
+        description: "You have been logged out of your account.",
+      });
+
+      // Navigate after successful sign out
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error('Sign out error:', error);
+      toast({
+        title: "Error signing out",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+      
+      // Force navigation on error
+      navigate("/", { replace: true });
+    }
+  };
 
   const getProjectColor = (index: number) => {
     const colors = ['bg-purple-100', 'bg-green-100', 'bg-blue-100', 'bg-yellow-100', 'bg-red-100']
@@ -113,19 +117,6 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {isSuperAdmin && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton 
-                    asChild
-                    className="hover:bg-blue-50 h-12 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
-                  >
-                    <Link to="/dashboard/admin">
-                      <Users className="h-5 w-5" />
-                      <span>Admin</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -164,6 +155,16 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-1 space-y-0.5">
+        <SidebarMenuButton 
+          asChild
+          className="hover:bg-blue-50 h-8 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"
+        >
+          <Link to="/help">
+            <HelpCircle className="h-5 w-5" />
+            <span>Help & Support</span>
+            <span className="ml-auto bg-green-100 text-green-800 px-2 py-0.5 text-xs rounded-full">8</span>
+          </Link>
+        </SidebarMenuButton>
         <SidebarMenuButton 
           asChild
           className="hover:bg-blue-50 h-8 data-[active=true]:bg-blue-100 data-[active=true]:text-blue-600"

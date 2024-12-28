@@ -7,14 +7,12 @@ import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
 import { Card } from "@/components/ui/card";
-import { PlanUpgradeDialog } from "@/components/dashboard/PlanUpgradeDialog";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const [hasProjects, setHasProjects] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
-  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
   const [projectStats, setProjectStats] = useState({
     todos: 0,
     completed: 0,
@@ -35,18 +33,6 @@ const Dashboard = () => {
           const username = profile.email.split('@')[0];
           setUserEmail(username);
         }
-      }
-    };
-
-    const checkSubscription = async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke('check-subscription');
-        if (error) throw error;
-        if (!data?.subscribed) {
-          setShowUpgradeDialog(true);
-        }
-      } catch (error) {
-        console.error('Error checking subscription:', error);
       }
     };
 
@@ -89,7 +75,6 @@ const Dashboard = () => {
     fetchUserProfile();
     fetchProjectStats();
     checkExistingProjects();
-    checkSubscription();
   }, []);
 
   const projectTypes = [
@@ -156,11 +141,6 @@ const Dashboard = () => {
         onSelectProject={handleProjectSubmit}
         open={isProjectOptionsOpen}
         onOpenChange={setIsProjectOptionsOpen}
-      />
-
-      <PlanUpgradeDialog
-        open={showUpgradeDialog}
-        onOpenChange={setShowUpgradeDialog}
       />
     </div>
   );

@@ -51,39 +51,27 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
-          company: string | null
           created_at: string
           email: string | null
           first_name: string | null
           id: string
-          is_superadmin: boolean | null
           last_name: string | null
-          phone_number: string | null
-          website_url: string | null
         }
         Insert: {
           avatar_url?: string | null
-          company?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null
           id: string
-          is_superadmin?: boolean | null
           last_name?: string | null
-          phone_number?: string | null
-          website_url?: string | null
         }
         Update: {
           avatar_url?: string | null
-          company?: string | null
           created_at?: string
           email?: string | null
           first_name?: string | null
           id?: string
-          is_superadmin?: boolean | null
           last_name?: string | null
-          phone_number?: string | null
-          website_url?: string | null
         }
         Relationships: []
       }

@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Zap } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
-import { SignupForm, SignupFormData } from './SignupForm';
 
 const PricingSection = () => {
   const [isPro, setIsPro] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showSignupForm, setShowSignupForm] = useState(false);
-  const { toast } = useToast();
   
   const price = isPro ? 8200 : 5280;
   const features = isPro ? [
@@ -31,89 +24,8 @@ const PricingSection = () => {
     "2 hours of Consults"
   ];
 
-  useEffect(() => {
-    checkSubscription();
-  }, []);
-
-  const checkSubscription = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (session) {
-      try {
-        const { data, error } = await supabase.functions.invoke('check-subscription');
-        
-        if (error) throw error;
-        
-        setIsSubscribed(data?.subscribed || false);
-      } catch (error) {
-        console.error('Error checking subscription:', error);
-      }
-    }
-  };
-
-  const handleSignupSubmit = async (formData: SignupFormData) => {
-    setIsLoading(true);
-    try {
-      // Update the user's profile with the form data
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          company: formData.company,
-          website_url: formData.websiteUrl,
-          phone_number: formData.phoneNumber,
-          email: formData.email
-        })
-        .eq('id', (await supabase.auth.getUser()).data.user?.id);
-
-      if (updateError) throw updateError;
-
-      // Create Stripe checkout session
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { 
-          priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9',
-          mode: 'subscription'
-        }
-      });
-
-      if (error) throw error;
-
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (error: any) {
-      console.error('Error:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleGetStarted = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      // If not logged in, show Calendly
-      // @ts-ignore
-      if (window.Calendly) {
-        // @ts-ignore
-        window.Calendly.initPopupWidget({
-          url: 'https://calendly.com/movementbrand/movement-brand-discovery-call'
-        });
-      }
-      return;
-    }
-
-    setShowSignupForm(true);
-  };
-
   return (
-    <section id="pricing" className="py-24 px-4 bg-white relative overflow-hidden">
+    <section className="py-24 px-4 bg-white relative overflow-hidden">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">Membership</h2>
@@ -155,30 +67,15 @@ const PricingSection = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button 
-              size="lg" 
-              className="px-8 py-6 text-lg rounded-xl"
-              onClick={handleGetStarted}
-              disabled={isLoading}
-            >
-              {isLoading ? "Loading..." : isSubscribed ? "Manage Subscription" : "Get started"}
+            <Button size="lg" className="px-8 py-6 text-lg rounded-xl">
+              Get started
             </Button>
-            <button 
-              onClick={handleGetStarted}
-              className="text-sm underline"
-            >
+            <a href="#" className="text-sm underline">
               book a call
-            </button>
+            </a>
           </div>
         </div>
       </div>
-
-      <SignupForm
-        open={showSignupForm}
-        onOpenChange={setShowSignupForm}
-        onSubmit={handleSignupSubmit}
-        isLoading={isLoading}
-      />
     </section>
   );
 };
