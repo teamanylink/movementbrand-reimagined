@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Plus, Share2 } from "lucide-react";
 import { useSubscription } from "@/hooks/use-subscription";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useNavigate } from "react-router-dom";
 
 interface DashboardHeaderProps {
   onNewProject: () => void;
@@ -16,6 +17,7 @@ interface DashboardHeaderProps {
 export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
   const { data: subscriptionData } = useSubscription();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleNewProjectClick = () => {
     if (!subscriptionData?.subscribed) {
@@ -24,6 +26,7 @@ export const DashboardHeader = ({ onNewProject }: DashboardHeaderProps) => {
         description: "Please upgrade your account to create new projects.",
         variant: "destructive",
       });
+      navigate('/dashboard/settings');
       return;
     }
     onNewProject();
