@@ -51,28 +51,32 @@ const PricingSection = () => {
   };
 
   const handleGetStarted = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    if (!session) {
-      navigate("/dashboard");
-      toast({
-        title: "Create an account",
-        description: "Please create an account to continue with your subscription.",
-      });
-      return;
-    }
-
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        navigate("/dashboard");
+        toast({
+          title: "Create an account",
+          description: "Please create an account to continue with your subscription.",
+        });
+        return;
+      }
+
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9' }
+        body: { priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9' }
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       if (data?.url) {
         window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         variant: "destructive",
