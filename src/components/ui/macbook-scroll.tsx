@@ -7,11 +7,13 @@ export const MacbookScroll = ({
   badge,
   src,
   showGradient,
+  isVideo = false,
 }: {
   title: string | React.ReactNode;
   badge?: React.ReactNode;
   src: string;
   showGradient?: boolean;
+  isVideo?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -41,10 +43,18 @@ export const MacbookScroll = ({
           {badge && <div className="absolute top-8 -right-12">{badge}</div>}
           <div className="pt-10 pr-16 pl-16">
             <div className="w-[76rem] aspect-[16/10.3] relative">
-              {/* Glass morphism effect with single blur layer */}
               <div className="absolute inset-0 bg-white/30 backdrop-blur-xl rounded-[2rem] p-8">
                 <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-white/20 backdrop-blur-md p-4">
-                  <img src={src} className="w-full h-full object-cover rounded-[1rem]" />
+                  {isVideo ? (
+                    <iframe
+                      src={src}
+                      className="w-full h-full rounded-[1rem]"
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <img src={src} className="w-full h-full object-cover rounded-[1rem]" />
+                  )}
                 </div>
               </div>
             </div>
