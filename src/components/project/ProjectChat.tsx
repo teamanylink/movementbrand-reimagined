@@ -83,7 +83,7 @@ export const ProjectChat = ({ projectId }: { projectId: string }) => {
   ];
 
   return (
-    <div className="flex flex-col h-[400px]">
+    <div className="flex flex-col h-[600px]">
       <div className="flex justify-between items-center p-4 border-b">
         <h2 className="font-semibold">Project Chat</h2>
         <div className="flex items-center -space-x-2">
