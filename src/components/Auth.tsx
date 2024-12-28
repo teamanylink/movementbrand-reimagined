@@ -156,7 +156,7 @@ const Auth = () => {
       <div className="mt-4 text-center">
         <button
           onClick={() => setIsSignUp(true)}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-blue-600"
         >
           <span className="text-black">Don't have an account?</span> Sign up
         </button>
