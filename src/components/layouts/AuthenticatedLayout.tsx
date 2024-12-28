@@ -62,6 +62,11 @@ export const AuthenticatedLayout = ({ children }: { children: React.ReactNode })
           <AppSidebar />
         </div>
         
+        {/* Mobile sidebar */}
+        <div className="md:hidden fixed inset-0 z-[60] bg-white transition-transform duration-300 transform translate-x-[-100%] data-[state=open]:translate-x-0">
+          <AppSidebar />
+        </div>
+        
         <div className="flex-1">
           <nav className="bg-white border-b border-gray-200 h-[72px]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

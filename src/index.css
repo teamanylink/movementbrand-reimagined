@@ -59,3 +59,8 @@
 .calendly-popup iframe {
   border-radius: 20px !important;
 }
+
+/* Sidebar Mobile Styles */
+[data-sidebar="sidebar"] {
+  @apply bg-white;
+}
