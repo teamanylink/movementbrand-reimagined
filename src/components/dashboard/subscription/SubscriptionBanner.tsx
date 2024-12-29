@@ -8,10 +8,10 @@ interface SubscriptionBannerProps {
 
 export const SubscriptionBanner = ({ onUpgrade, isUpgrading }: SubscriptionBannerProps) => {
   return (
-    <div className="p-4 md:p-6 bg-gray-50 rounded-lg space-y-4">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h3 className="text-lg font-medium">Upgrade Your Account</h3>
+    <div className="p-3 md:p-4 lg:p-6 bg-gray-50 rounded-lg space-y-3 md:space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4">
+        <div className="space-y-1">
+          <h3 className="text-base md:text-lg font-medium">Upgrade Your Account</h3>
           <p className="text-sm text-muted-foreground">
             Unlock the ability to create unlimited projects
           </p>
@@ -19,7 +19,7 @@ export const SubscriptionBanner = ({ onUpgrade, isUpgrading }: SubscriptionBanne
         <Button
           onClick={onUpgrade}
           disabled={isUpgrading}
-          className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+          className="w-full sm:w-auto bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
         >
           {isUpgrading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
