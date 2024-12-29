@@ -26,7 +26,7 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
           <img 
             src="/lovable-uploads/a38902f6-f025-47e6-9eaf-b8b02d8e2f4d.png" 
             alt="MovementBrand Logo" 
-            className="h-8 w-8 mb-2"
+            className="h-12 w-12 mb-2"
           />
           <h2 className="text-3xl font-bold text-center mb-1">Welcome Back</h2>
           <p className="text-base text-center">Please enter your details.</p>
