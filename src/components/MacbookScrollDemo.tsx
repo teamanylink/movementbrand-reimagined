@@ -6,7 +6,7 @@ export function MacbookScrollDemo() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="overflow-hidden bg-white w-full relative">
+    <div className="overflow-hidden bg-white w-full relative pt-20">
       {isMobile ? (
         <div className="w-full aspect-video pt-8">
           <iframe
