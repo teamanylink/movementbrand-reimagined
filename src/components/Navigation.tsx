@@ -34,7 +34,7 @@ const Navigation = () => {
                   <div className="flex-1">
                     <div className="py-4 px-2">
                       <div className="flex items-center gap-2 mb-4">
-                        <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[100px] w-[100px]" />
+                        <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[50px] w-[50px]" />
                         <div className="text-xl font-bold">MovementBrand</div>
                       </div>
                       <div className="flex flex-col space-y-4">
@@ -72,7 +72,7 @@ const Navigation = () => {
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
-              <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[100px] w-[100px]" />
+              <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[50px] w-[50px]" />
               <div className="text-xl font-bold">MovementBrand</div>
             </div>
           </div>
