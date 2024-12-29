@@ -1,10 +1,12 @@
 import { useState } from "react";
-import SettingsLayout from "@/components/settings/SettingsLayout";
-import SettingsNavigation from "@/components/settings/SettingsNavigation";
-import AccountSection from "@/components/settings/sections/AccountSection";
-import ProfileSection from "@/components/settings/sections/ProfileSection";
+import { SettingsLayout } from "@/components/settings/SettingsLayout";
+import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
+import { AccountSection } from "@/components/settings/sections/AccountSection";
+import { ProfileSection } from "@/components/settings/sections/ProfileSection";
 import { useSubscription } from "@/hooks/use-subscription";
-import { Profile } from "@/integrations/supabase/types";
+import type { Tables } from "@/integrations/supabase/types";
+
+type Profile = Tables<'profiles'>;
 
 const Settings = () => {
   const [activeSection, setActiveSection] = useState("profile");
