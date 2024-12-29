@@ -86,6 +86,19 @@ const Dashboard = () => {
     navigate('/dashboard/settings', { state: { section: 'account' } });
   };
 
+  const projectTypes = [
+    { name: "Automation", duration: "1 week" },
+    { name: "Design", duration: "48 hours" },
+    { name: "Landing Page", duration: "48 hours" },
+    { name: "Micro-Saas", duration: "3 weeks" },
+    { name: "Blog", duration: "48 hours" },
+    { name: "Other", duration: "" },
+  ];
+
+  const handleProjectSubmit = () => {
+    setHasProjects(true);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header with Greeting */}
