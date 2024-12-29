@@ -14,15 +14,17 @@ export const SignInForm = ({ onSignUpClick }: SignInFormProps) => {
 
   return (
     <div className="relative max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute left-4 top-4 text-gray-500 hover:text-gray-900 hover:bg-gray-100"
-        onClick={() => navigate("/")}
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </Button>
-      <h2 className="text-2xl font-bold text-center mb-3">Welcome Back</h2>
+      <div className="flex items-center mb-6">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+        <h2 className="text-2xl font-bold text-center flex-1 pr-10">Welcome Back</h2>
+      </div>
       <p className="text-base text-center mb-6">Please enter your details.</p>
       <SupabaseAuth 
         supabaseClient={supabase}
