@@ -82,80 +82,88 @@ const AdminDashboard = () => {
 
         {/* Users Table */}
         <Card className="mb-4 sm:mb-6 lg:mb-8 overflow-hidden">
-          <div className="p-4 sm:p-6">
+          <div className="p-4 sm:p-6 lg:p-8">
             <h2 className="text-lg sm:text-xl font-semibold mb-4">Users</h2>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="whitespace-nowrap">Email</TableHead>
-                    <TableHead className="whitespace-nowrap">Created At</TableHead>
-                    <TableHead className="whitespace-nowrap">Projects</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {profiles?.map((profile) => (
-                    <TableRow key={profile.id}>
-                      <TableCell className="max-w-[200px] truncate">{profile.email}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {new Date(profile.created_at).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        {projects?.filter(p => p.user_id === profile.id).length || 0}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap py-3.5 pl-4 pr-3 sm:pl-6 lg:pl-8">Email</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Created At</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Projects</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {profiles?.map((profile) => (
+                        <TableRow key={profile.id}>
+                          <TableCell className="max-w-[200px] truncate py-3.5 pl-4 pr-3 sm:pl-6 lg:pl-8">{profile.email}</TableCell>
+                          <TableCell className="whitespace-nowrap py-3.5 px-3">
+                            {new Date(profile.created_at).toLocaleDateString()}
+                          </TableCell>
+                          <TableCell className="py-3.5 px-3">
+                            {projects?.filter(p => p.user_id === profile.id).length || 0}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </div>
         </Card>
 
         {/* Projects Table */}
         <Card className="overflow-hidden">
-          <div className="p-4 sm:p-6">
+          <div className="p-4 sm:p-6 lg:p-8">
             <h2 className="text-lg sm:text-xl font-semibold mb-4">Projects</h2>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="whitespace-nowrap">Name</TableHead>
-                    <TableHead className="whitespace-nowrap">Type</TableHead>
-                    <TableHead className="whitespace-nowrap">Status</TableHead>
-                    <TableHead className="whitespace-nowrap">Owner</TableHead>
-                    <TableHead className="whitespace-nowrap">Created At</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {projects?.map((project) => (
-                    <TableRow 
-                      key={project.id}
-                      className="cursor-pointer hover:bg-gray-50"
-                      onClick={() => handleProjectClick(project.id)}
-                    >
-                      <TableCell className="font-medium text-blue-600 hover:text-blue-800 max-w-[200px] truncate">
-                        {project.name}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">{project.project_type}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 rounded-full text-xs ${
-                          project.status === 'completed' 
-                            ? 'bg-green-100 text-green-800' 
-                            : project.status === 'in_progress'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {project.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="max-w-[200px] truncate">{project.profiles?.email}</TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {new Date(project.created_at).toLocaleDateString()}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+            <div className="overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="whitespace-nowrap py-3.5 pl-4 pr-3 sm:pl-6 lg:pl-8">Name</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Type</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Status</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Owner</TableHead>
+                        <TableHead className="whitespace-nowrap py-3.5 px-3">Created At</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {projects?.map((project) => (
+                        <TableRow 
+                          key={project.id}
+                          className="cursor-pointer hover:bg-gray-50"
+                          onClick={() => handleProjectClick(project.id)}
+                        >
+                          <TableCell className="font-medium text-blue-600 hover:text-blue-800 max-w-[200px] truncate py-3.5 pl-4 pr-3 sm:pl-6 lg:pl-8">
+                            {project.name}
+                          </TableCell>
+                          <TableCell className="whitespace-nowrap py-3.5 px-3">{project.project_type}</TableCell>
+                          <TableCell className="whitespace-nowrap py-3.5 px-3">
+                            <span className={`inline-flex px-2 py-1 rounded-full text-xs ${
+                              project.status === 'completed' 
+                                ? 'bg-green-100 text-green-800' 
+                                : project.status === 'in_progress'
+                                ? 'bg-blue-100 text-blue-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {project.status}
+                            </span>
+                          </TableCell>
+                          <TableCell className="max-w-[200px] truncate py-3.5 px-3">{project.profiles?.email}</TableCell>
+                          <TableCell className="whitespace-nowrap py-3.5 px-3">
+                            {new Date(project.created_at).toLocaleDateString()}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </div>
         </Card>
