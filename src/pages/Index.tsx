@@ -127,61 +127,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Founders Section */}
-      <section 
-        ref={foundersRef}
-        className="py-24 px-4 bg-white relative overflow-hidden"
-        style={{
-          transform: isFoundersInView ? "none" : "translateY(20px)",
-          opacity: isFoundersInView ? 1 : 0,
-          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.2s"
-        }}
-      >
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Meet Our Founders</h2>
-          
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* Denis Estimon */}
-            <div className="space-y-6">
-              <div className="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden bg-gray-100">
-                <img
-                  src="/lovable-uploads/dcff319f-0927-47c3-bc8f-28a465752bf0.png"
-                  alt="Denis Estimon"
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Denis Estimon</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  A creative entrepreneur featured on CBS, ABC, and People. Denis has collaborated with renowned brands like 3 Musketeers and has a proven track record of launching and scaling movements worldwide.
-                </p>
-              </div>
-            </div>
-
-            {/* Larry Hawkes */}
-            <div className="space-y-6">
-              <div className="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden bg-gray-100">
-                <img
-                  src="/lovable-uploads/3d28c59d-ed5d-4676-8112-bcaed14888cf.png"
-                  alt="Larry Hawkes"
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Larry Hawkes</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  A Senior Data Engineer with extensive experience working with Fortune 500 companies, Larry specializes in developing software and data infrastructure at scale.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <p className="text-center text-gray-600 mt-12 max-w-3xl mx-auto">
-            Backed by a specialized network of designers, developers, and automation professionals, Denis and Larry ensure every request is handled by the right expert.
-          </p>
-        </div>
-      </section>
-
       <ScrollingServices />
 
       <ComparisonSection />
