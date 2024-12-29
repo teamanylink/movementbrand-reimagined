@@ -8,7 +8,6 @@ import { useToast } from "./ui/use-toast";
 import { useLocation } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Upload, Loader2 } from "lucide-react";
-import { AuthTitle } from "./auth/AuthTitle";  // New import
 
 const Auth = () => {
   const location = useLocation();
@@ -108,8 +107,7 @@ const Auth = () => {
   if (isSignUp) {
     return (
       <div className="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-        <AuthTitle />  {/* Added title */}
-        <h2 className="text-lg font-bold text-center mb-3">Create your account</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Create your account</h2>
         <form onSubmit={handleSignUp} className="space-y-4">
           <div className="flex flex-col items-center space-y-4">
             <Avatar className="h-24 w-24">
@@ -205,8 +203,7 @@ const Auth = () => {
 
   return (
     <div className="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-      <AuthTitle />  {/* Added title */}
-      <h2 className="text-lg font-bold text-center mb-3">Welcome Back</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">Welcome Back</h2>
       <SupabaseAuth 
         supabaseClient={supabase}
         appearance={{ 
