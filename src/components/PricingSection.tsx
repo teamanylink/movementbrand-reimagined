@@ -18,7 +18,7 @@ const PricingSection = () => {
   const price = isPro ? 8200 : 5280;
   const features = isPro ? [
     "Two projects at a time",
-    "Unlimited Mirco-Saas",
+    "Unlimited Micro-Saas",
     "Unlimited brands",
     "AI automations",
     "Landing pages",
@@ -26,7 +26,7 @@ const PricingSection = () => {
     "Priority support"
   ] : [
     "One request at a time",
-    "Unlimited Mirco-Saas",
+    "Unlimited Micro-Saas",
     "Unlimited brands",
     "AI automations",
     "Landing pages",
@@ -137,7 +137,7 @@ const PricingSection = () => {
           <div className="mb-8">
             <div className="flex items-baseline gap-2 mb-2">
               <span className="text-5xl font-bold">${price}</span>
-              <span className="text-gray-600">/m</span>
+              <span className="text-gray-600">/month</span>
             </div>
             <p className="text-gray-600">One request at a time. Pause or cancel anytime.</p>
           </div>
