@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/types/user";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Upload } from "lucide-react";
+import { Upload, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ProfileSectionProps {
@@ -49,6 +49,26 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
     }
   };
 
+  const handleDeleteImage = async () => {
+    if (profile?.id && profile.avatar_url) {
+      try {
+        // Extract the file path from the URL
+        const urlParts = profile.avatar_url.split('/');
+        const filePath = `${profile.id}/${urlParts[urlParts.length - 1]}`;
+
+        await supabase.storage
+          .from('project-files')
+          .remove([filePath]);
+
+        setPreviewUrl(null);
+        setSelectedImage(null);
+        onProfileChange({ avatar_url: null });
+      } catch (error: any) {
+        console.error('Error deleting image:', error.message);
+      }
+    }
+  };
+
   return (
     <Card className="p-6">
       <h2 className="text-xl font-semibold mb-6">Profile Information</h2>
@@ -60,7 +80,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
               <Upload className="h-6 w-6 text-gray-400" />
             </AvatarFallback>
           </Avatar>
-          <div>
+          <div className="flex flex-col items-center gap-2">
             <Input
               type="file"
               accept="image/*"
@@ -72,8 +92,17 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
               htmlFor="avatar-upload"
               className="cursor-pointer text-sm text-gray-500 hover:text-gray-600"
             >
-              {profile?.avatar_url ? 'Replace profile picture' : 'Upload profile picture'}
+              {profile?.avatar_url ? 'Change profile picture' : 'Upload profile picture'}
             </label>
+            {profile?.avatar_url && (
+              <button
+                onClick={handleDeleteImage}
+                className="flex items-center text-sm text-red-500 hover:text-red-600"
+              >
+                <Trash2 className="h-4 w-4 mr-1" />
+                Delete picture
+              </button>
+            )}
           </div>
         </div>
 
