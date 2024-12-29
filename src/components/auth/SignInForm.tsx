@@ -21,6 +21,21 @@ export const SignInForm = ({ onSignUpClick }: SignInFormProps) => {
                 brand: '#40E0D0',
                 brandAccent: '#36c2b4',
               },
+              borderRadii: {
+                button: '12px',
+                input: '8px',
+              },
+            },
+          },
+          style: {
+            button: {
+              height: '48px',
+              borderRadius: '12px',
+              fontSize: '16px',
+              fontWeight: '500',
+            },
+            input: {
+              borderRadius: '8px',
             },
           },
         }}
