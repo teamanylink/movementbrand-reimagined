@@ -10,17 +10,17 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
 
   return (
     <div className="relative max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-      <div className="absolute left-4 top-4">
+      <div className="absolute left-4 top-4 mb-5">
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="hover:bg-gray-100 rounded-full flex items-center gap-2"
+          className="hover:bg-transparent rounded-full flex items-center gap-2"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-500" />
-          <span className="text-gray-500 text-sm">Back to home</span>
+          <ArrowLeft className="h-5 w-5 text-gray-500 " />
+          <span className="text-gray-500 text-sm hover:text-gray-400">Back to home</span>
         </Button>
       </div>
-      <h2 className="text-2xl font-bold text-center mb-3">Welcome Back</h2>
+      <h2 className="text-3xl font-bold text-center mb-1 mt-12">Welcome Back</h2>
       <p className="text-base text-center mb-6">Please enter your details.</p>
       <SupabaseAuth 
         supabaseClient={supabase}
