@@ -1,12 +1,14 @@
 import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
+import { useLocation } from "react-router-dom";
 
 const Auth = () => {
+  const location = useLocation();
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -16,6 +18,13 @@ const Auth = () => {
     password: "",
   });
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Check if we should show signup form based on navigation state
+    if (location.state?.showSignup) {
+      setIsSignUp(true);
+    }
+  }, [location.state]);
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();

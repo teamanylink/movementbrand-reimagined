@@ -37,7 +37,7 @@ const PricingSection = () => {
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session) {
-      navigate('/dashboard');
+      navigate('/dashboard', { state: { showSignup: true } });
       return;
     }
 
@@ -67,7 +67,6 @@ const PricingSection = () => {
   const handleSignupSubmit = async (formData: SignupFormData) => {
     setIsLoading(true);
     try {
-      // First, sign up the user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -75,8 +74,6 @@ const PricingSection = () => {
 
       if (authError) throw authError;
 
-      // The profile will be automatically created by our trigger
-      // We just need to update it with the additional information
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
@@ -91,7 +88,6 @@ const PricingSection = () => {
 
       if (updateError) throw updateError;
 
-      // Create Stripe checkout session
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: { 
           priceId: isPro ? 'price_1Qary9IHifxXxql3V4Dp8vB9' : 'price_1Qary9IHifxXxql3V4Dp8vB9',

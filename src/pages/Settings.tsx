@@ -1,31 +1,68 @@
+import { useState } from "react";
 import { SettingsLayout } from "@/components/settings/SettingsLayout";
 import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
 import { AccountSection } from "@/components/settings/sections/AccountSection";
 import { ProfileSection } from "@/components/settings/sections/ProfileSection";
-import { useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Tables } from "@/integrations/supabase/types";
+import { supabase } from "@/integrations/supabase/client";
+
+type Profile = Tables<'profiles'>;
 
 const Settings = () => {
-  const location = useLocation();
-  const section = location.hash.slice(1) || "profile";
+  const [activeSection, setActiveSection] = useState("account");
+  const [isSaving, setIsSaving] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  const { data: subscription } = useQuery({
+    queryKey: ['subscription'],
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke('check-subscription');
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const handleProfileChange = (updatedProfile: Partial<Profile>) => {
+    if (profile) {
+      setProfile({ ...profile, ...updatedProfile });
+    }
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update(profile!)
+        .eq('id', profile!.id);
+
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-[1600px] mx-auto p-4 md:p-8">
-        <div className="mb-6 md:mb-8">
-          <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Settings</h1>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
-          <div className="w-full lg:w-64 shrink-0">
-            <SettingsNavigation activeSection={section} />
-          </div>
-          <div className="flex-1">
-            {section === "profile" && <ProfileSection />}
-            {section === "account" && <AccountSection />}
-          </div>
-        </div>
-      </div>
-    </div>
+    <SettingsLayout>
+      <SettingsNavigation 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection}
+      />
+      {activeSection === "account" && (
+        <AccountSection subscription={subscription} />
+      )}
+      {activeSection === "profile" && profile && (
+        <ProfileSection
+          profile={profile}
+          onProfileChange={handleProfileChange}
+          onSave={handleSave}
+          isSaving={isSaving}
+        />
+      )}
+    </SettingsLayout>
   );
 };
 
