@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Clock, CheckCircle, Loader2, ListTodo } from "lucide-react";
+import { Clock, CheckCircle, Loader2, ListTodo, Zap } from "lucide-react";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useSubscription } from "@/hooks/use-subscription";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -18,6 +21,8 @@ const Dashboard = () => {
     completed: 0,
     inProgress: 0,
   });
+  const { data: subscriptionData } = useSubscription();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -77,17 +82,8 @@ const Dashboard = () => {
     checkExistingProjects();
   }, []);
 
-  const projectTypes = [
-    { name: "Automation", duration: "1 week" },
-    { name: "Design", duration: "48 hours" },
-    { name: "Landing Page", duration: "48 hours" },
-    { name: "Micro-Saas", duration: "3 weeks" },
-    { name: "Blog", duration: "48 hours" },
-    { name: "Other", duration: "" },
-  ];
-
-  const handleProjectSubmit = () => {
-    setHasProjects(true);
+  const handleUpgradeClick = () => {
+    navigate('/dashboard/settings', { state: { section: 'account' } });
   };
 
   return (
@@ -96,6 +92,29 @@ const Dashboard = () => {
       <div className="mb-8">
         <h1 className="text-4xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'} {userEmail} 👋</h1>
       </div>
+
+      {/* Subscription Prompt */}
+      {!subscriptionData?.subscribed && (
+        <div className="mb-8">
+          <div className="p-4 bg-gray-50 rounded-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-medium">Upgrade Your Account</h3>
+                <p className="text-sm text-muted-foreground">
+                  Unlock the ability to create unlimited projects
+                </p>
+              </div>
+              <Button
+                onClick={handleUpgradeClick}
+                className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
+              >
+                <Zap className="h-4 w-4 mr-2" />
+                Upgrade Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
