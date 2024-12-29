@@ -76,7 +76,7 @@ const Navigation = () => {
                 <img 
                   src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" 
                   alt="MovementBrand Logo" 
-                  className="h-full w-auto object-contain"
+                  className="h-full w-auto max-w-[80px] object-contain"
                 />
               </div>
               <div className="text-xl font-bold hidden md:block">MovementBrand</div>
