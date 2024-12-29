@@ -9,8 +9,8 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <div className="mb-4">
+    <div className="flex flex-col items-center w-full">
+      <div className="w-full max-w-md mb-4">
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
@@ -76,7 +76,7 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
