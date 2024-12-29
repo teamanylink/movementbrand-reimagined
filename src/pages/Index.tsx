@@ -18,11 +18,8 @@ import CalendlyBadge from "@/components/CalendlyBadge";
 const Index = () => {
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
-  const foundersRef = useRef(null);
-
   const isHeroInView = useInView(heroRef, { once: true });
   const isFeaturesInView = useInView(featuresRef, { once: true });
-  const isFoundersInView = useInView(foundersRef, { once: true });
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
