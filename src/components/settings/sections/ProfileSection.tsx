@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/types/user";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { AvatarUpload } from "./profile/AvatarUpload";
 import { ProfileForm } from "./profile/ProfileForm";
@@ -31,26 +31,30 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
   };
 
   const handleDeleteImage = async () => {
-    if (!profile?.id || !profile.avatar_url) return;
+    if (!profile?.id || !profile.avatar_url) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No profile image to delete",
+      });
+      return;
+    }
     
     try {
       setIsUploading(true);
       
-      // Extract the file path from the URL
       const filePathMatch = profile.avatar_url.match(/project-files\/([^?]+)/);
       if (!filePathMatch) {
         throw new Error("Invalid file path");
       }
       const filePath = filePathMatch[1];
 
-      // Delete the file from storage
       const { error: deleteError } = await supabase.storage
         .from('project-files')
         .remove([filePath]);
 
       if (deleteError) throw deleteError;
 
-      // Update the profile record
       const { error: updateError } = await supabase
         .from('profiles')
         .update({ avatar_url: null })
@@ -58,7 +62,6 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
 
       if (updateError) throw updateError;
 
-      // Update local state
       onProfileChange({ avatar_url: null });
       setPreviewUrl(null);
       setSelectedImage(null);
@@ -96,9 +99,11 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
           const filePathMatch = profile.avatar_url.match(/project-files\/([^?]+)/);
           if (filePathMatch) {
             const oldFilePath = filePathMatch[1];
-            await supabase.storage
+            const { error: removeError } = await supabase.storage
               .from('project-files')
               .remove([oldFilePath]);
+            
+            if (removeError) throw removeError;
           }
         }
 
@@ -117,6 +122,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
 
         onProfileChange({ avatar_url: publicUrl });
       } catch (error: any) {
+        console.error('Error uploading image:', error);
         toast({
           variant: "destructive",
           title: "Error",
@@ -132,6 +138,14 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
 
     onSave();
   };
+
+  if (!profile) {
+    return (
+      <Card className="p-6">
+        <div className="text-center">Loading profile...</div>
+      </Card>
+    );
+  }
 
   return (
     <Card className="p-6">

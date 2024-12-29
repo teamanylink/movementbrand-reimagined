@@ -5,7 +5,7 @@ import { Upload, Trash2, Loader2 } from "lucide-react";
 import { UserProfile } from "@/types/user";
 
 interface AvatarUploadProps {
-  profile: UserProfile | null;
+  profile: UserProfile;
   previewUrl: string | null;
   isUploading: boolean;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

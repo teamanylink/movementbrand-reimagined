@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { UserProfile } from "@/types/user";
 
 interface ProfileFormProps {
-  profile: UserProfile | null;
+  profile: UserProfile;
   onProfileChange: (updates: Partial<UserProfile>) => void;
 }
 
@@ -15,7 +15,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
           <Label htmlFor="firstName">First Name</Label>
           <Input
             id="firstName"
-            value={profile?.first_name || ''}
+            value={profile.first_name || ''}
             onChange={(e) => onProfileChange({ first_name: e.target.value })}
             placeholder="Enter your first name"
           />
@@ -24,7 +24,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
           <Label htmlFor="lastName">Last Name</Label>
           <Input
             id="lastName"
-            value={profile?.last_name || ''}
+            value={profile.last_name || ''}
             onChange={(e) => onProfileChange({ last_name: e.target.value })}
             placeholder="Enter your last name"
           />
@@ -35,7 +35,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
-          value={profile?.email || ''}
+          value={profile.email || ''}
           disabled
           className="bg-gray-50"
         />
@@ -45,7 +45,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
         <Label htmlFor="company">Company</Label>
         <Input
           id="company"
-          value={profile?.company || ''}
+          value={profile.company || ''}
           onChange={(e) => onProfileChange({ company: e.target.value })}
           placeholder="Enter your company name"
         />
@@ -56,7 +56,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
         <Input
           id="website"
           type="url"
-          value={profile?.website_url || ''}
+          value={profile.website_url || ''}
           onChange={(e) => onProfileChange({ website_url: e.target.value })}
           placeholder="Enter your website URL"
         />
@@ -67,7 +67,7 @@ export function ProfileForm({ profile, onProfileChange }: ProfileFormProps) {
         <Input
           id="phone"
           type="tel"
-          value={profile?.phone_number || ''}
+          value={profile.phone_number || ''}
           onChange={(e) => onProfileChange({ phone_number: e.target.value })}
           placeholder="Enter your phone number"
         />
