@@ -1,5 +1,3 @@
-import { User, Settings, MessageCircle, Video, Palette, Bell } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 interface SettingsNavigationProps {
@@ -7,31 +5,33 @@ interface SettingsNavigationProps {
   onSectionChange: (section: string) => void;
 }
 
-const navigationItems = [
-  { id: "profile", label: "Profile", icon: User },
-  { id: "account", label: "Account", icon: Settings }
-];
-
 export function SettingsNavigation({ activeSection, onSectionChange }: SettingsNavigationProps) {
   return (
-    <nav className="w-64 space-y-1">
-      {navigationItems.map((item) => {
-        const Icon = item.icon;
-        return (
-          <Button
-            key={item.id}
-            variant="ghost"
-            className={cn(
-              "w-full justify-start gap-3 h-11",
-              activeSection === item.id && "bg-accent text-accent-foreground"
-            )}
-            onClick={() => onSectionChange(item.id)}
-          >
-            <Icon className="h-5 w-5" />
-            {item.label}
-          </Button>
-        );
-      })}
+    <nav className="mb-8 border-b border-gray-200">
+      <div className="flex space-x-4 -mb-px">
+        <Button
+          variant="ghost"
+          onClick={() => onSectionChange("profile")}
+          className={`px-4 py-2 font-medium text-sm rounded-none border-b-2 ${
+            activeSection === "profile"
+              ? "border-primary text-primary"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+          }`}
+        >
+          Profile
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={() => onSectionChange("account")}
+          className={`px-4 py-2 font-medium text-sm rounded-none border-b-2 ${
+            activeSection === "account"
+              ? "border-primary text-primary"
+              : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+          }`}
+        >
+          Account
+        </Button>
+      </div>
     </nav>
   );
 }
