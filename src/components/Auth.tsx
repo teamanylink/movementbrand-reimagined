@@ -203,7 +203,8 @@ const Auth = () => {
 
   return (
     <div className="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Welcome Back</h2>
+      <h2 className="text-2xl font-bold text-center mb-3">Welcome Back</h2>
+      <p className="text-base text-center mb-6">Please enter your details.</p>
       <SupabaseAuth 
         supabaseClient={supabase}
         appearance={{ 
