@@ -6,12 +6,20 @@ import { UserProfile } from "@/types/user";
 
 interface ProfileSectionProps {
   profile: UserProfile | null;
-  onProfileChange: (updates: Partial<UserProfile>) => void;
+  onProfileChange: (updatedProfile: Partial<UserProfile>) => void;
   onSave: () => void;
   isSaving: boolean;
 }
 
-export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: ProfileSectionProps) {
+export function ProfileSection({ profile, onSave, isSaving, onProfileChange }: ProfileSectionProps) {
+  if (!profile) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">Profile data is missing. Please try again.</p>
+      </div>
+    );
+  }
+
   return (
     <Card className="p-6">
       <h2 className="text-xl font-semibold mb-6">Profile Information</h2>
@@ -21,18 +29,18 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
             <Label htmlFor="firstName">First Name</Label>
             <Input
               id="firstName"
-              value={profile?.first_name || ''}
-              onChange={(e) => onProfileChange({ first_name: e.target.value })}
+              defaultValue={profile?.first_name || ''}
               placeholder={profile?.first_name || 'Enter your first name'}
+              onChange={(e) => onProfileChange({ first_name: e.target.value })}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="lastName">Last Name</Label>
             <Input
               id="lastName"
-              value={profile?.last_name || ''}
-              onChange={(e) => onProfileChange({ last_name: e.target.value })}
+              defaultValue={profile?.last_name || ''}
               placeholder={profile?.last_name || 'Enter your last name'}
+              onChange={(e) => onProfileChange({ last_name: e.target.value })}
             />
           </div>
         </div>
@@ -41,7 +49,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
-            value={profile?.email || ''}
+            defaultValue={profile?.email || ''}
             disabled
             className="bg-gray-50"
           />
@@ -51,9 +59,9 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
           <Label htmlFor="company">Company</Label>
           <Input
             id="company"
-            value={profile?.company || ''}
-            onChange={(e) => onProfileChange({ company: e.target.value })}
+            defaultValue={profile?.company || ''}
             placeholder={profile?.company || 'Enter your company name'}
+            onChange={(e) => onProfileChange({ company: e.target.value })}
           />
         </div>
 
@@ -62,9 +70,9 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
           <Input
             id="website"
             type="url"
-            value={profile?.website_url || ''}
-            onChange={(e) => onProfileChange({ website_url: e.target.value })}
+            defaultValue={profile?.website_url || ''}
             placeholder={profile?.website_url || 'Enter your website URL'}
+            onChange={(e) => onProfileChange({ website_url: e.target.value })}
           />
         </div>
 
@@ -73,9 +81,9 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
           <Input
             id="phone"
             type="tel"
-            value={profile?.phone_number || ''}
-            onChange={(e) => onProfileChange({ phone_number: e.target.value })}
+            defaultValue={profile?.phone_number || ''}
             placeholder={profile?.phone_number || 'Enter your phone number'}
+            onChange={(e) => onProfileChange({ phone_number: e.target.value })}
           />
         </div>
 

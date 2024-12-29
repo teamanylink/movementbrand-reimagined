@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SettingsLayout } from "@/components/settings/SettingsLayout";
 import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
 import { AccountSection } from "@/components/settings/sections/AccountSection";
@@ -43,6 +43,13 @@ const Settings = () => {
     },
   });
 
+  useEffect(() => {
+    if (currentProfile) {
+      console.log("Fetched profile:", currentProfile);
+      setProfile(currentProfile);
+    }
+  }, [currentProfile]);
+
   const handleProfileChange = (updatedProfile: Partial<Profile>) => {
     if (profile) {
       setProfile({ ...profile, ...updatedProfile });
@@ -50,15 +57,24 @@ const Settings = () => {
   };
 
   const handleSave = async () => {
+    if (!profile) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Profile data is missing. Please try again.",
+      });
+      return;
+    }
+  
     setIsSaving(true);
     try {
       const { error } = await supabase
         .from('profiles')
-        .update(profile!)
-        .eq('id', profile!.id);
-
+        .update(profile)
+        .eq('id', profile.id);
+  
       if (error) throw error;
-
+  
       toast({
         title: "Success",
         description: "Profile updated successfully",
@@ -73,7 +89,7 @@ const Settings = () => {
       setIsSaving(false);
     }
   };
-
+  
   if (profileError) {
     return (
       <div className="flex items-center justify-center h-screen">

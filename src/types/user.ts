@@ -1,10 +1,10 @@
 export interface UserProfile {
-  id: string;
-  email: string | null;
-  first_name: string | null;
-  last_name: string | null;
-  company: string | null;
-  website_url: string | null;
-  phone_number: string | null;
-  avatar_url: string | null;
+  id?: string;
+  avatar_url?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  company?: string;
+  website_url?: string;
+  phone_number?: string;
 }
