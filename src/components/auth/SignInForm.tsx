@@ -13,11 +13,11 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
       <div className="absolute left-4 top-4">
         <Button
           variant="ghost"
-          size="icon"
           onClick={() => navigate('/')}
-          className="hover:bg-gray-100 rounded-full"
+          className="hover:bg-gray-100 rounded-full flex items-center gap-2"
         >
           <ArrowLeft className="h-5 w-5 text-gray-500" />
+          <span className="text-gray-500 text-sm">Back to home</span>
         </Button>
       </div>
       <h2 className="text-2xl font-bold text-center mb-3">Welcome Back</h2>
