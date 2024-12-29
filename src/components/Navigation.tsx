@@ -22,7 +22,7 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-lg border-b border-white/20">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between w-full md:w-auto">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
@@ -71,7 +71,7 @@ const Navigation = () => {
                 </div>
               </SheetContent>
             </Sheet>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 order-last md:order-none">
               <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[50px] w-[50px]" />
               <div className="text-xl font-bold hidden md:block">MovementBrand</div>
             </div>
