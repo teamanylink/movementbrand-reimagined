@@ -8,10 +8,10 @@ interface SubscriptionBannerProps {
 
 export const SubscriptionBanner = ({ onUpgrade, isUpgrading }: SubscriptionBannerProps) => {
   return (
-    <div className="p-3 md:p-4 lg:p-6 bg-gray-50 rounded-lg space-y-3 md:space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4">
-        <div className="space-y-1">
-          <h3 className="text-base md:text-lg font-medium">Upgrade Your Account</h3>
+    <div className="p-3 sm:p-4 lg:p-6 bg-gray-50 rounded-lg space-y-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="space-y-1 min-w-0">
+          <h3 className="text-base sm:text-lg font-medium truncate">Upgrade Your Account</h3>
           <p className="text-sm text-muted-foreground">
             Unlock the ability to create unlimited projects
           </p>

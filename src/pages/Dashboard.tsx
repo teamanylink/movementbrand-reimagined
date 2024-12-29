@@ -123,10 +123,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-w-[320px] w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6 lg:space-y-8">
+    <div className="min-w-[320px] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
       {/* Header with Greeting */}
       <div className="space-y-2">
-        <h1 className="text-xl md:text-2xl lg:text-4xl font-bold">
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold">
           Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'} {userEmail} 👋
         </h1>
       </div>
@@ -143,7 +143,7 @@ const Dashboard = () => {
       <DashboardStats stats={projectStats} />
 
       {/* Main Content Area */}
-      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 min-h-[500px] md:min-h-[600px]">
+      <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4 md:p-6 min-h-[500px] md:min-h-[600px]">
         <DashboardHeader onNewProject={() => setIsProjectOptionsOpen(true)} />
         {!hasProjects ? <EmptyStateMessage /> : <KanbanBoard />}
       </div>
