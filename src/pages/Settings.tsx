@@ -7,17 +7,19 @@ import { useQuery } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocation } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 type Profile = Tables<'profiles'>;
 
 const Settings = () => {
   const location = useLocation();
+  const { toast } = useToast();
   const defaultSection = location.state?.section || "profile";
   const [activeSection, setActiveSection] = useState(defaultSection);
   const [isSaving, setIsSaving] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  const { data: currentProfile } = useQuery({
+  const { data: currentProfile, isError: profileError } = useQuery({
     queryKey: ['current-profile'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -29,7 +31,14 @@ const Settings = () => {
         .eq('id', user.id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to load profile data. Please try again.",
+        });
+        throw error;
+      }
       return data;
     },
   });
@@ -49,12 +58,29 @@ const Settings = () => {
         .eq('id', profile!.id);
 
       if (error) throw error;
-    } catch (error) {
-      console.error('Error updating profile:', error);
+
+      toast({
+        title: "Success",
+        description: "Profile updated successfully",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to update profile",
+      });
     } finally {
       setIsSaving(false);
     }
   };
+
+  if (profileError) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">Failed to load settings. Please try again.</p>
+      </div>
+    );
+  }
 
   return (
     <SettingsLayout>
