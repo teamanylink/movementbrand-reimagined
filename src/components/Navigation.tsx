@@ -72,7 +72,13 @@ const Navigation = () => {
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2 order-last md:order-none">
-              <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[50px] w-[50px]" />
+              <div className="relative w-[89px] aspect-video md:w-auto md:aspect-auto">
+                <img 
+                  src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" 
+                  alt="MovementBrand Logo" 
+                  className="h-full w-auto object-contain"
+                />
+              </div>
               <div className="text-xl font-bold hidden md:block">MovementBrand</div>
             </div>
           </div>
