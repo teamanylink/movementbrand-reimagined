@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-import { Clock, CheckCircle, Loader2, ListTodo, Zap } from "lucide-react";
 import { KanbanBoard } from "@/components/dashboard/KanbanBoard";
 import { ProjectOptions } from "@/components/dashboard/ProjectOptions";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { EmptyStateMessage } from "@/components/dashboard/EmptyStateMessage";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useSubscription } from "@/hooks/use-subscription";
 import { useNavigate } from "react-router-dom";
+import { DashboardStats } from "@/components/dashboard/stats/DashboardStats";
+import { SubscriptionBanner } from "@/components/dashboard/subscription/SubscriptionBanner";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -124,77 +123,27 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-6 md:space-y-8">
       {/* Header with Greeting */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'} {userEmail} 👋</h1>
+      <div>
+        <h1 className="text-2xl md:text-4xl font-bold">
+          Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'} {userEmail} 👋
+        </h1>
       </div>
 
       {/* Subscription Prompt */}
       {!subscriptionData?.subscribed && (
-        <div className="mb-8">
-          <div className="p-4 bg-gray-50 rounded-lg space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium">Upgrade Your Account</h3>
-                <p className="text-sm text-muted-foreground">
-                  Unlock the ability to create unlimited projects
-                </p>
-              </div>
-              <Button
-                onClick={handleUpgradeClick}
-                disabled={isUpgrading}
-                className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
-              >
-                {isUpgrading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <Zap className="h-4 w-4 mr-2" />
-                    Upgrade Now
-                  </>
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
+        <SubscriptionBanner 
+          onUpgrade={handleUpgradeClick}
+          isUpgrading={isUpgrading}
+        />
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="p-6 flex items-center space-x-4">
-          <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-            <ListTodo className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">{projectStats.todos}</div>
-            <div className="text-gray-500">To Do</div>
-          </div>
-        </Card>
-        
-        <Card className="p-6 flex items-center space-x-4">
-          <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-            <CheckCircle className="h-6 w-6 text-green-600" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">{projectStats.completed}</div>
-            <div className="text-gray-500">Projects Completed</div>
-          </div>
-        </Card>
-        
-        <Card className="p-6 flex items-center space-x-4">
-          <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center">
-            <Loader2 className="h-6 w-6 text-purple-600" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">{projectStats.inProgress}</div>
-            <div className="text-gray-500">Projects In-progress</div>
-          </div>
-        </Card>
-      </div>
+      <DashboardStats stats={projectStats} />
 
       {/* Main Content Area */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-8 min-h-[600px]">
+      <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 min-h-[600px]">
         <DashboardHeader onNewProject={() => setIsProjectOptionsOpen(true)} />
         {!hasProjects ? <EmptyStateMessage /> : <KanbanBoard />}
       </div>
