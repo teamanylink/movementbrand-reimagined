@@ -23,6 +23,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
               id="firstName"
               value={profile?.first_name || ''}
               onChange={(e) => onProfileChange({ first_name: e.target.value })}
+              placeholder={profile?.first_name || 'Enter your first name'}
             />
           </div>
           <div className="space-y-2">
@@ -31,6 +32,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
               id="lastName"
               value={profile?.last_name || ''}
               onChange={(e) => onProfileChange({ last_name: e.target.value })}
+              placeholder={profile?.last_name || 'Enter your last name'}
             />
           </div>
         </div>
@@ -51,6 +53,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
             id="company"
             value={profile?.company || ''}
             onChange={(e) => onProfileChange({ company: e.target.value })}
+            placeholder={profile?.company || 'Enter your company name'}
           />
         </div>
 
@@ -61,6 +64,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
             type="url"
             value={profile?.website_url || ''}
             onChange={(e) => onProfileChange({ website_url: e.target.value })}
+            placeholder={profile?.website_url || 'Enter your website URL'}
           />
         </div>
 
@@ -71,6 +75,7 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
             type="tel"
             value={profile?.phone_number || ''}
             onChange={(e) => onProfileChange({ phone_number: e.target.value })}
+            placeholder={profile?.phone_number || 'Enter your phone number'}
           />
         </div>
 
