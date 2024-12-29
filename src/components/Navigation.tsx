@@ -34,7 +34,7 @@ const Navigation = () => {
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
-              <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-6 w-6" />
+              <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-8 w-8" />
               <div className="text-xl font-bold">MovementBrand</div>
             </div>
           </div>
