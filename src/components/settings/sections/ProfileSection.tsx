@@ -7,6 +7,7 @@ import { UserProfile } from "@/types/user";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Upload, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProfileSectionProps {
   profile: UserProfile | null;
@@ -18,54 +19,66 @@ interface ProfileSectionProps {
 export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: ProfileSectionProps) {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(profile?.avatar_url || null);
+  const { toast } = useToast();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (file && profile?.id) {
       setSelectedImage(file);
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
 
-      if (profile?.id) {
+      try {
         const fileExt = file.name.split('.').pop();
         const filePath = `${profile.id}/avatar.${fileExt}`;
 
-        try {
-          const { error: uploadError } = await supabase.storage
-            .from('project-files')
-            .upload(filePath, file, { upsert: true });
+        const { error: uploadError } = await supabase.storage
+          .from('project-files')
+          .upload(filePath, file, { upsert: true });
 
-          if (uploadError) throw uploadError;
+        if (uploadError) throw uploadError;
 
-          const { data: { publicUrl } } = supabase.storage
-            .from('project-files')
-            .getPublicUrl(filePath);
+        const { data: { publicUrl } } = supabase.storage
+          .from('project-files')
+          .getPublicUrl(filePath);
 
-          onProfileChange({ avatar_url: publicUrl });
-        } catch (error: any) {
-          console.error('Error uploading image:', error.message);
-        }
+        onProfileChange({ avatar_url: publicUrl });
+      } catch (error: any) {
+        toast({
+          title: "Error",
+          description: error.message || "Failed to upload image",
+          variant: "destructive",
+        });
+        // Reset preview if upload fails
+        setPreviewUrl(profile.avatar_url);
+        setSelectedImage(null);
       }
     }
   };
 
   const handleDeleteImage = async () => {
-    if (profile?.id && profile.avatar_url) {
-      try {
-        // Extract the file path from the URL
-        const urlParts = profile.avatar_url.split('/');
-        const filePath = `${profile.id}/${urlParts[urlParts.length - 1]}`;
+    if (!profile?.id || !profile.avatar_url) {
+      return;
+    }
 
-        await supabase.storage
-          .from('project-files')
-          .remove([filePath]);
+    try {
+      // Extract the file path from the URL
+      const urlParts = profile.avatar_url.split('/');
+      const filePath = `${profile.id}/${urlParts[urlParts.length - 1]}`;
 
-        setPreviewUrl(null);
-        setSelectedImage(null);
-        onProfileChange({ avatar_url: null });
-      } catch (error: any) {
-        console.error('Error deleting image:', error.message);
-      }
+      await supabase.storage
+        .from('project-files')
+        .remove([filePath]);
+
+      setPreviewUrl(null);
+      setSelectedImage(null);
+      onProfileChange({ avatar_url: null });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete image",
+        variant: "destructive",
+      });
     }
   };
 
