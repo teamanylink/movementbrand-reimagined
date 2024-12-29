@@ -24,13 +24,51 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-4">
             <Sheet>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-72">
-                <AppSidebar />
+                <div className="flex flex-col h-full">
+                  <div className="flex-1">
+                    <div className="py-4 px-2">
+                      <div className="flex items-center gap-2 mb-4">
+                        <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[100px] w-[100px]" />
+                        <div className="text-xl font-bold">MovementBrand</div>
+                      </div>
+                      <div className="flex flex-col space-y-4">
+                        <button 
+                          onClick={() => scrollToSection('how-it-works')} 
+                          className="text-gray-600 hover:text-gray-900 text-left px-2 py-2 rounded-md hover:bg-gray-100"
+                        >
+                          How it works
+                        </button>
+                        <button 
+                          onClick={() => scrollToSection('benefits')} 
+                          className="text-gray-600 hover:text-gray-900 text-left px-2 py-2 rounded-md hover:bg-gray-100"
+                        >
+                          Benefits
+                        </button>
+                        <button 
+                          onClick={() => scrollToSection('pricing')} 
+                          className="text-gray-600 hover:text-gray-900 text-left px-2 py-2 rounded-md hover:bg-gray-100"
+                        >
+                          Pricing
+                        </button>
+                        <button 
+                          onClick={() => scrollToSection('faqs')} 
+                          className="text-gray-600 hover:text-gray-900 text-left px-2 py-2 rounded-md hover:bg-gray-100"
+                        >
+                          FAQs
+                        </button>
+                        <Button variant="default" onClick={handleLogin} className="w-full">
+                          Login
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
