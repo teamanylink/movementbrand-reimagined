@@ -73,7 +73,7 @@ const Navigation = () => {
             </Sheet>
             <div className="flex items-center gap-2">
               <img src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" alt="MovementBrand Logo" className="h-[50px] w-[50px]" />
-              <div className="text-xl font-bold">MovementBrand</div>
+              <div className="text-xl font-bold hidden md:block">MovementBrand</div>
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-8">
