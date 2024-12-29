@@ -1,7 +1,7 @@
 import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Move } from "lucide-react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -16,12 +16,17 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
           onClick={() => navigate('/')}
           className="hover:bg-transparent rounded-full flex items-center gap-2"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-500 " />
+          <ArrowLeft className="h-5 w-5 text-gray-500" />
           <span className="text-gray-500 text-sm hover:text-gray-400">Back to home</span>
         </Button>
       </div>
-      <h2 className="text-3xl font-bold text-center mb-1 mt-12">Welcome Back</h2>
-      <p className="text-base text-center mb-6">Please enter your details.</p>
+      
+      <div className="flex flex-col items-center mb-6">
+        <Move className="h-8 w-8 text-black mb-2" />
+        <h2 className="text-3xl font-bold text-center mb-1">Welcome Back</h2>
+        <p className="text-base text-center">Please enter your details.</p>
+      </div>
+
       <SupabaseAuth 
         supabaseClient={supabase}
         appearance={{ 
