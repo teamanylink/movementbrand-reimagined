@@ -102,7 +102,7 @@ const SignUpForm = ({ onSignIn }: SignUpFormProps) => {
       <h2 className="text-2xl font-bold text-center mb-6">Create your account</h2>
       <form onSubmit={handleSignUp} className="space-y-4">
         <div className="flex flex-col items-center space-y-4">
-          <Avatar className="h-20 w-20">
+          <Avatar className="h-16 w-16">
             <AvatarImage src={previewUrl || ''} />
             <AvatarFallback className="bg-gray-100">
               <Upload className="h-6 w-6 text-gray-400" />
