@@ -49,7 +49,7 @@ const FAQs = () => {
                 Who is behind Movement Brand?
               </AccordionTrigger>
               <AccordionContent className="text-gray-600">
-                Movement Brand was founded by Denis Estimon, a creative entrepreneur whose work has been spotlighted by CBS, ABC, and People. He's also collaborated with well-known brands like 3 Musketeers and has successfully launched and scaled multiple communities and digital products. Backed by a specialized network of designers, developers, and automation pros, Denis ensures every request is handled by the right expert.
+                Movement Brand was co-founded by Denis Estimon and Larry Hawkes. Denis is a creative entrepreneur whose work has been spotlighted by CBS, ABC, and People. He has also collaborated with well-known brands like 3 Musketeers and has successfully launched and scaled multiple movements worldwide. Larry is a Senior Data Engineer who has spent most of his career working with large-scale enterprises and Fortune 500 companies to develop software and data infrastructure at scale. Backed by a specialized network of designers, developers, and automation professionals, Denis and Larry ensure every request is handled by the right expert.
               </AccordionContent>
             </AccordionItem>
 
