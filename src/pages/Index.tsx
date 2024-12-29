@@ -56,7 +56,9 @@ const Index = () => {
               on a mission
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Movement Brand was co-founded by Denis Estimon and Larry Hawkes. Denis is a creative entrepreneur whose work has been spotlighted by CBS, ABC, and People. He has also collaborated with well-known brands like 3 Musketeers and has successfully launched and scaled multiple movements worldwide. Larry is a Senior Data Engineer who has spent most of his career working with large-scale enterprises and Fortune 500 companies to develop software and data infrastructure at scale. Backed by a specialized network of designers, developers, and automation professionals, Denis and Larry ensure every request is handled by the right expert.
+              The subscription service that moves with you.
+              <br />
+              Automations, Micro-saas, Blogs, and more.
             </p>
 
             <Button 
@@ -100,6 +102,14 @@ const Index = () => {
                 <span className="font-semibold">Join</span> the movement!
               </p>
             </div>
+
+            {/* Five Star Rating */}
+            <div className="flex items-center justify-center mt-4 space-x-1">
+              {[...Array(5)].map((_, index) => (
+                <Star key={index} className="w-5 h-5 text-yellow-400 fill-current" />
+              ))}
+            </div>
+
           </div>
           
           <MacbookScrollDemo />

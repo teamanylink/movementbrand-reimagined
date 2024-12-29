@@ -1,30 +1,12 @@
-import { useState } from "react";
 import { SettingsLayout } from "@/components/settings/SettingsLayout";
 import { SettingsNavigation } from "@/components/settings/SettingsNavigation";
 import { AccountSection } from "@/components/settings/sections/AccountSection";
 import { ProfileSection } from "@/components/settings/sections/ProfileSection";
 import { useLocation } from "react-router-dom";
-import { UserProfile } from "@/types/user";
 
 const Settings = () => {
   const location = useLocation();
-  const [section, setSection] = useState(location.hash.slice(1) || "profile");
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const handleSectionChange = (newSection: string) => {
-    setSection(newSection);
-  };
-
-  const handleProfileChange = (updates: Partial<UserProfile>) => {
-    setProfile(prev => prev ? { ...prev, ...updates } : null);
-  };
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    // Add save logic here
-    setIsSaving(false);
-  };
+  const section = location.hash.slice(1) || "profile";
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -35,20 +17,10 @@ const Settings = () => {
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
           <div className="w-full lg:w-64 shrink-0">
-            <SettingsNavigation 
-              activeSection={section} 
-              onSectionChange={handleSectionChange}
-            />
+            <SettingsNavigation activeSection={section} />
           </div>
           <div className="flex-1">
-            {section === "profile" && (
-              <ProfileSection 
-                profile={profile}
-                onProfileChange={handleProfileChange}
-                onSave={handleSave}
-                isSaving={isSaving}
-              />
-            )}
+            {section === "profile" && <ProfileSection />}
             {section === "account" && <AccountSection />}
           </div>
         </div>
