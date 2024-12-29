@@ -46,12 +46,14 @@ export const MacbookScroll = ({
               <div className="absolute inset-0 bg-white/30 backdrop-blur-xl rounded-[2rem] p-8">
                 <div className="w-full h-full rounded-[1.4rem] overflow-hidden bg-white/20 backdrop-blur-md p-4">
                   {isVideo ? (
-                    <iframe
-                      src={src}
-                      className="w-full h-full rounded-[1rem]"
-                      allow="autoplay; fullscreen"
-                      allowFullScreen
-                    />
+                    <div className="w-full h-full relative">
+                      <iframe
+                        src={src}
+                        className="absolute inset-0 w-full h-full rounded-[1rem]"
+                        allow="autoplay; fullscreen"
+                        allowFullScreen
+                      />
+                    </div>
                   ) : (
                     <img src={src} className="w-full h-full object-cover rounded-[1rem]" />
                   )}
