@@ -126,7 +126,7 @@ const Auth = () => {
               />
               <label
                 htmlFor="avatar-upload"
-                className="cursor-pointer text-sm text-blue-600 hover:underline"
+                className="cursor-pointer text-sm text-gray-500 hover:text-gray-600"
               >
                 Upload profile picture
               </label>
@@ -191,7 +191,7 @@ const Auth = () => {
             <button
               type="button"
               onClick={() => setIsSignUp(false)}
-              className="text-blue-600 hover:underline"
+              className="text-gray-500 hover:text-gray-600"
             >
               Sign in
             </button>
@@ -242,7 +242,7 @@ const Auth = () => {
       <div className="mt-4 text-center">
         <button
           onClick={() => setIsSignUp(true)}
-          className="text-sm text-blue-600"
+          className="text-sm text-gray-500 hover:text-gray-600"
         >
           <span className="text-black">Don't have an account?</span> Sign up
         </button>
