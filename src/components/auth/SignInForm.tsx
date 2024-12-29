@@ -16,8 +16,8 @@ const SignInForm = ({ onSignUp }: { onSignUp: () => void }) => {
           onClick={() => navigate('/')}
           className="hover:bg-transparent rounded-full flex items-center gap-2"
         >
-          <ArrowLeft className="h-5 w-5 text-gray-500 " />
-          <span className="text-gray-500 text-sm hover:text-gray-400">Back to home</span>
+          <ArrowLeft className="h-4 w-4 text-gray-500" />
+          <span className="text-gray-500 text-xs hover:text-gray-400">Back to home</span>
         </Button>
       </div>
       <h2 className="text-3xl font-bold text-center mb-1 mt-12">Welcome Back</h2>
