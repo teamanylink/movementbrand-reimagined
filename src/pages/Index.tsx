@@ -22,6 +22,13 @@ const Index = () => {
   const isHeroInView = useInView(heroRef, { once: true });
   const isFeaturesInView = useInView(featuresRef, { once: true });
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F8F8]">
       <Navigation />
@@ -54,7 +61,11 @@ const Index = () => {
               Automations, Micro-saas, Blogs, and more.
             </p>
 
-            <Button size="lg" className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+            <Button 
+              size="lg" 
+              className="text-lg px-12 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => scrollToSection('pricing')}
+            >
               See plans
             </Button>
             <div className="mt-6 text-sm text-gray-500 animate-pulse">Pause or cancel anytime</div>
