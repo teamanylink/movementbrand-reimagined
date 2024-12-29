@@ -31,19 +31,34 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
   };
 
   const handleDeleteImage = async () => {
-    if (!profile?.id) return;
+    if (!profile?.id || !profile.avatar_url) return;
     
     try {
       setIsUploading(true);
-      if (profile.avatar_url) {
-        const oldFilePath = profile.avatar_url.split('/').pop();
-        if (oldFilePath) {
-          await supabase.storage
-            .from('project-files')
-            .remove([`${profile.id}/avatar/${oldFilePath}`]);
-        }
+      
+      // Extract the file path from the URL
+      const filePathMatch = profile.avatar_url.match(/project-files\/([^?]+)/);
+      if (!filePathMatch) {
+        throw new Error("Invalid file path");
       }
+      const filePath = filePathMatch[1];
 
+      // Delete the file from storage
+      const { error: deleteError } = await supabase.storage
+        .from('project-files')
+        .remove([filePath]);
+
+      if (deleteError) throw deleteError;
+
+      // Update the profile record
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: null })
+        .eq('id', profile.id);
+
+      if (updateError) throw updateError;
+
+      // Update local state
       onProfileChange({ avatar_url: null });
       setPreviewUrl(null);
       setSelectedImage(null);
@@ -53,10 +68,11 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
         description: "Profile picture removed successfully",
       });
     } catch (error: any) {
+      console.error('Error deleting image:', error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to remove profile picture",
+        description: "Failed to remove profile picture. Please try again.",
       });
     } finally {
       setIsUploading(false);
@@ -77,11 +93,12 @@ export function ProfileSection({ profile, onProfileChange, onSave, isSaving }: P
       setIsUploading(true);
       try {
         if (profile.avatar_url) {
-          const oldFilePath = profile.avatar_url.split('/').pop();
-          if (oldFilePath) {
+          const filePathMatch = profile.avatar_url.match(/project-files\/([^?]+)/);
+          if (filePathMatch) {
+            const oldFilePath = filePathMatch[1];
             await supabase.storage
               .from('project-files')
-              .remove([`${profile.id}/avatar/${oldFilePath}`]);
+              .remove([oldFilePath]);
           }
         }
 

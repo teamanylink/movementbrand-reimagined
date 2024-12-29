@@ -30,7 +30,7 @@ export function AvatarUpload({
       <Avatar className="h-24 w-24">
         <AvatarImage src={previewUrl || ''} />
         <AvatarFallback className="bg-gray-100">
-          {previewUrl ? (
+          {isUploading ? (
             <Loader2 className="h-8 w-8 animate-spin" />
           ) : (
             getInitials(profile?.first_name, profile?.last_name)
@@ -59,7 +59,7 @@ export function AvatarUpload({
           <Button
             variant="ghost"
             size="sm"
-            className="text-red-500 hover:text-red-600 hover:bg-red-50 p-0 h-auto"
+            className="text-red-500 hover:text-red-600 hover:bg-red-50 p-0 h-auto flex items-center"
             onClick={onDeleteImage}
             disabled={isUploading}
           >
