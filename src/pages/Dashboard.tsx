@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [hasProjects, setHasProjects] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
+  const [isUpgrading, setIsUpgrading] = useState(false);
   const [projectStats, setProjectStats] = useState({
     todos: 0,
     completed: 0,
@@ -82,8 +83,31 @@ const Dashboard = () => {
     checkExistingProjects();
   }, []);
 
-  const handleUpgradeClick = () => {
-    navigate('/dashboard/settings', { state: { section: 'account' } });
+  const handleUpgradeClick = async () => {
+    setIsUpgrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { 
+          priceId: 'price_1Qary9IHifxXxql3V4Dp8vB9',
+          mode: 'subscription'
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error: any) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error.message || "Failed to initiate upgrade process.",
+      });
+    } finally {
+      setIsUpgrading(false);
+    }
   };
 
   const projectTypes = [
@@ -119,10 +143,17 @@ const Dashboard = () => {
               </div>
               <Button
                 onClick={handleUpgradeClick}
+                disabled={isUpgrading}
                 className="bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800"
               >
-                <Zap className="h-4 w-4 mr-2" />
-                Upgrade Now
+                {isUpgrading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Zap className="h-4 w-4 mr-2" />
+                    Upgrade Now
+                  </>
+                )}
               </Button>
             </div>
           </div>
