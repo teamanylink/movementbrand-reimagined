@@ -53,13 +53,12 @@ export function AppSidebar() {
     <Sidebar className="border-r border-gray-200">
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2 px-2">
-          <div className="relative">
+          <div>
             <img 
               src="/lovable-uploads/06ebdf7c-e118-4380-b69a-9fcb3a5a21ff.png" 
               alt="MovementBrand Logo" 
               className="h-10 w-10 object-contain"
             />
-            <div className="absolute -z-10 inset-0 w-10 h-10 rounded-full bg-gradient-to-br from-[#9b87f5] to-[#0EA5E9] blur-[2px]" />
           </div>
           <h2 className="text-lg font-semibold">MovementBrand</h2>
         </div>
