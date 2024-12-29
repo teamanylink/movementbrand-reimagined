@@ -6,18 +6,29 @@ import { ProfileSection } from "@/components/settings/sections/ProfileSection";
 import { useQuery } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocation } from "react-router-dom";
 
 type Profile = Tables<'profiles'>;
 
 const Settings = () => {
-  const [activeSection, setActiveSection] = useState("account");
+  const location = useLocation();
+  const defaultSection = location.state?.section || "profile";
+  const [activeSection, setActiveSection] = useState(defaultSection);
   const [isSaving, setIsSaving] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  const { data: subscription } = useQuery({
-    queryKey: ['subscription'],
+  const { data: currentProfile } = useQuery({
+    queryKey: ['current-profile'],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke('check-subscription');
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
       if (error) throw error;
       return data;
     },
@@ -52,11 +63,11 @@ const Settings = () => {
         onSectionChange={setActiveSection}
       />
       {activeSection === "account" && (
-        <AccountSection subscription={subscription} />
+        <AccountSection />
       )}
-      {activeSection === "profile" && profile && (
+      {activeSection === "profile" && currentProfile && (
         <ProfileSection
-          profile={profile}
+          profile={currentProfile}
           onProfileChange={handleProfileChange}
           onSave={handleSave}
           isSaving={isSaving}
