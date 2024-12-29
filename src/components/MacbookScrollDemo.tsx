@@ -8,22 +8,18 @@ export function MacbookScrollDemo() {
   return (
     <div className="overflow-hidden bg-white w-full relative pt-8">
       {isMobile ? (
-        <div className="w-full aspect-video pt-4">
-          <iframe
-            src="https://www.tella.tv/video/cm57hi84v00030bmn2vhmh4fp/embed?b=0&title=0&a=1&loop=1&autoPlay=true&t=0&muted=1&wt=0"
-            className="w-full h-full"
-            allow="autoplay; fullscreen"
-            allowFullScreen
-          />
-        </div>
+        <iframe
+          src="https://www.tella.tv/video/cm57hi84v00030bmn2vhmh4fp/embed?b=0&title=0&a=1&loop=1&autoPlay=true&t=0&muted=1&wt=0"
+          className="w-full aspect-video"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+        />
       ) : (
-        <div className="w-full aspect-auto pt-4">
-          <MacbookScroll
-            title={<div></div>}
-            src="https://www.tella.tv/video/cm57hi84v00030bmn2vhmh4fp/embed?b=0&title=0&a=1&loop=1&autoPlay=true&t=0&muted=1&wt=0"
-            isVideo={true}
-          />
-        </div>
+        <MacbookScroll
+          title={<div></div>}
+          src="https://www.tella.tv/video/cm57hi84v00030bmn2vhmh4fp/embed?b=0&title=0&a=1&loop=1&autoPlay=true&t=0&muted=1&wt=0"
+          isVideo={true}
+        />
       )}
     </div>
   );
