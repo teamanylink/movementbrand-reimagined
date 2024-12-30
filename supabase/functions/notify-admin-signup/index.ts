@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
 const ADMIN_EMAIL = Deno.env.get('ADMIN_EMAIL')
@@ -24,16 +23,20 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { user } = await req.json()
-    console.log('Received signup notification for user:', user)
-
+    console.log('Starting notify-admin-signup function')
+    
     if (!RESEND_API_KEY) {
+      console.error('Missing RESEND_API_KEY')
       throw new Error('Missing RESEND_API_KEY')
     }
 
     if (!ADMIN_EMAIL) {
+      console.error('Missing ADMIN_EMAIL')
       throw new Error('Missing ADMIN_EMAIL')
     }
+
+    const { user } = await req.json()
+    console.log('Received signup notification for user:', user)
 
     // Format the email content
     const emailHtml = `
@@ -46,6 +49,8 @@ const handler = async (req: Request): Promise<Response> => {
       </ul>
     `
 
+    console.log('Sending email to admin')
+    
     // Send email using Resend
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -61,12 +66,14 @@ const handler = async (req: Request): Promise<Response> => {
       }),
     })
 
+    const responseText = await res.text()
+    console.log('Resend API response:', responseText)
+
     if (!res.ok) {
-      const error = await res.text()
-      throw new Error(`Failed to send email: ${error}`)
+      throw new Error(`Failed to send email: ${responseText}`)
     }
 
-    const data = await res.json()
+    const data = await JSON.parse(responseText)
     console.log('Email sent successfully:', data)
 
     return new Response(JSON.stringify({ success: true }), {
