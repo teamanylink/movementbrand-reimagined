@@ -9,11 +9,11 @@ import { useSubscription } from "@/hooks/use-subscription";
 import { useNavigate } from "react-router-dom";
 import { DashboardStats } from "@/components/dashboard/stats/DashboardStats";
 import { SubscriptionBanner } from "@/components/dashboard/subscription/SubscriptionBanner";
+import { useQuery } from "@tanstack/react-query";
 
 const Dashboard = () => {
   const { toast } = useToast();
   const [hasProjects, setHasProjects] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isProjectOptionsOpen, setIsProjectOptionsOpen] = useState(false);
   const [isUpgrading, setIsUpgrading] = useState(false);
   const [projectStats, setProjectStats] = useState({
@@ -24,23 +24,24 @@ const Dashboard = () => {
   const { data: subscriptionData } = useSubscription();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
+  const { data: profile } = useQuery({
+    queryKey: ['current-profile'],
+    queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('email')
-          .eq('id', user.id)
-          .single();
-        
-        if (profile && profile.email) {
-          const username = profile.email.split('@')[0];
-          setUserEmail(username);
-        }
-      }
-    };
+      if (!user) return null;
 
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
     const fetchProjectStats = async () => {
       const { data: todoProjects } = await supabase
         .from('projects')
@@ -77,7 +78,6 @@ const Dashboard = () => {
       setHasProjects(count ? count > 0 : false);
     };
 
-    fetchUserProfile();
     fetchProjectStats();
     checkExistingProjects();
   }, []);
@@ -122,12 +122,17 @@ const Dashboard = () => {
     setHasProjects(true);
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    return hour < 12 ? 'Morning' : 'Evening';
+  };
+
   return (
     <div className="min-w-[320px] w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
       {/* Header with Greeting */}
       <div className="space-y-2">
         <h1 className="text-lg sm:text-xl md:text-2xl lg:text-4xl font-bold">
-          Good {new Date().getHours() < 12 ? 'Morning' : 'Evening'} {userEmail} 👋
+          Good {getGreeting()} {profile?.first_name || ''} 👋
         </h1>
       </div>
 
